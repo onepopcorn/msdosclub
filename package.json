@@ -18,7 +18,8 @@
         "build": "react-app-rewired build --scripts-version react-scripts",
         "test": "react-app-rewired test --scripts-version react-scripts --transformIgnorePatterns \"node_modules/(?!@shoelace-style)/\" --env=jsdom",
         "lint": "eslint ./src",
-        "eject": "react-scripts eject"
+        "eject": "react-scripts eject",
+        "prepare": "husky install"
     },
     "eslintConfig": {
         "extends": [
@@ -41,6 +42,7 @@
     "devDependencies": {
         "babel-jest": "^27.5.1",
         "copy-webpack-plugin": "^10.2.4",
+        "husky": "^7.0.4",
         "prettier": "2.5.1",
         "react-app-rewired": "^2.1.11"
     }
