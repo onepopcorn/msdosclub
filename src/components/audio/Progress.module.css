@@ -1,0 +1,68 @@
+.container {
+    width: 100%;
+    height: 16px;
+    padding: 0 15px;
+    display: flex;
+    align-items: center;
+}
+
+.container,
+.container * {
+    box-sizing: border-box;
+}
+
+.track {
+    width: 100%;
+    height: 50%;
+    position: relative;
+    background-color: #efefef;
+    border-radius: 5px;
+}
+
+.track:hover {
+    cursor: pointer;
+}
+
+.trackInner {
+    height: 100%;
+    width: 0;
+    border-radius: 5px;
+    background-color: #0075ff;
+}
+
+.handler {
+    position: absolute;
+    top: -3px;
+    left: 0;
+    width: 15px;
+    height: 15px;
+    border-radius: 100%;
+    background-color: #fff;
+    border: 1px solid #bfbfbf;
+    box-shadow: 1px 1px 2px grey;
+    pointer-events: none;
+}
+
+.handler.dragging {
+    box-shadow: 0 0 2px grey;
+}
+
+.loading {
+    background: repeating-linear-gradient(
+        -45deg,
+        #d7d7d7,
+        #d7d7d7 5px,
+        #efefef 5px,
+        #efefef 10px
+    );
+    animation: loading-anim 500ms linear infinite;
+}
+
+@keyframes loading-anim {
+    from {
+        background-position: 0;
+    }
+    to {
+        background-position: 100px;
+    }
+}
