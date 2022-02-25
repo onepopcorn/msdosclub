@@ -8,6 +8,7 @@
 .total {
     color: var(--sl-color-gray-400);
     font-size: 0.75em;
+    white-space: nowrap;
 }
 
 .separator {
