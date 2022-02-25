@@ -55,7 +55,7 @@
         #efefef 5px,
         #efefef 10px
     );
-    animation: loading-anim 500ms linear infinite;
+    animation: loading-anim 1s linear infinite;
 }
 
 @keyframes loading-anim {
