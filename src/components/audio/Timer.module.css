@@ -1,0 +1,15 @@
+.container {
+    display: flex;
+    align-items: center;
+}
+
+.elapsed,
+.separator,
+.total {
+    color: var(--sl-color-gray-400);
+    font-size: 0.75em;
+}
+
+.separator {
+    padding: 0 0.5ch;
+}
