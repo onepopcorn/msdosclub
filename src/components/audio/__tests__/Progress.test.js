@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react'
 import React from 'react'
 import Progress from '../Progress'
 
@@ -14,12 +14,12 @@ beforeEach(() => {
     const ref = { current: {} }
     const DOMRect = { width: 100, x: 20 }
     Object.defineProperty(ref, 'current', {
-        set() { },
+        set() {},
         get() {
             return {
-                getBoundingClientRect: () => DOMRect
+                getBoundingClientRect: () => DOMRect,
             }
-        }
+        },
     })
 
     React.useRef.mockReturnValue(ref)
@@ -37,11 +37,11 @@ test('Progress should be rendered correctly with passed values', () => {
     const progressbar = screen.getByRole('progressbar')
 
     // Initial values
-    expect(progressbar).toHaveStyle('width: 0%')
+    expect(progressbar).toHaveStyle('transform: scaleX(0)')
 
     // Updated values
     rerender(<Progress max={100} value={50} />)
-    expect(progressbar).toHaveStyle('width: 50%')
+    expect(progressbar).toHaveStyle('transform: scaleX(50)')
 
     // Loading
     rerender(<Progress max={100} value={10} loading={true} />)

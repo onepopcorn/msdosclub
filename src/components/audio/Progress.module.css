@@ -29,7 +29,8 @@
 
 .trackInner {
     height: 2px;
-    width: 0;
+    width: 1px;
+    transform-origin: left;
     background-color: #0075ff;
 }
 

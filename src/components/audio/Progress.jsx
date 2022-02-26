@@ -13,7 +13,8 @@ const eventToValue = (e, ref) => {
     // Get clientX depdending on the event type. Defaults to click event type
     let { clientX: value } = e
     if ('touches' in e && e.touches.length > 0) value = e.touches[0].clientX
-    if ('changedTouches' in e && e.changedTouches.length > 0) value = e.changedTouches[0].clientX
+    if ('changedTouches' in e && e.changedTouches.length > 0)
+        value = e.changedTouches[0].clientX
 
     return clamp(0, value - offsetX, total)
 }
@@ -21,18 +22,28 @@ const eventToValue = (e, ref) => {
 // Utility function to calculate value to be passed to onChange
 const calculateChangeValue = (e, ref, total) => {
     const xPos = eventToValue(e, ref)
-    const newPercent = valueToPercent(xPos, ref.current.getBoundingClientRect().width)
+    const newPercent = valueToPercent(
+        xPos,
+        ref.current.getBoundingClientRect().width,
+    )
     return percentToValue(newPercent, total)
 }
 
-export default function Progress({ value = 0, max, onChange = () => null, loading = false }) {
+export default function Progress({
+    value = 0,
+    max,
+    onChange = () => null,
+    loading = false,
+}) {
     const [dragging, setDragging] = useState(false)
     const [position, setPosition] = useState(0)
     const trackRef = useRef(null)
     const percent = valueToPercent(value, max)
 
-    // Handle track event
-    const onStartDragging = e => {
+    // Handle drag event
+    const onStartDragging = (e) => {
+        // Prevent drag outside bug
+        if (e.type === 'mousedown') e.preventDefault()
         setDragging(true)
         setPosition(eventToValue(e, trackRef))
     }
@@ -40,7 +51,10 @@ export default function Progress({ value = 0, max, onChange = () => null, loadin
     // Set thumb at initial position
     useEffect(() => {
         if (dragging) return
-        const value = percentToValue(percent, trackRef.current.getBoundingClientRect().width)
+        const value = percentToValue(
+            percent,
+            trackRef.current.getBoundingClientRect().width,
+        )
         setPosition(value)
         // Skip dragging as dependency to prevent update of position until the next rerender
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -48,10 +62,13 @@ export default function Progress({ value = 0, max, onChange = () => null, loadin
 
     // Handle window attached events
     useEffect(() => {
+        const ondrag = (e) => {
+            if (!dragging) return
+            setPosition(eventToValue(e, trackRef))
+        }
 
-        const ondrag = e => setPosition(eventToValue(e, trackRef))
-
-        const stopdrag = e => {
+        const stopdrag = (e) => {
+            if (!dragging) return
             // Prevent mouseEvent to be triggered after touchEvent
             e.preventDefault()
 
@@ -59,13 +76,10 @@ export default function Progress({ value = 0, max, onChange = () => null, loadin
             setDragging(false)
         }
 
-        // Start listening for global events only when dragging
-        if (dragging) {
-            window.addEventListener('mousemove', ondrag)
-            window.addEventListener('touchmove', ondrag)
-            window.addEventListener('mouseup', stopdrag)
-            window.addEventListener('touchend', stopdrag)
-        }
+        window.addEventListener('mousemove', ondrag)
+        window.addEventListener('touchmove', ondrag)
+        window.addEventListener('mouseup', stopdrag)
+        window.addEventListener('touchend', stopdrag)
 
         // Remove listeners on unmount
         return () => {
@@ -78,9 +92,26 @@ export default function Progress({ value = 0, max, onChange = () => null, loadin
 
     return (
         <div className={cx('container')}>
-            <div ref={trackRef} role="slider" aria-valuenow={value} className={cx('track', { loading })} onMouseDown={onStartDragging} onTouchStart={onStartDragging} >
-                <div role='progressbar' aria-valuenow={value} className={cx('trackInner')} style={{ width: `${percent}%` }}></div>
-                <div className={cx('handler', { dragging })} style={{ transform: `translateX(calc(${position}px - 50%))` }}></div>
+            <div
+                ref={trackRef}
+                role="slider"
+                aria-valuenow={value}
+                className={cx('track', { loading })}
+                onMouseDown={onStartDragging}
+                onTouchStart={onStartDragging}
+            >
+                <div
+                    role="progressbar"
+                    aria-valuenow={value}
+                    className={cx('trackInner')}
+                    style={{ transform: `scaleX(${position})` }}
+                ></div>
+                <div
+                    className={cx('handler', { dragging })}
+                    style={{
+                        transform: `translateX(calc(${position}px - 50%))`,
+                    }}
+                ></div>
             </div>
         </div>
     )
