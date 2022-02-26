@@ -29,7 +29,7 @@ afterEach(() => {
     jest.clearAllMocks()
 })
 
-it('Progress should be rendered correctly with passed values', () => {
+test('Progress should be rendered correctly with passed values', () => {
     const { rerender } = render(<Progress max={100} value={0} />)
 
     // Check elements are rendered correctly
@@ -48,7 +48,7 @@ it('Progress should be rendered correctly with passed values', () => {
     expect(screen.getByRole('slider')).toHaveClass('loading')
 })
 
-it('Progress should trigger change events when interacted with', () => {
+test('Progress should trigger change events when interacted with', () => {
     const onchange = jest.fn()
     render(<Progress max={100} value={0} onChange={onchange} />)
 
