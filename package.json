@@ -27,6 +27,14 @@
             "react-app/jest"
         ]
     },
+    "lint-staged": {
+        "*.{js,jsx}": [
+            "eslint"
+        ],
+        "*.{js,jsx,md,mdx,json,css,scss,yaml,yml}": [
+            "prettier --write"
+        ]
+    },
     "browserslist": {
         "production": [
             ">0.2%",
@@ -40,9 +48,11 @@
         ]
     },
     "devDependencies": {
+        "@testing-library/react-hooks": "^7.0.2",
         "babel-jest": "^27.5.1",
         "copy-webpack-plugin": "^10.2.4",
         "husky": "^7.0.4",
+        "lint-staged": "^12.3.4",
         "prettier": "2.5.1",
         "react-app-rewired": "^2.1.11"
     }
