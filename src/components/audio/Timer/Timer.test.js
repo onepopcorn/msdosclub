@@ -1,5 +1,5 @@
 import { screen, render } from '@testing-library/react'
-import Timer from '../Timer'
+import Timer from './Timer'
 
 test('Time should render default values when no time or invalid time data is passed', () => {
     const { rerender } = render(<Timer />)

@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import classNames from 'classnames/bind'
 
-import { secToHMS } from '../../utils/time-utils'
+import { secToHMS } from '../../../utils/time-utils'
 import styles from './Timer.module.css'
 const cx = classNames.bind(styles)
 
@@ -21,4 +21,3 @@ Timer.propTypes = {
     elapsed: PropTypes.number,
     total: PropTypes.number,
 }
-

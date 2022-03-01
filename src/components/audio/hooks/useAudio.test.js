@@ -1,6 +1,6 @@
 import { fireEvent } from '@testing-library/react'
 import { renderHook, act } from '@testing-library/react-hooks'
-import useAudio from '../useAudio'
+import useAudio from './useAudio'
 
 const audioStub =
     'data:audio/wave;base64,UklGRjIAAABXQVZFZm10IBIAAAABAAEAQB8AAEAfAAABAAgAAABmYWN0BAAAAAAAAABkYXRhAAAAAA=='

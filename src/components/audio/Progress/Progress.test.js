@@ -37,11 +37,11 @@ test('Progress should be rendered correctly with passed values', () => {
     const progressbar = screen.getByRole('progressbar')
 
     // Initial values
-    expect(progressbar).toHaveStyle('transform: scaleX(0)')
+    expect(progressbar).toHaveStyle('transform: translateX(calc(0px - 100%))')
 
     // Updated values
     rerender(<Progress max={100} value={50} />)
-    expect(progressbar).toHaveStyle('transform: scaleX(50)')
+    expect(progressbar).toHaveStyle('transform: translateX(calc(50px - 100%))')
 
     // Loading
     rerender(<Progress max={100} value={10} loading={true} />)
