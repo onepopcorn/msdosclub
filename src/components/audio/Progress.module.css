@@ -14,7 +14,7 @@
     width: 100%;
     height: 50%;
     position: relative;
-    background-image: linear-gradient(#efefef, #efefef);
+    background-image: linear-gradient(var(--sl-color-neutral-200), var(--sl-color-neutral-200));
     background-position: left center;
     background-size: 110% 2px;
     background-repeat: no-repeat;
@@ -31,7 +31,7 @@
     height: 2px;
     width: 1px;
     transform-origin: left;
-    background-color: #0075ff;
+    background-color: var(--sl-color-primary-600);
 }
 
 .handler {
@@ -41,23 +41,17 @@
     width: 15px;
     height: 15px;
     border-radius: 100%;
-    background-color: #fff;
-    border: 1px solid #bfbfbf;
-    box-shadow: 1px 1px 2px grey;
+    background-color: var(--sl-color-primary-600);
     pointer-events: none;
-}
-
-.handler.dragging {
-    box-shadow: 0 0 2px grey;
 }
 
 .loading {
     background-image: repeating-linear-gradient(
         -45deg,
-        #d7d7d7,
-        #d7d7d7 5px,
-        #efefef 5px,
-        #efefef 10px
+        var(--sl-color-primary-600),
+        var(--sl-color-primary-600) 5px,
+        var(--sl-color-primary-50) 5px,
+        var(--sl-color-primary-50) 10px
     );
     animation: loading-anim 100ms linear infinite;
 }

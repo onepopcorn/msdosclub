@@ -6,7 +6,7 @@
 .elapsed,
 .separator,
 .total {
-    color: var(--sl-color-gray-400);
+    color: var(--sl-color-neutral-400);
     font-size: 0.75em;
     white-space: nowrap;
 }
