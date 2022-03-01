@@ -29,7 +29,7 @@
 
 .trackInner {
     height: 2px;
-    width: 1px;
+    width: 100%;
     transform-origin: left;
     background-color: var(--sl-color-primary-600);
 }

@@ -101,7 +101,7 @@ export default function Progress({ value = 0, max, onChange = () => null, loadin
                     role="progressbar"
                     aria-valuenow={value}
                     className={cx('trackInner')}
-                    style={{ transform: `scaleX(${position})` }}
+                    style={{ transform: `translateX(calc( ${position}px - 100%))` }}
                 ></div>
                 <div
                     className={cx('handler', { dragging })}
