@@ -1,16 +1,18 @@
 .container {
     display: flex;
     align-items: center;
+    padding-left: 0.5em;
+    border-left: 1px solid var(--sl-color-neutral-400);
 }
 
 .elapsed,
 .separator,
 .total {
     color: var(--sl-color-neutral-400);
-    font-size: 0.75em;
+    font-size: 0.7em;
     white-space: nowrap;
 }
 
 .separator {
-    padding: 0 0.5ch;
+    padding: 0 0.25ch;
 }
