@@ -61,12 +61,10 @@ export default function useAudio(audio) {
         if (!audio) return
 
         const onelapsed = () =>
-            Math.round(audio.currentTime) !== elapsed
-                ? setElapsed(Math.floor(audio.currentTime))
-                : null
+            Math.round(audio.currentTime) !== elapsed ? setElapsed(Math.floor(audio.currentTime)) : null
         audio.addEventListener('timeupdate', onelapsed)
         return () => audio.removeEventListener('timeupdate', onelapsed)
     }, [audio, elapsed])
 
-    return { ready, elapsed, loading, isPlaying, toggle, seekTo }
+    return { ready, elapsed, loading, isPlaying, toggle, seekTo, duration: audio.duration }
 }
