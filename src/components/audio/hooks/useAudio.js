@@ -6,19 +6,33 @@ export default function useAudio(audio) {
     const [elapsed, setElapsed] = useState(0)
     const [loading, setLoading] = useState(false)
 
-    const toggle = () => {
+    // Audio controls
+    const play = () => {
         if (loading) return
-
-        if (isPlaying) audio.pause()
-        if (!isPlaying) audio.play()
-
-        setIsPlaying(!isPlaying)
+        audio.play()
+        setIsPlaying(true)
     }
+
+    const pause = () => {
+        if (loading) return
+        audio.pause()
+        setIsPlaying(false)
+    }
+
+    const toggle = () => (isPlaying ? pause() : play())
 
     const seekTo = (val) => {
         setLoading(true)
         audio.currentTime = Math.round(val)
     }
+
+    // Reset
+    useEffect(() => {
+        setIsPlaying(false)
+        setElapsed(0)
+        setReady(false)
+        setLoading(false)
+    }, [audio.src])
 
     // Handle seeking
     useEffect(() => {
@@ -66,5 +80,5 @@ export default function useAudio(audio) {
         return () => audio.removeEventListener('timeupdate', onelapsed)
     }, [audio, elapsed])
 
-    return { ready, elapsed, loading, isPlaying, toggle, seekTo, duration: audio.duration }
+    return { ready, elapsed, loading, isPlaying, play, pause, toggle, seekTo, duration: audio.duration }
 }

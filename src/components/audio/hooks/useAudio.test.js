@@ -33,18 +33,30 @@ test('useAudio should allow control the audio resource', () => {
 
     // Play
     act(() => {
-        result.current.toggle()
+        result.current.play()
     })
     expect(result.current.isPlaying).toBe(true)
     expect(playSpy).toBeCalledTimes(1)
 
     // Pause
     act(() => {
-        result.current.toggle()
+        result.current.pause()
     })
-
     expect(result.current.isPlaying).toBe(false)
     expect(pauseSpy).toBeCalledTimes(1)
+
+    // Toggle
+    act(() => {
+        result.current.toggle()
+    })
+    expect(result.current.isPlaying).toBe(true)
+    expect(playSpy).toBeCalledTimes(2)
+
+    act(() => {
+        result.current.toggle()
+    })
+    expect(result.current.isPlaying).toBe(false)
+    expect(pauseSpy).toBeCalledTimes(2)
 
     // Seek
     act(() => {
