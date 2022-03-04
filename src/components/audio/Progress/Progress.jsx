@@ -99,12 +99,14 @@ export default function Progress({ value = 0, max, onChange = () => null, loadin
                 onMouseDown={onStartDragging}
                 onTouchStart={onStartDragging}
             >
-                <div
-                    role="progressbar"
-                    aria-valuenow={value}
-                    className={cx('trackInner', { loading })}
-                    style={{ transform: `translateX(calc(${position}px - 100%))` }}
-                ></div>
+                <div className={cx('trackMask')}>
+                    <div
+                        role="progressbar"
+                        aria-valuenow={value}
+                        className={cx('trackInner', { loading })}
+                        style={{ transform: `translateX(calc(${position}px - 100%))` }}
+                    ></div>
+                </div>
                 <div
                     className={cx('handler', { dragging, loading })}
                     style={{
