@@ -48,9 +48,9 @@ test('Progress should be rendered correctly with passed values', () => {
     expect(progressbar).toHaveClass('loading')
 })
 
-test('Progress should trigger change events when interacted with', () => {
+test('Progress should trigger change events when interacted without interactive mode', () => {
     const onchange = jest.fn()
-    render(<Progress max={100} value={0} onChange={onchange} />)
+    render(<Progress max={100} value={0} onChange={onchange} interactive={false} />)
 
     const slider = screen.getByRole('slider')
     fireEvent.mouseDown(slider, { clientX: 50 })
@@ -59,4 +59,18 @@ test('Progress should trigger change events when interacted with', () => {
 
     expect(onchange).toBeCalledTimes(1)
     expect(onchange).toBeCalledWith(50)
+})
+
+test('Progress should trigger change events when interacted with interactive mode', () => {
+    const onchange = jest.fn()
+    render(<Progress max={1} value={1} onChange={onchange} />)
+
+    const slider = screen.getByRole('slider')
+    fireEvent.mouseDown(slider, { clientX: 10 })
+    fireEvent.mouseMove(slider, { clientX: 70 })
+    fireEvent.mouseUp(slider, { client: 70 })
+
+    // onChange will be triggered once per mouseMove and once per mouseUp
+    expect(onchange).toBeCalledTimes(2)
+    expect(onchange).toBeCalledWith(0.5)
 })

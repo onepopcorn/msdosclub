@@ -25,7 +25,14 @@ const calculateChangeValue = (e, ref, total) => {
     return percentToValue(newPercent, total)
 }
 
-export default function Progress({ value = 0, max, onChange = () => null, loading = false, disabled = false }) {
+export default function Progress({
+    value = 0,
+    max,
+    onChange = () => null,
+    loading = false,
+    disabled = false,
+    interactive = true,
+}) {
     const [dragging, setDragging] = useState(false)
     const [position, setPosition] = useState(0)
     const trackRef = useRef(null)
@@ -64,6 +71,7 @@ export default function Progress({ value = 0, max, onChange = () => null, loadin
         const ondrag = (e) => {
             if (!dragging) return
             setPosition(eventToValue(e, trackRef))
+            if (interactive) onChange(calculateChangeValue(e, trackRef, max))
         }
 
         const stopdrag = (e) => {
@@ -87,7 +95,7 @@ export default function Progress({ value = 0, max, onChange = () => null, loadin
             window.removeEventListener('mouseup', stopdrag)
             window.removeEventListener('touchend', stopdrag)
         }
-    }, [dragging, onChange, max])
+    }, [dragging, onChange, max, interactive])
 
     return (
         <div className={cx('container')} disabled={disabled}>
