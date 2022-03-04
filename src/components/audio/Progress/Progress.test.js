@@ -45,7 +45,7 @@ test('Progress should be rendered correctly with passed values', () => {
 
     // Loading
     rerender(<Progress max={100} value={10} loading={true} />)
-    expect(screen.getByRole('slider')).toHaveClass('loading')
+    expect(progressbar).toHaveClass('loading')
 })
 
 test('Progress should trigger change events when interacted with', () => {

@@ -25,14 +25,16 @@ const calculateChangeValue = (e, ref, total) => {
     return percentToValue(newPercent, total)
 }
 
-export default function Progress({ value = 0, max, onChange = () => null, loading = false }) {
+export default function Progress({ value = 0, max, onChange = () => null, loading = false, disabled = false }) {
     const [dragging, setDragging] = useState(false)
     const [position, setPosition] = useState(0)
     const trackRef = useRef(null)
-    const percent = valueToPercent(value, max)
+    const percent = disabled ? 0 : valueToPercent(value, max)
 
     // Handle drag event
     const onStartDragging = (e) => {
+        if (disabled) return
+
         // Prevent drag outside bug
         if (e.type === 'mousedown') e.preventDefault()
         setDragging(true)
@@ -88,23 +90,23 @@ export default function Progress({ value = 0, max, onChange = () => null, loadin
     }, [dragging, onChange, max])
 
     return (
-        <div className={cx('container')}>
+        <div className={cx('container')} disabled={disabled}>
             <div
                 ref={trackRef}
                 role="slider"
                 aria-valuenow={value}
-                className={cx('track', { loading })}
+                className={cx('track', { disabled })}
                 onMouseDown={onStartDragging}
                 onTouchStart={onStartDragging}
             >
                 <div
                     role="progressbar"
                     aria-valuenow={value}
-                    className={cx('trackInner')}
+                    className={cx('trackInner', { loading })}
                     style={{ transform: `translateX(calc(${position}px - 100%))` }}
                 ></div>
                 <div
-                    className={cx('handler', { dragging })}
+                    className={cx('handler', { dragging, loading })}
                     style={{
                         transform: `translateX(calc(${position}px - 50%))`,
                     }}
