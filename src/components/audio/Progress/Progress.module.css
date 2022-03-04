@@ -1,8 +1,9 @@
 .container {
     width: 100%;
-    height: 16px;
+    height: 20px;
     display: flex;
     align-items: center;
+    background-image: linear-gradient(to bottom, transparent 50%, var(--msdos-color-neutral-0) 50%);
 }
 
 .container,
@@ -16,7 +17,7 @@
 
 .track {
     width: 100%;
-    height: 50%;
+    height: 100%;
     position: relative;
     background-image: linear-gradient(var(--msdos-color-neutral-200), var(--msdos-color-neutral-200));
     background-position: left center;
@@ -46,7 +47,7 @@
 
 .handler {
     position: absolute;
-    top: -3px;
+    top: 3px;
     left: 0;
     width: 15px;
     height: 15px;
