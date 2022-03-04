@@ -123,4 +123,5 @@ Progress.propTypes = {
     value: PropTypes.number.isRequired,
     onChange: PropTypes.func,
     loading: PropTypes.bool,
+    disabled: PropTypes.bool,
 }
