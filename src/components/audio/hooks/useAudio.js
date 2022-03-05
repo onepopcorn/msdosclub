@@ -26,12 +26,16 @@ export default function useAudio(audio) {
         audio.currentTime = Math.round(val)
     }
 
+    const setVolume = (val) => (audio.volume = val)
+
     // Reset
     useEffect(() => {
         setIsPlaying(false)
         setElapsed(0)
         setReady(false)
         setLoading(false)
+        setVolume(1)
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [audio.src])
 
     // Handle seeking
@@ -80,5 +84,17 @@ export default function useAudio(audio) {
         return () => audio.removeEventListener('timeupdate', onelapsed)
     }, [audio, elapsed])
 
-    return { ready, elapsed, loading, isPlaying, play, pause, toggle, seekTo, duration: audio.duration }
+    return {
+        ready,
+        elapsed,
+        loading,
+        isPlaying,
+        play,
+        pause,
+        toggle,
+        seekTo,
+        duration: audio.duration,
+        setVolume,
+        volume: audio.volume,
+    }
 }

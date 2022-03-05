@@ -68,4 +68,11 @@ test('useAudio should allow control the audio resource', () => {
 
     fireEvent(audio, new Event('seeked'))
     expect(result.current.loading).toBe(false)
+
+    // Volume
+    expect(audio.volume).toBe(1)
+    act(() => {
+        result.current.setVolume(0.25)
+    })
+    expect(audio.volume).toBe(0.25)
 })
