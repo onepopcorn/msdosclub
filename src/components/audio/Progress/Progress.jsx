@@ -127,9 +127,28 @@ export default function Progress({
 }
 
 Progress.propTypes = {
+    /**
+     * Max progress number
+     */
     max: PropTypes.number.isRequired,
+    /**
+     * Current progress value
+     */
     value: PropTypes.number.isRequired,
+    /**
+     * Calback for when progress is changed manually by the user
+     */
     onChange: PropTypes.func,
+    /**
+     * Set or disable loading animation
+     */
     loading: PropTypes.bool,
+    /**
+     * Disable progress interactivity when set
+     */
     disabled: PropTypes.bool,
+    /**
+     * If enabled callback is triggered on every change (e.g. mouse move). If not, it's only triggered when interactive has finished (e.g. mouse up)
+     */
+    interactive: PropTypes.bool,
 }
