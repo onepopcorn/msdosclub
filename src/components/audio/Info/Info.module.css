@@ -18,17 +18,17 @@
 
 .container.masked::before {
     left: 0;
-    background-image: linear-gradient(90deg, var(--sl-color-neutral-0), transparent);
+    background-image: linear-gradient(90deg, var(--msdos-color-neutral-0), transparent);
 }
 
 .container.masked::after {
     right: 0;
-    background-image: linear-gradient(90deg, transparent, var(--sl-color-neutral-0));
+    background-image: linear-gradient(90deg, transparent, var(--msdos-color-neutral-0));
 }
 
 .title {
     font-size: 0.9em;
-    color: var(--sl-color-neutral-400);
+    color: var(--msdos-color-neutral-400);
     max-width: 100%;
     white-space: nowrap;
 }
