@@ -11,10 +11,6 @@
     box-sizing: border-box;
 }
 
-.container[disabled] {
-    opacity: 0.5;
-}
-
 .trackMask {
     width: 100%;
     overflow-x: hidden;
@@ -34,7 +30,8 @@
     cursor: pointer;
 }
 
-.track.disabled {
+.container[disabled] .track {
+    opacity: 0.5;
     pointer-events: none;
 }
 

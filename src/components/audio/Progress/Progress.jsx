@@ -103,7 +103,7 @@ export default function Progress({
                 ref={trackRef}
                 role="slider"
                 aria-valuenow={value}
-                className={cx('track', { disabled })}
+                className={cx('track')}
                 onMouseDown={onStartDragging}
                 onTouchStart={onStartDragging}
             >
