@@ -60,11 +60,11 @@ test('useAudio should allow control the audio resource', () => {
 
     // Seek
     act(() => {
-        result.current.seekTo(5)
+        result.current.seekTo(5.6)
     })
     expect(result.current.loading).toBe(true)
     expect(currentTimeSetSpy).toBeCalledTimes(1)
-    expect(currentTimeSetSpy).toBeCalledWith(5)
+    expect(currentTimeSetSpy).toBeCalledWith(5.6)
 
     fireEvent(audio, new Event('seeked'))
     expect(result.current.loading).toBe(false)

@@ -23,7 +23,7 @@ export default function useAudio(audio) {
 
     const seekTo = (val) => {
         setLoading(true)
-        audio.currentTime = Math.round(val)
+        audio.currentTime = val
     }
 
     const setVolume = (val) => (audio.volume = val)
