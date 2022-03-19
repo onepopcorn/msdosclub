@@ -4,8 +4,7 @@
     position: sticky;
     z-index: 10;
     border-bottom: 1px solid var(--sl-color-neutral-200);
-    backdrop-filter: blur(20px);
-    /* background-color: var(--sl-color-neutral-0); */
+    background-color: var(--sl-color-neutral-0);
 }
 
 .content {
@@ -30,5 +29,10 @@
 
     .content {
         flex-direction: row-reverse;
+    }
+
+    .container {
+        background-color: transparent;
+        backdrop-filter: blur(20px);
     }
 }
