@@ -11,12 +11,12 @@ const STORE_VOLUME = 'store-volume'
 
 export const setAudioData = (id, file, title, thumb, autoplay) => ({
     type: SET_AUDIO_DATA,
-    payload: { id, file, title, thumb, autoplay },
+    payload: { id: parseInt(id), file, title, thumb, autoplay },
 })
 
 export const setAudioProgress = (id, value) => ({
     type: STORE_AUDIO_PROGRESS,
-    payload: { id, value },
+    payload: { id: parseInt(id), value },
 })
 
 export const storeVolume = (value) => ({
