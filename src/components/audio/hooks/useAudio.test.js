@@ -1,17 +1,21 @@
 import { fireEvent } from '@testing-library/react'
 import { renderHook, act } from '@testing-library/react-hooks'
+import AudioProvider from '../../state/AudioStore'
 import useAudio from './useAudio'
 
-const audioStub =
-    'data:audio/wave;base64,UklGRjIAAABXQVZFZm10IBIAAAABAAEAQB8AAEAfAAABAAgAAABmYWN0BAAAAAAAAABkYXRhAAAAAA=='
+let audio
+beforeEach(() => {
+    audio = new Audio(
+        'data:audio/wave;base64,UklGRjIAAABXQVZFZm10IBIAAAABAAEAQB8AAEAfAAABAAgAAABmYWN0BAAAAAAAAABkYXRhAAAAAA==',
+    )
+})
 
 afterEach(() => {
     jest.restoreAllMocks()
 })
 
 test('useAudio should have a correct initial state', () => {
-    const audio = new Audio(audioStub)
-    const { result } = renderHook(() => useAudio(audio))
+    const { result } = renderHook(() => useAudio(audio), { wrapper: AudioProvider })
 
     expect(result.current.ready).toBe(false)
     expect(result.current.elapsed).toBe(0)
@@ -23,13 +27,11 @@ test('useAudio should have a correct initial state', () => {
     expect(result.current.ready).toBe(true)
 })
 
-test('useAudio should allow control the audio resource', () => {
-    const audio = new Audio(audioStub)
+test('useAudio should allow control the audio reproduction', () => {
     const pauseSpy = jest.spyOn(audio, 'pause').mockImplementation(() => {})
     const playSpy = jest.spyOn(audio, 'play').mockImplementation(() => {})
-    const currentTimeSetSpy = jest.spyOn(audio, 'currentTime', 'set')
 
-    const { result } = renderHook(() => useAudio(audio))
+    const { result } = renderHook(() => useAudio(audio), { wrapper: AudioProvider })
 
     // Play
     act(() => {
@@ -57,8 +59,13 @@ test('useAudio should allow control the audio resource', () => {
     })
     expect(result.current.isPlaying).toBe(false)
     expect(pauseSpy).toBeCalledTimes(2)
+})
 
-    // Seek
+test('useAudio should allow to seek to specific audio position', () => {
+    const currentTimeSetSpy = jest.spyOn(audio, 'currentTime', 'set')
+
+    const { result } = renderHook(() => useAudio(audio), { wrapper: AudioProvider })
+
     act(() => {
         result.current.seekTo(5.6)
     })
@@ -68,11 +75,28 @@ test('useAudio should allow control the audio resource', () => {
 
     fireEvent(audio, new Event('seeked'))
     expect(result.current.loading).toBe(false)
+})
 
-    // Volume
-    expect(audio.volume).toBe(1)
+test('useAudio should allow to adjust the volume of the audio resource', () => {
+    const { result } = renderHook(() => useAudio(audio), { wrapper: AudioProvider })
+
     act(() => {
         result.current.setVolume(0.25)
     })
     expect(audio.volume).toBe(0.25)
+})
+
+test('useAudio should persist volume between rerenders', () => {
+    const { result, rerender } = renderHook(() => useAudio(audio), { wrapper: AudioProvider })
+
+    // Default value case
+    expect(audio.volume).toBe(1)
+
+    // Persistence between renders
+    act(() => {
+        result.current.setVolume(0.4)
+    })
+
+    rerender(() => useAudio(audio), { wrapper: AudioProvider })
+    expect(result.current.volume).toBe(0.4)
 })
