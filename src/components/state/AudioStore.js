@@ -65,6 +65,7 @@ const reducer = (state, action) => {
             const progress = storage ? JSON.parse(storage) : {}
 
             progress[id] = value
+            if (!value) delete progress[id]
             localStorage.setItem(PROG_KEY, JSON.stringify(progress))
 
             return state
