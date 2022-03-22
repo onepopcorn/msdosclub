@@ -1,0 +1,41 @@
+.container {
+    display: flex;
+    padding-top: 1em;
+}
+
+.sources sl-icon-button {
+    font-size: 1.5em;
+    background-color: var(--sl-color-primary-0);
+    border-radius: 100%;
+}
+.sources sl-icon-button.icon-button {
+    padding: 0 !important;
+}
+
+.play {
+    border: 1px solid var(--sl-color-neutral-400);
+    border-radius: 100%;
+    margin: 0 0.25em 0 1em;
+}
+
+.play:hover {
+    color: var(--sl-color-primary-600);
+    border-color: var(--sl-color-primary-600);
+}
+
+.playing {
+    padding: 1px;
+    margin: 0 0.25em;
+}
+
+.actions {
+    margin-left: auto;
+}
+
+.actions sl-icon-button::part(base) {
+    color: var(--sl-color-neutral-400);
+}
+
+.actions sl-icon-button:hover::part(base) {
+    color: var(--sl-color-primary-600);
+}
