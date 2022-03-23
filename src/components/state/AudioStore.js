@@ -1,8 +1,8 @@
 import { createContext, useReducer } from 'react'
 
 // Storage constants
-const VOL_KEY = 'msdos-player-volume'
-const PROG_KEY = 'msdos-progress'
+export const VOLUME_KEY = 'msdos-player-volume'
+export const PROG_KEY = 'msdos-progress'
 
 // Actions
 const SET_AUDIO_DATA = 'set-audio-data'
@@ -25,13 +25,13 @@ export const storeVolume = (value) => ({
 })
 
 // State
-const initialState = {
+const defaultState = {
     title: null,
     file: null,
     thumb: null,
     offset: null,
     autoplay: null,
-    volume: localStorage.getItem(VOL_KEY) || 1,
+    volume: 1,
 }
 
 const findOffsetByID = (id) => {
@@ -51,7 +51,7 @@ const reducer = (state, action) => {
          * Store user's volume preference
          */
         case STORE_VOLUME: {
-            localStorage.setItem(VOL_KEY, action.payload)
+            localStorage.setItem(VOLUME_KEY, action.payload)
             return { ...state, volume: action.payload }
         }
         /**
@@ -79,7 +79,7 @@ const reducer = (state, action) => {
 export const AudioStore = createContext()
 
 // Provider
-export default function AudioProvider({ children }) {
-    const [state, dispatch] = useReducer(reducer, initialState)
+export default function AudioProvider({ initialState, children }) {
+    const [state, dispatch] = useReducer(reducer, { ...defaultState, ...initialState })
     return <AudioStore.Provider value={{ state, dispatch }}>{children}</AudioStore.Provider>
 }
