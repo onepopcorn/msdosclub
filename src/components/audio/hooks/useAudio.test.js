@@ -1,13 +1,12 @@
 import { fireEvent } from '@testing-library/react'
 import { renderHook, act } from '@testing-library/react-hooks'
+import audioStub from 'utils/test-utils'
 import AudioProvider from '../../state/AudioStore'
 import useAudio from './useAudio'
 
 let audio
 beforeEach(() => {
-    audio = new Audio(
-        'data:audio/wave;base64,UklGRjIAAABXQVZFZm10IBIAAAABAAEAQB8AAEAfAAABAAgAAABmYWN0BAAAAAAAAABkYXRhAAAAAA==',
-    )
+    audio = new Audio(audioStub)
 })
 
 afterEach(() => {
