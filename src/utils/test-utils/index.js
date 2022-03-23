@@ -1,5 +1,5 @@
 import { render } from '@testing-library/react'
-import { AudioStore } from '../../components/state/AudioStore'
+import AudioProvider, { AudioStore } from '../../components/state/AudioStore'
 import ThemeProvider, { ThemeStore } from '../../components/state/ThemeStore'
 
 /**
@@ -9,7 +9,7 @@ import ThemeProvider, { ThemeStore } from '../../components/state/ThemeStore'
 const withAllProviders = ({ children }) => {
     return (
         <ThemeProvider>
-            <AudioStore.Provider>{children}</AudioStore.Provider>
+            <AudioProvider>{children}</AudioProvider>
         </ThemeProvider>
     )
 }
