@@ -28,6 +28,7 @@ const calculateChangeValue = (e, ref, total) => {
 export default function Progress({
     value = 0,
     max,
+    label = '',
     onChange = () => null,
     loading = false,
     disabled = false,
@@ -103,6 +104,7 @@ export default function Progress({
                 ref={trackRef}
                 role="slider"
                 aria-valuenow={value}
+                aria-label={label}
                 className={cx('track')}
                 onMouseDown={onStartDragging}
                 onTouchStart={onStartDragging}

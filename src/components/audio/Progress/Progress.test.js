@@ -48,6 +48,19 @@ test('Progress should be rendered correctly with passed values', () => {
     expect(progressbar).toHaveClass('loading')
 })
 
+test('Progress should not be interacted with while disabled', () => {
+    const onchange = jest.fn()
+    render(<Progress max={100} value={0} disabled onChange={onchange} />)
+
+    fireEvent.mouseDown(screen.getByRole('slider'), { clientX: 100 })
+    expect(onchange).not.toHaveBeenCalled()
+})
+
+test('Progress should include label when provided', () => {
+    render(<Progress max={100} value={0} label="label-stub" />)
+    screen.getByLabelText(/label-stub/i)
+})
+
 test('Progress should trigger change events when interacted without interactive mode', () => {
     const onchange = jest.fn()
     render(<Progress max={100} value={0} onChange={onchange} interactive={false} />)
