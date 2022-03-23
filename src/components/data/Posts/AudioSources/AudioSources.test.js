@@ -1,15 +1,9 @@
-import { render, screen } from '@testing-library/react'
+import { renderWithAudio as render, screen } from 'utils/test-utils'
 import userEvent from '@testing-library/user-event'
-import { AudioStore } from '../../../state/AudioStore'
 import AudioSources from './AudioSources'
 
 afterEach(() => jest.resetAllMocks())
-const setup = (props) =>
-    render(
-        <AudioStore.Provider value={{ state: { id: 24 } }}>
-            <AudioSources {...props} />
-        </AudioStore.Provider>,
-    )
+const setup = (props) => render(<AudioSources {...props} />, null, { state: { id: 24 } })
 const commonProps = {
     id: 42,
     file: 'file-stub',
