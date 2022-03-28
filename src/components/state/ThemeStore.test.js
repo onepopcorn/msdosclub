@@ -51,3 +51,10 @@ test('ThemeStore should persist selected theme', () => {
     userEvent.click(screen.getByRole('button', { name: /dark/i }))
     expect(Storage.prototype.setItem).toHaveBeenLastCalledWith(expect.anything(), THEME_DARK)
 })
+
+test('ThemeStore should use stored theme when component mounted', () => {
+    jest.spyOn(Storage.prototype, 'getItem').mockReturnValue(THEME_DARK)
+    setup()
+
+    screen.getByText(new RegExp(`current theme is ${THEME_DARK}`, 'i'))
+})
