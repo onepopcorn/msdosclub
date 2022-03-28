@@ -1,4 +1,4 @@
-import { useState, createContext } from 'react'
+import { useState, createContext, useEffect } from 'react'
 
 // Constants
 const THEME_KEY = 'msdos-theme'
@@ -18,6 +18,14 @@ export default function ThemeProvider({ children }) {
         localStorage.setItem(THEME_KEY, name)
         setTheme(name)
     }
+
+    useEffect(
+        () =>
+            theme === THEME_DARK
+                ? document.body.classList.add('sl-theme-dark')
+                : document.body.classList.remove('sl-theme-dark'),
+        [theme],
+    )
 
     return <ThemeStore.Provider value={{ theme, setTheme: changeTheme }}>{children}</ThemeStore.Provider>
 }
