@@ -1,25 +1,32 @@
+import { useState } from 'react'
 import PropTypes from 'prop-types'
-import { SlIconButton } from '@shoelace-style/shoelace/dist/react'
+import { SlIconButton, SlSpinner } from '@shoelace-style/shoelace/dist/react'
 import classNames from 'classnames/bind'
 
 import styles from './PostDetail.module.css'
 const cx = classNames.bind(styles)
 
 export default function PostDetail({ title, author, date, beforeContent, images, close, children }) {
+    const [loaded, setLoaded] = useState(false)
+
     return (
         <article className={cx('container')}>
             <nav>
                 <SlIconButton data-testid="close-btn" name="chevron-left" onClick={close} label="volver" />
             </nav>
             <header>
-                <img
-                    className={cx('thumb')}
-                    srcSet={images.srcset}
-                    alt={images.caption || title}
-                    sizes={images.sizes}
-                    width={images.full.width}
-                    height={images.full.height}
-                />
+                <div className={cx('thumbContainer')}>
+                    <img
+                        onLoad={() => setLoaded(true)}
+                        className={cx('thumb', { loaded })}
+                        srcSet={images.srcset}
+                        alt={images.caption || title}
+                        sizes={images.sizes}
+                        width={images.full.width}
+                        height={images.full.height}
+                    />
+                    {!loaded && <SlSpinner className={cx('spinner')} />}
+                </div>
                 <h2 className={cx('title')}>{title}</h2>
                 <sub className={cx('author')}>por {author}</sub> <sub>{date}</sub>
             </header>

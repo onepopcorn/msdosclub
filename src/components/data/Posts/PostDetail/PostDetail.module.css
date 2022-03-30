@@ -20,6 +20,17 @@
     padding-top: 1em;
 }
 
+.thumbContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.spinner {
+    font-size: 4em;
+    position: absolute;
+}
+
 .thumb,
 .content img {
     display: block;
@@ -28,7 +39,16 @@
     max-width: calc(100% - 6px);
     height: auto;
     border-radius: var(--sl-border-radius-large);
+    box-shadow: 0 3px 3px var(--sl-color-neutral-300);
     background-color: var(--sl-color-neutral-100);
+}
+
+.thumb {
+    visibility: hidden;
+}
+
+.thumb.loaded {
+    visibility: visible;
 }
 
 /* Disable box shadow for night theme */
@@ -57,6 +77,6 @@
 .author {
     font-size: 0.75em;
     padding: 0.25em 0.5em;
-    background-color: var(--sl-color-neutral-100);
+    background-color: var(--sl-color-neutral -100);
     border-radius: var(--sl-border-radius-medium);
 }
