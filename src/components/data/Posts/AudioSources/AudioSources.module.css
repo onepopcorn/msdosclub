@@ -13,14 +13,14 @@
 }
 
 .play {
-    border: 1px solid var(--sl-color-neutral-400);
+    border: 1px solid var(--sl-color-neutral-500);
     border-radius: 100%;
     margin: 0 0.25em 0 1em;
 }
 
 .play:hover {
-    color: var(--sl-color-primary-600);
-    border-color: var(--sl-color-primary-600);
+    color: var(--sl-color-primary-500);
+    border-color: var(--sl-color-primary-500);
 }
 
 .playing {
@@ -33,7 +33,7 @@
 }
 
 .actions sl-icon-button::part(base) {
-    color: var(--sl-color-neutral-400);
+    color: var(--sl-color-neutral-500);
 }
 
 .actions sl-icon-button:hover::part(base) {
