@@ -3,13 +3,13 @@
 // expect(element).toHaveTextContent(/react/i)
 // learn more: https://github.com/testing-library/jest-dom
 import '@testing-library/jest-dom'
-
+import { server } from './utils/test-utils/mocks/server'
 
 // Testing mocks for Shoelace
 // for more info, visit: https://shoelace.style/frameworks/react?id=testing-with-jest
 Object.defineProperty(window, 'matchMedia', {
     writable: true,
-    value: jest.fn().mockImplementation(query => ({
+    value: jest.fn().mockImplementation((query) => ({
         matches: false,
         media: query,
         onchange: null,
@@ -20,3 +20,22 @@ Object.defineProperty(window, 'matchMedia', {
         dispatchEvent: jest.fn(),
     })),
 })
+
+/**
+ * Mock scroll control
+ */
+beforeAll(() => {
+    window.scrollY = 0
+    window.scrollTo = jest.fn()
+})
+
+/**
+ *   Mock Service Worker config
+ */
+// Establish API mocking before all tests.
+beforeAll(() => server.listen())
+// Reset any request handlers that we may add during the tests,
+// so they don't affect other tests.
+afterEach(() => server.resetHandlers())
+// Clean up after the tests are finished.
+afterAll(() => server.close())

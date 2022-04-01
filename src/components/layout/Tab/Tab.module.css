@@ -6,6 +6,7 @@
     display: flex;
     flex-wrap: nowrap;
     transition: transform 250ms ease-out;
+    /* will-change: transform; */
 }
 
 .tab {
@@ -13,8 +14,13 @@
     height: 100%;
 }
 
+.tab.transition {
+    opacity: 0;
+}
+
 .tab[hidden] {
     display: block !important;
     visibility: hidden;
+    opacity: 0;
     height: 0;
 }

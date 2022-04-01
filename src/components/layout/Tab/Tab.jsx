@@ -5,7 +5,7 @@ import classNames from 'classnames/bind'
 import styles from './Tab.module.css'
 const cx = classNames.bind(styles)
 
-export default function Tab({ children, active, onChange }) {
+export default function Tab({ children, active, offset = 0, onChange }) {
     const [activeTab, setActiveTab] = useState(0)
     const [inTransition, setInTransition] = useState(false)
     const timerRef = useRef()
@@ -16,7 +16,9 @@ export default function Tab({ children, active, onChange }) {
 
         setInTransition(true)
         setActiveTab(active)
-    }, [active, activeTab])
+
+        window.scrollTo({ top: offset })
+    }, [active, activeTab, offset])
 
     // Handle transition
     useEffect(() => {
@@ -36,7 +38,11 @@ export default function Tab({ children, active, onChange }) {
         <div className={cx('container')}>
             <div className={cx('inner')} style={{ transform: `translateX(${activeTab * -100}%)` }}>
                 {childnodes.map((child, i) => (
-                    <div key={i} className={cx('tab')} hidden={!inTransition && activeTab !== i}>
+                    <div
+                        key={i}
+                        className={cx('tab', { transition: inTransition && activeTab !== i })}
+                        hidden={!inTransition && activeTab !== i}
+                    >
                         {child}
                     </div>
                 ))}
@@ -54,8 +60,4 @@ Tab.propTypes = {
      * Tab inddex to show
      */
     active: PropTypes.number,
-    /**
-     * Optional callback to be called when the transition is done
-     */
-    onChange: PropTypes.func,
 }
