@@ -38,17 +38,20 @@
     margin-right: auto;
     max-width: calc(100% - 6px);
     height: auto;
-    border-radius: var(--sl-border-radius-large);
+    border-radius: var(--sl-border-radius-medium);
     box-shadow: 0 3px 3px var(--sl-color-neutral-300);
     background-color: var(--sl-color-neutral-100);
 }
 
 .thumb {
     visibility: hidden;
+    opacity: 0;
+    transition: opacity 350ms;
 }
 
 .thumb.loaded {
     visibility: visible;
+    opacity: 1;
 }
 
 /* Disable box shadow for night theme */
