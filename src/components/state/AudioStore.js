@@ -51,6 +51,8 @@ const reducer = (state, action) => {
          * Store user's volume preference
          */
         case STORE_VOLUME: {
+            // prevent setting a non-numeric value
+            if (!isFinite(parseFloat(action.payload))) return
             localStorage.setItem(VOLUME_KEY, action.payload)
             return { ...state, volume: action.payload }
         }

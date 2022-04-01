@@ -42,7 +42,7 @@ export default function useAudio(audio) {
         setElapsed(0)
         setReady(false)
         setLoading(false)
-        setVolume(volume)
+        if (isFinite(parseFloat(volume))) setVolume(volume)
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [audio.src])
 
