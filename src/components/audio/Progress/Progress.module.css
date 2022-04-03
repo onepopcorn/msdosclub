@@ -49,10 +49,10 @@
 
 .handler {
     position: absolute;
-    top: 3px;
+    top: 4px;
     left: 0;
-    width: 15px;
-    height: 15px;
+    width: 12px;
+    height: 12px;
     border-radius: 100%;
     background-color: var(--sl-color-primary-600);
     pointer-events: none;
