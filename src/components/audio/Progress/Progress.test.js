@@ -61,29 +61,43 @@ test('Progress should include label when provided', () => {
     screen.getByLabelText(/label-stub/i)
 })
 
-test('Progress should trigger change events when interacted without interactive mode', () => {
+test('Progress should trigger change events', () => {
     const onchange = jest.fn()
-    render(<Progress max={100} value={0} onChange={onchange} interactive={false} />)
+    render(<Progress max={100} value={0} onChange={onchange} />)
+
+    const slider = screen.getByRole('slider')
+    fireEvent.mouseDown(slider, { clientX: 50 })
+    fireEvent.mouseUp(slider, { clientX: 70 })
+
+    // one event on mouseDown and another one on mouseUp
+    expect(onchange).toBeCalledTimes(1)
+    expect(onchange).toBeCalledWith(50)
+})
+
+test('Progress should trigger change events while dragging', () => {
+    const onchange = jest.fn()
+    render(<Progress max={100} value={0} onChange={onchange} />)
 
     const slider = screen.getByRole('slider')
     fireEvent.mouseDown(slider, { clientX: 50 })
     fireEvent.mouseMove(slider, { clientX: 70 })
     fireEvent.mouseUp(slider, { clientX: 70 })
 
-    expect(onchange).toBeCalledTimes(1)
+    // one event on mouseDown and another one on mouseUp
+    expect(onchange).toBeCalledTimes(2)
     expect(onchange).toBeCalledWith(50)
 })
 
-test('Progress should trigger change events when interacted with interactive mode', () => {
-    const onchange = jest.fn()
-    render(<Progress max={1} value={1} onChange={onchange} />)
+test('Progress should trigger onRelease event when stop dragging', () => {
+    const onrelease = jest.fn()
+    render(<Progress max={100} value={0} onRelease={onrelease} />)
 
     const slider = screen.getByRole('slider')
-    fireEvent.mouseDown(slider, { clientX: 10 })
+    fireEvent.mouseDown(slider, { clientX: 50 })
     fireEvent.mouseMove(slider, { clientX: 70 })
-    fireEvent.mouseUp(slider, { client: 70 })
+    fireEvent.mouseUp(slider, { clientX: 70 })
 
-    // onChange will be triggered once per mouseMove and once per mouseUp
-    expect(onchange).toBeCalledTimes(2)
-    expect(onchange).toBeCalledWith(0.5)
+    // one event on mouseDown and another one on mouseUp
+    expect(onrelease).toBeCalledTimes(1)
+    expect(onrelease).toBeCalledWith(50)
 })

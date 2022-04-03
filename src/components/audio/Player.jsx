@@ -6,7 +6,7 @@ import Progress from './Progress/Progress'
 import Timer from './Timer'
 import Info from './Info/Info'
 import useAudio from './hooks/useAudio'
-import { AudioStore, setAudioProgress } from '../state/AudioStore'
+import { AudioStore, setAudioProgress, storeVolume } from '../state/AudioStore'
 
 import styles from './Player.module.css'
 const cx = classNames.bind(styles)
@@ -48,10 +48,9 @@ export default function Player() {
                 <Progress
                     max={Math.round(duration)}
                     value={elapsed}
-                    onChange={seekTo}
+                    onRelease={seekTo}
                     loading={loading}
                     disabled={!ready}
-                    interactive={false}
                     label="seek"
                 />
             </div>
@@ -72,7 +71,13 @@ export default function Player() {
                 {thumb && <img className={cx('thumbnail')} src={thumb} alt={title} height="32px" width="32px" />}
                 <Info title={title} />
                 <div className={cx('volume')}>
-                    <Progress max={1} value={volume} onChange={setVolume} label="volume" />
+                    <Progress
+                        max={1}
+                        value={volume}
+                        onChange={setVolume}
+                        label="volume"
+                        onRelease={(e) => dispatch(storeVolume(e))}
+                    />
                 </div>
                 <Timer elapsed={elapsed} total={duration} />
             </div>

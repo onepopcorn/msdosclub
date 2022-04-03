@@ -29,10 +29,10 @@ export default function Progress({
     value = 0,
     max,
     label = '',
-    onChange = () => null,
+    onChange,
+    onRelease,
     loading = false,
     disabled = false,
-    interactive = true,
 }) {
     const [dragging, setDragging] = useState(false)
     const [position, setPosition] = useState(0)
@@ -72,7 +72,7 @@ export default function Progress({
         const ondrag = (e) => {
             if (!dragging) return
             setPosition(eventToValue(e, trackRef))
-            if (interactive) onChange(calculateChangeValue(e, trackRef, max))
+            if (typeof onChange === 'function') onChange(calculateChangeValue(e, trackRef, max))
         }
 
         const stopdrag = (e) => {
@@ -80,7 +80,9 @@ export default function Progress({
             // Prevent mouseEvent to be triggered after touchEvent
             e.preventDefault()
 
-            onChange(calculateChangeValue(e, trackRef, max))
+            const value = calculateChangeValue(e, trackRef, max)
+            if (typeof onRelease === 'function') onRelease(value)
+            if (typeof onChange === 'function') onChange(value)
             setDragging(false)
         }
 
@@ -96,7 +98,7 @@ export default function Progress({
             window.removeEventListener('mouseup', stopdrag)
             window.removeEventListener('touchend', stopdrag)
         }
-    }, [dragging, onChange, max, interactive])
+    }, [dragging, onChange, max, onRelease])
 
     return (
         <div className={cx('container')} disabled={disabled}>
@@ -142,6 +144,10 @@ Progress.propTypes = {
      */
     onChange: PropTypes.func,
     /**
+     * Calback for when progress is finished changing manually by the user
+     */
+    onRelease: PropTypes.func,
+    /**
      * Set or disable loading animation
      */
     loading: PropTypes.bool,
@@ -149,8 +155,5 @@ Progress.propTypes = {
      * Disable progress interactivity when set
      */
     disabled: PropTypes.bool,
-    /**
-     * If enabled callback is triggered on every change (e.g. mouse move). If not, it's only triggered when interactive has finished (e.g. mouse up)
-     */
     interactive: PropTypes.bool,
 }
