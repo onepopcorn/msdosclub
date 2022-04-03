@@ -1,10 +1,9 @@
 import { useContext, useEffect, useState } from 'react'
-import { AudioStore, storeVolume } from '../../state/AudioStore'
+import { AudioStore } from '../../state/AudioStore'
 
 export default function useAudio(audio) {
     const {
         state: { volume },
-        dispatch,
     } = useContext(AudioStore)
     const [isPlaying, setIsPlaying] = useState(false)
     const [ready, setReady] = useState(false)
@@ -31,10 +30,7 @@ export default function useAudio(audio) {
         audio.currentTime = val
     }
 
-    const setVolume = (val) => {
-        dispatch(storeVolume(val))
-        audio.volume = val
-    }
+    const setVolume = (val) => (audio.volume = val)
 
     // Reset
     useEffect(() => {
