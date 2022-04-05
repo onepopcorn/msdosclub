@@ -1,0 +1,5 @@
+.container {
+    overflow: hidden;
+    /* use clip for perfomance reasons but fallback to hidden for Safari */
+    overflow: clip;
+}
