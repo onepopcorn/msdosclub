@@ -23,26 +23,26 @@ test('AudiosSources should render the list of allowed external sources when prov
     })
 
     // Download
-    screen.getByTestId('download-btn')
+    screen.getByRole('link', { name: /descargar/i })
 
     // Sources
-    screen.getByTestId('source-msdos-apple-podcast')
-    screen.getByTestId('source-msdos-ivoox')
-    screen.getByTestId('source-msdos-spotify')
-    screen.getByTestId('source-msdos-google-podcast')
-    screen.getByTestId('source-msdos-podimo')
+    screen.getByRole('link', { name: /itunes/i })
+    screen.getByRole('link', { name: /ivoox/i })
+    screen.getByRole('link', { name: /spotify/i })
+    screen.getByRole('link', { name: /google podcasts/i })
+    screen.getByRole('link', { name: /podimo/i })
 })
 
 test("AudiosSources should allow to play the audio resources when it's not already playing", () => {
     setup(commonProps)
 
-    userEvent.click(screen.getByTestId('play-btn'))
+    userEvent.click(screen.getByRole('button', { name: /reproducir/i }))
     expect(commonProps.onPlayClick).toBeCalledTimes(1)
 })
 
 test('AudiosSources should not allow to play an audio source that is already playing', () => {
     setup({ ...commonProps, id: 24 })
 
-    screen.getByTestId('is-playing')
-    expect(screen.queryByTestId('play-btn')).not.toBeInTheDocument()
+    screen.getByRole('button', { name: /reproduciendo/i })
+    expect(screen.queryByRole('button', { name: /reproducir/i })).not.toBeInTheDocument()
 })

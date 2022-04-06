@@ -3,13 +3,18 @@
     padding-top: 1em;
 }
 
-.sources sl-icon-button {
+.sources .platform {
     font-size: 1.5em;
-    background-color: var(--sl-color-primary-0);
     border-radius: 100%;
 }
-.sources sl-icon-button.icon-button {
-    padding: 0 !important;
+
+.download,
+.download[href] {
+    color: inherit;
+}
+
+.download:hover {
+    color: var(--sl-color-primary-500);
 }
 
 .play {
@@ -25,17 +30,12 @@
 
 .playing {
     padding: 1px;
-    margin: 0 0.25em;
+    margin: 0 0.25em 0 1em;
+    color: var(--sl-color-neutral-0);
+    background-color: var(--sl-color-primary-600);
+    border-radius: var(--sl-border-radius-circle);
 }
 
 .actions {
     margin-left: auto;
-}
-
-.actions sl-icon-button::part(base) {
-    color: var(--sl-color-neutral-500);
-}
-
-.actions sl-icon-button:hover::part(base) {
-    color: var(--sl-color-primary-600);
 }

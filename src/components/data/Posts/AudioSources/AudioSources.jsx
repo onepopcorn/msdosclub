@@ -1,35 +1,48 @@
 import { useContext } from 'react'
 import PropTypes from 'prop-types'
-import { SlIconButton } from '@shoelace-style/shoelace/dist/react'
-import classNames from 'classnames/bind'
+import { ReactComponent as DownloadIcon } from '@shoelace-style/shoelace/dist/assets/icons/download.svg'
+import { ReactComponent as PlayIcon } from '@shoelace-style/shoelace/dist/assets/icons/play-fill.svg'
+import { ReactComponent as EarIcon } from '@shoelace-style/shoelace/dist/assets/icons/ear-fill.svg'
+import { ReactComponent as ApplePodcastIcon } from 'assets/icons/msdos-apple-podcast.svg'
+import { ReactComponent as IvooxIcon } from 'assets/icons/msdos-ivoox.svg'
+import { ReactComponent as SpotifyIcon } from 'assets/icons/msdos-spotify.svg'
+import { ReactComponent as GooglePodcastsIcon } from 'assets/icons/msdos-google-podcast.svg'
+import { ReactComponent as PodimoIcon } from 'assets/icons/msdos-podimo.svg'
+
+// Providers
 import { AudioStore } from '../../../state/AudioStore'
 
+// Styles
+import classNames from 'classnames/bind'
 import styles from './AudioSources.module.css'
 const cx = classNames.bind(styles)
 
 const platformIcons = new Map([
-    ['iTunes', 'msdos-apple-podcast'],
-    ['iVoox', 'msdos-ivoox'],
-    ['Spotify', 'msdos-spotify'],
-    ['Google Podcasts', 'msdos-google-podcast'],
-    ['Podimo', 'msdos-podimo'],
+    ['iTunes', <ApplePodcastIcon />],
+    ['iVoox', <IvooxIcon />],
+    ['Spotify', <SpotifyIcon />],
+    ['Google Podcasts', <GooglePodcastsIcon />],
+    ['Podimo', <PodimoIcon />],
 ])
 
 export default function AudioSources({ id, file, sources = [], onPlayClick }) {
     const {
         state: { id: playingId },
     } = useContext(AudioStore)
+
     const platforms = sources.map(({ name, url }) =>
         !platformIcons.has(name) ? null : (
-            <SlIconButton
-                data-testid={`source-${platformIcons.get(name)}`}
+            <a
                 key={name}
-                library="msdos"
-                name={platformIcons.get(name)}
-                label={name}
                 href={url}
+                className={cx('platform', 'generic-icon')}
+                aria-disabled="false"
+                aria-label={name}
                 target="_blank"
-            />
+                rel="noreferrer noopener"
+            >
+                {platformIcons.get(name)}
+            </a>
         ),
     )
 
@@ -37,27 +50,30 @@ export default function AudioSources({ id, file, sources = [], onPlayClick }) {
         <div className={cx('container')}>
             <div className={cx('sources')}>{platforms}</div>
             <div className={cx('actions')}>
-                <SlIconButton
-                    data-testid="download-btn"
-                    name="download"
-                    label="Descargar"
+                <a
+                    className={cx('download', 'generic-icon')}
                     href={file}
                     target="_blank"
-                    download
-                    circle
-                    size="big"
-                />
+                    rel="noreferrer noopener"
+                    aria-disabled="false"
+                    aria-label="Descargar"
+                >
+                    <DownloadIcon />
+                </a>
+
                 {playingId !== id ? (
-                    <SlIconButton
-                        data-testid="play-btn"
-                        className={cx('play')}
+                    <button
                         data-id={id}
-                        onClick={onPlayClick}
-                        name="play-fill"
-                        label="Play"
-                    />
+                        className={cx('play', 'generic-icon')}
+                        onClick={() => onPlayClick(id)}
+                        aria-label="Reproducir"
+                    >
+                        <PlayIcon />
+                    </button>
                 ) : (
-                    <SlIconButton data-testid="is-playing" className={cx('playing')} name="activity" label="Playing" />
+                    <button className={cx('playing', 'generic-icon')} aria-label="Reproduciendo">
+                        <EarIcon />
+                    </button>
                 )}
             </div>
         </div>
