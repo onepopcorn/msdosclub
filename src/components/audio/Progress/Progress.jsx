@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import classNames from 'classnames/bind'
 
 import { clamp, valueToPercent, percentToValue } from '../../../utils/math-utils'
+import { secToHMS } from 'utils/time-utils'
 import style from './Progress.module.css'
 let cx = classNames.bind(style)
 
@@ -31,11 +32,13 @@ export default function Progress({
     label = '',
     onChange,
     onRelease,
+    tooltip = false,
     loading = false,
     disabled = false,
 }) {
     const [dragging, setDragging] = useState(false)
     const [position, setPosition] = useState(0)
+    const [internalValue, setInternalValue] = useState(0)
     const trackRef = useRef(null)
     const percent = disabled ? 0 : valueToPercent(value, max)
 
@@ -71,8 +74,10 @@ export default function Progress({
     useEffect(() => {
         const ondrag = (e) => {
             if (!dragging) return
+            const value = calculateChangeValue(e, trackRef, max)
             setPosition(eventToValue(e, trackRef))
-            if (typeof onChange === 'function') onChange(calculateChangeValue(e, trackRef, max))
+            if (tooltip) setInternalValue(value)
+            if (typeof onChange === 'function') onChange(value)
         }
 
         const stopdrag = (e) => {
@@ -98,7 +103,7 @@ export default function Progress({
             window.removeEventListener('mouseup', stopdrag)
             window.removeEventListener('touchend', stopdrag)
         }
-    }, [dragging, onChange, max, onRelease])
+    }, [dragging, onChange, max, onRelease, tooltip])
 
     return (
         <div className={cx('container')} disabled={disabled}>
@@ -119,6 +124,20 @@ export default function Progress({
                         style={{ transform: `translateX(calc(${position}px - 100%))` }}
                     ></div>
                 </div>
+                {tooltip && (
+                    <span
+                        role="tooltip"
+                        className={cx('tooltip', { visible: dragging })}
+                        style={{
+                            transform: `translateX(calc(${Math.min(
+                                window.innerWidth - 50,
+                                Math.max(position, 25),
+                            )}px - 50%))`,
+                        }}
+                    >
+                        {secToHMS(internalValue)}
+                    </span>
+                )}
                 <div
                     className={cx('handler', { dragging, loading })}
                     style={{

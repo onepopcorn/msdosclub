@@ -101,3 +101,13 @@ test('Progress should trigger onRelease event when stop dragging', () => {
     expect(onrelease).toBeCalledTimes(1)
     expect(onrelease).toBeCalledWith(50)
 })
+
+test('Progress should show a tooltip with the audio timming while dragging', () => {
+    render(<Progress max={100} value={0} tooltip />)
+
+    const slider = screen.getByRole('slider')
+    fireEvent.mouseDown(slider, { clientX: 50 })
+    fireEvent.mouseMove(slider, { clientX: 70 })
+    const tooltip = screen.getByRole('tooltip')
+    expect(tooltip.textContent).toBe('00:00:50')
+})
