@@ -31,11 +31,19 @@
 .playing {
     padding: 1px;
     margin: 0 0.25em 0 1em;
-    color: var(--sl-color-neutral-0);
-    background-color: var(--sl-color-primary-600);
     border-radius: var(--sl-border-radius-circle);
+    animation: pulse-animation 2s infinite;
 }
 
 .actions {
     margin-left: auto;
+}
+
+@keyframes pulse-animation {
+    0% {
+        box-shadow: 0 0 0 0px var(--msdos-shadow-color-start);
+    }
+    100% {
+        box-shadow: 0 0 0 15px var(--msdos-shadow-color-end);
+    }
 }
