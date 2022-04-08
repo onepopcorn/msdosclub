@@ -23,7 +23,8 @@ const TestComponent = () => {
             >
                 set data
             </button>
-            <button onClick={() => dispatch(setAudioProgress(250, 11.32))}>set offset</button>
+            <button onClick={() => dispatch(setAudioProgress(250, 11.32, 300))}>set offset</button>
+            <button onClick={() => dispatch(setAudioProgress(255, 300, 300))}>set finished</button>
             <button onClick={() => dispatch(storeVolume(0.43))}>set volume</button>
         </>
     )
@@ -69,5 +70,19 @@ test('AudioStore should be able to store audio progress', () => {
     )
 
     userEvent.click(screen.getByText(/set offset/i))
-    expect(localStorage.setItem).toBeCalledWith(expect.anything(), JSON.stringify({ 250: 11.32 }))
+    expect(localStorage.setItem).toBeCalledWith(
+        expect.anything(),
+        JSON.stringify({ 250: { elapsed: 11.32, duration: 300 } }),
+    )
+})
+
+test('AudioStore should be able to mark the post as finished', () => {
+    render(
+        <AudioProvider>
+            <TestComponent />
+        </AudioProvider>,
+    )
+
+    userEvent.click(screen.getByText(/set finished/i))
+    expect(localStorage.setItem).toBeCalledWith(expect.anything(), JSON.stringify([255]))
 })
