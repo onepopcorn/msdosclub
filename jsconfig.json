@@ -2,7 +2,9 @@
     "compilerOptions": {
         "baseUrl": "src",
         "paths": {
-            "test-utils": ["./utils/test-utils"]
+            "assets": ["./assets"],
+            "test-utils": ["./utils/test-utils"],
+            "wp-utils": ["./utils/wp-utils"]
         }
     }
 }
