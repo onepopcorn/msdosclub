@@ -38,6 +38,7 @@
     flex-shrink: 0;
     border-radius: var(--sl-border-radius-circle);
     background-color: var(--sl-color-neutral-100);
+    position: relative;
 }
 
 .thumb img {
@@ -64,4 +65,17 @@
 .icon {
     margin-left: auto;
     flex-shrink: 0;
+}
+
+.check {
+    position: absolute;
+    bottom: -6px;
+    left: 0;
+    color: var(--sl-color-success-500);
+    background-color: var(--sl-color-neutral-0);
+    border-radius: var(--sl-border-radius-circle);
+    border: 2px solid var(--sl-color-neutral-0);
+    box-sizing: content-box;
+    width: 16px;
+    height: 16px;
 }

@@ -2,11 +2,12 @@ import { useState } from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames/bind'
 import { ReactComponent as ChevronRightIcon } from '@shoelace-style/shoelace/dist/assets/icons/chevron-right.svg'
+import { ReactComponent as CheckIcon } from '@shoelace-style/shoelace/dist/assets/icons/check-circle-fill.svg'
 
 import styles from './Post.module.css'
 const cx = classNames.bind(styles)
 
-export default function Post({ post, children, onClick }) {
+export default function Post({ post, children, viewed = false, onClick }) {
     const [imgLoaded, setImgLoaded] = useState(false)
     const onPostClicked = (e) => {
         const { postid } = e.currentTarget.dataset
@@ -23,6 +24,7 @@ export default function Post({ post, children, onClick }) {
                         src={post.thumb}
                         alt={post.caption || post.title}
                     />
+                    {viewed && <CheckIcon className={cx('check')} aria-label="check" />}
                 </div>
 
                 <header className={cx('header')}>
@@ -65,6 +67,11 @@ Post.propTypes = {
      * Function to be called when clicked on the post
      */
     onClick: PropTypes.func,
+    /**
+     * Mark the podcast as viewed
+     *
+     */
+    viewed: PropTypes.bool,
     /**
      * Any children type that will be appended at the end of the content
      */

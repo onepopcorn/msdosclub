@@ -34,3 +34,9 @@ test('Post should not throw when clicked but no callback provided', () => {
 
     userEvent.click(screen.getByRole('button'))
 })
+
+test('Post should show a check sign when podcast is mark as viewed', () => {
+    render(<Post post={postTestData} viewed />)
+
+    screen.getAllByLabelText(/check/i)
+})
