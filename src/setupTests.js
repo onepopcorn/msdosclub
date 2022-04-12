@@ -7,18 +7,20 @@ import { server } from './utils/test-utils/mocks/server'
 
 // Testing mocks for Shoelace
 // for more info, visit: https://shoelace.style/frameworks/react?id=testing-with-jest
-Object.defineProperty(window, 'matchMedia', {
-    writable: true,
-    value: jest.fn().mockImplementation((query) => ({
-        matches: false,
-        media: query,
-        onchange: null,
-        addListener: jest.fn(), // deprecated
-        removeListener: jest.fn(), // deprecated
-        addEventListener: jest.fn(),
-        removeEventListener: jest.fn(),
-        dispatchEvent: jest.fn(),
-    })),
+beforeEach(() => {
+    Object.defineProperty(window, 'matchMedia', {
+        writable: true,
+        value: jest.fn().mockImplementation((query) => ({
+            matches: false,
+            media: query,
+            onchange: null,
+            addListener: jest.fn(), // deprecated
+            removeListener: jest.fn(), // deprecated
+            addEventListener: jest.fn(),
+            removeEventListener: jest.fn(),
+            dispatchEvent: jest.fn(),
+        })),
+    })
 })
 
 /**
