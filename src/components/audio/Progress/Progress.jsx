@@ -41,15 +41,28 @@ export default function Progress({
     const [internalValue, setInternalValue] = useState(0)
     const trackRef = useRef(null)
     const percent = disabled ? 0 : valueToPercent(value, max)
+    const touchDelay = useRef()
 
     // Handle drag event
     const onStartDragging = (e) => {
         if (disabled) return
 
         // Prevent drag outside bug
-        if (e.type === 'mousedown') e.preventDefault()
-        setDragging(true)
-        setPosition(eventToValue(e, trackRef))
+        e.type === 'mousedown' && e.cancelable && e.preventDefault()
+
+        if (e.type === 'mousedown') {
+            setDragging(true)
+            setPosition(eventToValue(e, trackRef))
+            return
+        }
+
+        clearTimeout(touchDelay.current)
+        touchDelay.current = setTimeout(() => {
+            setDragging(true)
+            setPosition(eventToValue(e, trackRef))
+        }, 110)
+
+        return () => clearTimeout(touchDelay.current)
     }
 
     // Set thumb at initial position & handle resize
@@ -81,9 +94,11 @@ export default function Progress({
         }
 
         const stopdrag = (e) => {
+            clearTimeout(touchDelay.current)
+
             if (!dragging) return
             // Prevent mouseEvent to be triggered after touchEvent
-            e.preventDefault()
+            e.cancelable && e.preventDefault()
 
             const value = calculateChangeValue(e, trackRef, max)
             if (typeof onRelease === 'function') onRelease(value)
@@ -115,6 +130,7 @@ export default function Progress({
                 className={cx('track')}
                 onMouseDown={onStartDragging}
                 onTouchStart={onStartDragging}
+                onTouchEnd={(e) => e.preventDefault()}
             >
                 <div className={cx('trackMask')}>
                     <div
@@ -166,6 +182,10 @@ Progress.propTypes = {
      * Calback for when progress is finished changing manually by the user
      */
     onRelease: PropTypes.func,
+    /**
+     * Show tooltip when sliding if true
+     */
+    tooltip: PropTypes.bool,
     /**
      * Set or disable loading animation
      */

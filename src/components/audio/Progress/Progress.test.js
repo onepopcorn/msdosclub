@@ -1,6 +1,8 @@
-import { fireEvent, render, screen } from '@testing-library/react'
+import { fireEvent, render, screen, act } from '@testing-library/react'
 import React from 'react'
 import Progress from '../Progress'
+
+// jest.useFakeTimers()
 
 // onChange uses useRef & getBoundingClientRect to calculate results hence the mocking
 jest.mock('react', () => ({
@@ -53,6 +55,8 @@ test('Progress should not be interacted with while disabled', () => {
     render(<Progress max={100} value={0} disabled onChange={onchange} />)
 
     fireEvent.mouseDown(screen.getByRole('slider'), { clientX: 100 })
+    // act(() => jest.runAllTimers())
+
     expect(onchange).not.toHaveBeenCalled()
 })
 
@@ -67,6 +71,8 @@ test('Progress should trigger change events', () => {
 
     const slider = screen.getByRole('slider')
     fireEvent.mouseDown(slider, { clientX: 50 })
+    // act(() => jest.runAllTimers())
+
     fireEvent.mouseUp(slider, { clientX: 70 })
 
     // one event on mouseDown and another one on mouseUp
@@ -80,6 +86,8 @@ test('Progress should trigger change events while dragging', () => {
 
     const slider = screen.getByRole('slider')
     fireEvent.mouseDown(slider, { clientX: 50 })
+    // act(() => jest.runAllTimers())
+
     fireEvent.mouseMove(slider, { clientX: 70 })
     fireEvent.mouseUp(slider, { clientX: 70 })
 
@@ -94,6 +102,8 @@ test('Progress should trigger onRelease event when stop dragging', () => {
 
     const slider = screen.getByRole('slider')
     fireEvent.mouseDown(slider, { clientX: 50 })
+    // act(() => jest.runAllTimers())
+
     fireEvent.mouseMove(slider, { clientX: 70 })
     fireEvent.mouseUp(slider, { clientX: 70 })
 
@@ -106,8 +116,17 @@ test('Progress should show a tooltip with the audio timming while dragging', () 
     render(<Progress max={100} value={0} tooltip />)
 
     const slider = screen.getByRole('slider')
+
+    // Mouse Events
     fireEvent.mouseDown(slider, { clientX: 50 })
+
     fireEvent.mouseMove(slider, { clientX: 70 })
     const tooltip = screen.getByRole('tooltip')
     expect(tooltip.textContent).toBe('00:00:50')
+
+    // Touch Events
+    fireEvent.touchStart(slider, { touches: [{ clientX: 0 }] })
+    fireEvent.touchMove(slider, { touches: [{ clientX: 80 }] })
+
+    expect(tooltip.textContent).toBe('00:01:00')
 })
