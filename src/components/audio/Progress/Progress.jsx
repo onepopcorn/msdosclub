@@ -58,6 +58,9 @@ export default function Progress({
 
         clearTimeout(touchDelay.current)
         touchDelay.current = setTimeout(() => {
+            // be sure to be close to the indicator to accept the event as legit
+            if (Math.abs(position - eventToValue(e, trackRef)) > 45) return
+
             setDragging(true)
             setPosition(eventToValue(e, trackRef))
         }, 110)
