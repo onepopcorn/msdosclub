@@ -1,0 +1,44 @@
+.container {
+    position: relative;
+}
+
+.container.connected::after {
+    content: '';
+    width: 1px;
+    height: 100%;
+    position: absolute;
+    background-color: var(--sl-color-neutral-400);
+    left: 24px;
+    top: 24px;
+}
+
+.header {
+    display: flex;
+}
+
+.author {
+    font-size: 0.7em;
+    padding: 0.25em 0.5em;
+    margin-bottom: 0.25em;
+    background-color: var(--sl-color-neutral-200);
+    border-radius: var(--sl-border-radius-medium);
+}
+
+.avatar {
+    width: 48px;
+    height: 48px;
+    z-index: 1;
+    border-radius: var(--sl-border-radius-circle);
+}
+
+.metadata {
+    display: flex;
+    flex-direction: column;
+    padding-left: 0.5em;
+    align-items: baseline;
+    justify-content: center;
+}
+
+.content {
+    padding-left: 2.5em;
+}
