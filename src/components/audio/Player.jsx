@@ -11,6 +11,8 @@ import { AudioStore, setAudioProgress, storeVolume } from '../state/AudioStore'
 import styles from './Player.module.css'
 const cx = classNames.bind(styles)
 
+const PROGRESS_SAVING_INTERVAL = 5
+
 export default function Player() {
     const {
         state: { id, title, file, thumb, autoplay, offset },
@@ -33,11 +35,11 @@ export default function Player() {
 
     // Store elapsed time every 5 seconds
     useEffect(() => {
-        if (Math.abs(elapsed - lastTimeStamp.current) < 5) return
+        if (!duration || Math.abs(elapsed - lastTimeStamp.current) < PROGRESS_SAVING_INTERVAL) return
 
         lastTimeStamp.current = elapsed
-        dispatch(setAudioProgress(id, elapsed))
-    }, [dispatch, elapsed, id])
+        dispatch(setAudioProgress(id, elapsed, duration))
+    }, [dispatch, elapsed, id, duration])
 
     if (!file) return null
 
@@ -51,6 +53,7 @@ export default function Player() {
                     onRelease={seekTo}
                     loading={loading}
                     disabled={!ready}
+                    tooltip={true}
                     label="seek"
                 />
             </div>
