@@ -1,4 +1,29 @@
 .container {
+    color: var(--sl-color-neutral-500);
+    background-color: var(--sl-color-neutral-0);
+}
+
+.content {
     display: grid;
-    grid-template-columns: 100%;
+    grid-template-columns: minmax(200px, 0.4fr) 1fr;
+    position: relative;
+    min-height: 100vh;
+}
+
+.maincolumn {
+    grid-column: 1/4;
+}
+
+@media only screen and (min-width: 600px) {
+    .maincolumn {
+        grid-column: 2/3;
+    }
+}
+
+.maincolumn {
+    padding-bottom: 5em;
+    max-width: var(--msdos-main-column-max-width);
+    width: 100%;
+    border-left: 1px solid var(--sl-color-neutral-200);
+    border-right: 1px solid var(--sl-color-neutral-200);
 }

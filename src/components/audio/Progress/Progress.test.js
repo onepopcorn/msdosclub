@@ -1,4 +1,4 @@
-import { fireEvent, render, screen, act } from '@testing-library/react'
+import { fireEvent, render, screen } from '@testing-library/react'
 import React from 'react'
 import Progress from '../Progress'
 
@@ -55,8 +55,6 @@ test('Progress should not be interacted with while disabled', () => {
     render(<Progress max={100} value={0} disabled onChange={onchange} />)
 
     fireEvent.mouseDown(screen.getByRole('slider'), { clientX: 100 })
-    // act(() => jest.runAllTimers())
-
     expect(onchange).not.toHaveBeenCalled()
 })
 
@@ -71,8 +69,6 @@ test('Progress should trigger change events', () => {
 
     const slider = screen.getByRole('slider')
     fireEvent.mouseDown(slider, { clientX: 50 })
-    // act(() => jest.runAllTimers())
-
     fireEvent.mouseUp(slider, { clientX: 70 })
 
     // one event on mouseDown and another one on mouseUp
@@ -86,8 +82,6 @@ test('Progress should trigger change events while dragging', () => {
 
     const slider = screen.getByRole('slider')
     fireEvent.mouseDown(slider, { clientX: 50 })
-    // act(() => jest.runAllTimers())
-
     fireEvent.mouseMove(slider, { clientX: 70 })
     fireEvent.mouseUp(slider, { clientX: 70 })
 
@@ -102,8 +96,6 @@ test('Progress should trigger onRelease event when stop dragging', () => {
 
     const slider = screen.getByRole('slider')
     fireEvent.mouseDown(slider, { clientX: 50 })
-    // act(() => jest.runAllTimers())
-
     fireEvent.mouseMove(slider, { clientX: 70 })
     fireEvent.mouseUp(slider, { clientX: 70 })
 
@@ -119,7 +111,6 @@ test('Progress should show a tooltip with the audio timming while dragging', () 
 
     // Mouse Events
     fireEvent.mouseDown(slider, { clientX: 50 })
-
     fireEvent.mouseMove(slider, { clientX: 70 })
     const tooltip = screen.getByRole('tooltip')
     expect(tooltip.textContent).toBe('00:00:50')
@@ -129,4 +120,60 @@ test('Progress should show a tooltip with the audio timming while dragging', () 
     fireEvent.touchMove(slider, { touches: [{ clientX: 80 }] })
 
     expect(tooltip.textContent).toBe('00:01:00')
+})
+
+test('Progress should me controllable with left/right keyboard keys when focused', () => {
+    const onrelease = jest.fn()
+    const onchange = jest.fn()
+    const { rerender } = render(<Progress max={100} value={0} onChange={onchange} onRelease={onrelease} />)
+
+    const slider = screen.getByRole('slider')
+    fireEvent.focus(slider)
+
+    // Test onChange correct values
+    fireEvent.keyDown(slider, { key: 'ArrowRight' })
+    expect(onchange).toBeCalledTimes(1)
+    expect(onchange).toHaveBeenLastCalledWith(1)
+    onchange.mockReset()
+
+    fireEvent.keyDown(slider, { key: 'ArrowLeft' })
+    expect(onchange).toBeCalledTimes(1)
+    expect(onchange).toHaveBeenLastCalledWith(0)
+    onchange.mockReset()
+
+    // Test onRelease correct values
+    fireEvent.keyUp(slider, { key: 'ArrowRight' })
+    expect(onrelease).toBeCalledTimes(1)
+    expect(onrelease).toHaveBeenLastCalledWith(1)
+    onrelease.mockReset()
+
+    fireEvent.keyUp(slider, { key: 'ArrowLeft' })
+    expect(onrelease).toBeCalledTimes(1)
+    expect(onrelease).toHaveBeenLastCalledWith(0)
+    onrelease.mockReset()
+
+    // Test min limits
+    fireEvent.keyDown(slider, { key: 'ArrowLeft' })
+    expect(onchange).toBeCalledTimes(1)
+    expect(onchange).toHaveBeenLastCalledWith(0)
+    onchange.mockReset()
+
+    fireEvent.keyUp(slider, { key: 'ArrowLeft' })
+    expect(onrelease).toBeCalledTimes(1)
+    expect(onrelease).toHaveBeenLastCalledWith(0)
+    onrelease.mockReset()
+
+    // Test max limits
+    rerender(<Progress max={100} value={99} onChange={onchange} onRelease={onrelease} />)
+
+    fireEvent.keyDown(slider, { key: 'ArrowRight' })
+    fireEvent.keyDown(slider, { key: 'ArrowRight' })
+    expect(onchange).toBeCalledTimes(2)
+    expect(onchange).toHaveBeenLastCalledWith(100)
+    onchange.mockReset()
+
+    fireEvent.keyUp(slider, { key: 'ArrowRight' })
+    fireEvent.keyUp(slider, { key: 'ArrowRight' })
+    expect(onrelease).toBeCalledTimes(2)
+    expect(onrelease).toHaveBeenLastCalledWith(100)
 })

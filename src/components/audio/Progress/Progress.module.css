@@ -3,12 +3,8 @@
     height: 20px;
     display: flex;
     align-items: center;
+    position: relative;
     background-image: linear-gradient(to bottom, transparent 50%, var(--sl-color-neutral-0) 50%);
-}
-
-.container,
-.container * {
-    box-sizing: border-box;
 }
 
 .trackMask {
@@ -28,6 +24,15 @@
     display: flex;
     align-items: center;
     cursor: pointer;
+}
+
+.track:focus-visible {
+    box-shadow: var(--sl-focus-ring);
+    border-radius: var(--sl-border-radius-medium);
+}
+
+.track:focus {
+    outline: none;
 }
 
 .container[disabled] .track {

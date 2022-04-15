@@ -7,6 +7,9 @@ import { secToHMS } from 'utils/time-utils'
 import style from './Progress.module.css'
 let cx = classNames.bind(style)
 
+const TOUCH_AREA_THRESHOLD = 45
+const TOUCH_EVENT_DELAY = 110
+
 // Utility function to calculate internal thumb position from event
 const eventToValue = (e, ref) => {
     const { width: total, x: offsetX } = ref.current.getBoundingClientRect()
@@ -37,6 +40,7 @@ export default function Progress({
     disabled = false,
 }) {
     const [dragging, setDragging] = useState(false)
+    const [keyDragging, setKeyDragging] = useState(false)
     const [position, setPosition] = useState(0)
     const [internalValue, setInternalValue] = useState(0)
     const trackRef = useRef(null)
@@ -59,18 +63,18 @@ export default function Progress({
         clearTimeout(touchDelay.current)
         touchDelay.current = setTimeout(() => {
             // be sure to be close to the indicator to accept the event as legit
-            if (Math.abs(position - eventToValue(e, trackRef)) > 45) return
+            if (Math.abs(position - eventToValue(e, trackRef)) > TOUCH_AREA_THRESHOLD) return
 
             setDragging(true)
             setPosition(eventToValue(e, trackRef))
-        }, 110)
+        }, TOUCH_EVENT_DELAY)
 
         return () => clearTimeout(touchDelay.current)
     }
 
     // Set thumb at initial position & handle resize
     useEffect(() => {
-        if (dragging) return
+        if (dragging || keyDragging) return
 
         const calculatePosition = () => {
             const value = percentToValue(percent, trackRef.current.getBoundingClientRect().width)
@@ -89,7 +93,7 @@ export default function Progress({
     // Handle window attached events
     useEffect(() => {
         const ondrag = (e) => {
-            if (!dragging) return
+            if (!dragging || keyDragging) return
             const value = calculateChangeValue(e, trackRef, max)
             setPosition(eventToValue(e, trackRef))
             if (tooltip) setInternalValue(value)
@@ -99,7 +103,7 @@ export default function Progress({
         const stopdrag = (e) => {
             clearTimeout(touchDelay.current)
 
-            if (!dragging) return
+            if (!dragging || keyDragging) return
             // Prevent mouseEvent to be triggered after touchEvent
             e.cancelable && e.preventDefault()
 
@@ -121,11 +125,36 @@ export default function Progress({
             window.removeEventListener('mouseup', stopdrag)
             window.removeEventListener('touchend', stopdrag)
         }
-    }, [dragging, onChange, max, onRelease, tooltip])
+    }, [dragging, keyDragging, onChange, max, onRelease, tooltip])
+
+    // Handle keyboard events
+    const onkeydown = (e) => {
+        if (!['ArrowLeft', 'ArrowRight'].includes(e.key)) return
+        e.preventDefault()
+
+        let xPos,
+            maxPos = trackRef.current.getBoundingClientRect().width
+        if (e.key === 'ArrowLeft') xPos = Math.max(position - 1, 0)
+        if (e.key === 'ArrowRight') xPos = Math.min(position + 1, maxPos)
+
+        const newPercent = valueToPercent(xPos, maxPos)
+        const newValue = percentToValue(newPercent, max)
+
+        setKeyDragging(true)
+        setPosition(xPos)
+        setInternalValue(newValue)
+
+        if (e.type === 'keydown' && typeof onChange === 'function') onChange(newValue)
+        if (e.type === 'keyup') {
+            setKeyDragging(false)
+            typeof onRelease === 'function' && onRelease(newValue)
+        }
+    }
 
     return (
         <div className={cx('container')} disabled={disabled}>
             <div
+                tabIndex="0"
                 ref={trackRef}
                 role="slider"
                 aria-valuenow={value}
@@ -134,6 +163,9 @@ export default function Progress({
                 onMouseDown={onStartDragging}
                 onTouchStart={onStartDragging}
                 onTouchEnd={(e) => e.preventDefault()}
+                onKeyDown={onkeydown}
+                onKeyUp={onkeydown}
+                onBlur={() => setKeyDragging(false)}
             >
                 <div className={cx('trackMask')}>
                     <div
@@ -146,7 +178,7 @@ export default function Progress({
                 {tooltip && (
                     <span
                         role="tooltip"
-                        className={cx('tooltip', { visible: dragging })}
+                        className={cx('tooltip', { visible: dragging || keyDragging })}
                         style={{
                             transform: `translateX(calc(${Math.min(
                                 window.innerWidth - 50,
