@@ -190,6 +190,7 @@ export default function Progress({
                     </span>
                 )}
                 <div
+                    hidden={disabled}
                     className={cx('handler', { dragging, loading })}
                     style={{
                         transform: `translateX(calc(${position}px - 50%))`,
