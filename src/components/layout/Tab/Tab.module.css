@@ -1,12 +1,7 @@
-.container {
-    overflow: hidden;
-}
-
 .inner {
     display: flex;
     flex-wrap: nowrap;
     transition: transform 250ms ease-out;
-    /* will-change: transform; */
 }
 
 .tab {

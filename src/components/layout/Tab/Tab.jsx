@@ -35,7 +35,7 @@ export default function Tab({ children, active, offset = 0, onChange }) {
     const childnodes = Array.isArray(children) ? children : [children]
 
     return (
-        <div className={cx('container')}>
+        <div>
             <div className={cx('inner')} style={{ transform: `translateX(${activeTab * -100}%)` }}>
                 {childnodes.map((child, i) => (
                     <div
