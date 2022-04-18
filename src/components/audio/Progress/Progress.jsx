@@ -74,11 +74,11 @@ export default function Progress({
 
     // Set thumb at initial position & handle resize
     useEffect(() => {
-        if (dragging || keyDragging) return
+        if (dragging || keyDragging || !trackRef.current) return
 
         const calculatePosition = () => {
-            const value = percentToValue(percent, trackRef.current.getBoundingClientRect().width)
-            setPosition(value)
+            const newPos = percentToValue(percent, trackRef.current.getBoundingClientRect().width)
+            setPosition(newPos)
         }
         calculatePosition()
         window.addEventListener('resize', calculatePosition)
@@ -88,7 +88,7 @@ export default function Progress({
         }
         // Skip dragging as dependency to prevent update of position until the next rerender
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [percent])
+    }, [percent, trackRef.current])
 
     // Handle window attached events
     useEffect(() => {
@@ -229,5 +229,8 @@ Progress.propTypes = {
      * Disable progress interactivity when set
      */
     disabled: PropTypes.bool,
-    interactive: PropTypes.bool,
+    /**
+     * Aria label for progressbar
+     */
+    label: PropTypes.string,
 }
