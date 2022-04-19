@@ -9,7 +9,7 @@
 .elapsed,
 .separator,
 .total {
-    color: var(--sl-color-neutral-400);
+    color: var(--sl-color-neutral-500);
     font-size: 0.7em;
     white-space: nowrap;
 }

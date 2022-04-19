@@ -28,7 +28,7 @@
 
 .title {
     font-size: 0.9em;
-    color: var(--sl-color-neutral-400);
+    color: var(--sl-color-neutral-500);
     max-width: 100%;
     white-space: nowrap;
 }
