@@ -1,7 +1,8 @@
 import { useContext } from 'react'
+import PropTypes from 'prop-types'
 import soundwave from 'assets/soundwave.gif'
 
-import { AudioStore } from 'components/state/AudioStore'
+import { AudioStore } from 'providers/AudioStore'
 
 // Styles
 import classNames from 'classnames/bind'
@@ -36,4 +37,8 @@ export default function AudioProgress({ id }) {
             )}
         </div>
     )
+}
+
+AudioProgress.propTypes = {
+    id: PropTypes.number.isRequired,
 }

@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from 'react'
-import { AudioStore } from '../../state/AudioStore'
+import { AudioStore } from 'providers/AudioStore'
 
 export default function useAudio(audio) {
     const {

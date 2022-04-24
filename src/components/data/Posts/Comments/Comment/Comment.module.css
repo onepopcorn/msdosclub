@@ -1,5 +1,6 @@
 .container {
     position: relative;
+    padding-bottom: 2em;
 }
 
 .container.connected::after {
@@ -41,4 +42,13 @@
 
 .content {
     padding-left: 2.5em;
+}
+
+.actions {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.btn {
+    composes: base-button from '../../../../../index.module.css';
 }

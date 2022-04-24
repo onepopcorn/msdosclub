@@ -1,6 +1,7 @@
 import { render } from '@testing-library/react'
-import AudioProvider, { AudioStore } from '../../components/state/AudioStore'
-import ThemeProvider, { ThemeStore } from '../../components/state/ThemeStore'
+import AudioProvider, { AudioStore } from 'providers/AudioStore'
+import ThemeProvider, { ThemeStore } from 'providers/ThemeStore'
+import MenuProvider, { MenuStore } from 'providers/MenuStore'
 
 /**
  * Render with all providers
@@ -9,7 +10,9 @@ import ThemeProvider, { ThemeStore } from '../../components/state/ThemeStore'
 const withAllProviders = ({ children }) => {
     return (
         <ThemeProvider>
-            <AudioProvider>{children}</AudioProvider>
+            <MenuProvider>
+                <AudioProvider>{children}</AudioProvider>
+            </MenuProvider>
         </ThemeProvider>
     )
 }
@@ -36,9 +39,22 @@ const withAudioProvider = (providerValue = {}) => {
 const renderWithAudioProvider = (ui, options, providerValue) =>
     render(ui, { wrapper: withAudioProvider(providerValue), ...options })
 
+/**
+ * Render with MenuProvider only
+ *
+ */
+const withMenuProvider = (providerValue = {}) => {
+    return ({ children }) => <MenuStore.Provider value={providerValue}>{children}</MenuStore.Provider>
+}
+
+const renderWithMenuProvider = (ui, options, providerValue) => {
+    render(ui, { wrapper: withMenuProvider(providerValue), ...options })
+}
+
 export * from '@testing-library/react'
 export {
     renderWithProviders as render,
     renderWithThemeProvider as renderWithTheme,
     renderWithAudioProvider as renderWithAudio,
+    renderWithMenuProvider as renderWithMenu,
 }

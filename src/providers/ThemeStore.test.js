@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { useContext } from 'react'
-import ThemeProvider, { ThemeStore, THEME_DARK, THEME_LIGHT } from './ThemeStore'
+import ThemeProvider, { ThemeStore, THEME_DARK, THEME_LIGHT } from 'providers/ThemeStore'
 
 beforeEach(() => {
     Storage.prototype.getItem = jest.fn()

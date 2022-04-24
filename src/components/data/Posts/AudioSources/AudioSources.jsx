@@ -10,7 +10,7 @@ import { ReactComponent as GooglePodcastsIcon } from 'assets/icons/msdos-google-
 import { ReactComponent as PodimoIcon } from 'assets/icons/msdos-podimo.svg'
 
 // Providers
-import { AudioStore } from '../../../state/AudioStore'
+import { AudioStore } from 'providers/AudioStore'
 
 // Styles
 import classNames from 'classnames/bind'

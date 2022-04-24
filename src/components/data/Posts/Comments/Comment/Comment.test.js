@@ -25,3 +25,8 @@ test('Comment should be marked as connected needed', () => {
 
     expect(screen.getByRole('listitem')).toHaveClass('connected')
 })
+
+test.skip('Comment should trigger callback when response button is clicked', () => {
+    // When comment has a parent, parent ID must be passed to callback
+    // When comment has not a parent
+})

@@ -3,3 +3,15 @@
     /* use clip for perfomance reasons but fallback to hidden for Safari */
     overflow: clip;
 }
+
+.spinner {
+    width: 100%;
+    margin: 1em auto;
+    text-align: center;
+}
+
+.listend {
+    margin: 1em auto;
+    text-align: center;
+    color: var(--sl-color-neutral-400);
+}

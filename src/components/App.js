@@ -1,20 +1,20 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { QueryClient, QueryClientProvider, QueryErrorResetBoundary } from 'react-query'
 import { ErrorBoundary } from 'react-error-boundary'
 import { setBasePath } from '@shoelace-style/shoelace/dist/utilities/base-path'
 
 // Providers
-import ThemeProvider from './state/ThemeStore'
-import AudioProvider, { VOLUME_KEY, PROG_KEY, FINISHED_KEY } from './state/AudioStore'
-import MenuProvider from './state/MenuStore'
+import ThemeProvider from 'providers/ThemeStore'
+import AudioProvider, { VOLUME_KEY, PROG_KEY, FINISHED_KEY } from 'providers/AudioStore'
+import MenuProvider from 'providers/MenuStore'
 
 // Custom components
-import Header from './layout/Header'
-import Menu from './layout/Menu'
-import MenuCollapsed from './layout/Menu/MenuCollapsed'
-import Posts from './data/Posts'
-import Player from './audio/Player'
-import ErrorFallback from './data/ErrorFallback'
+import Header from 'components/layout/Header'
+import Menu from 'components/layout/Menu'
+import MenuCollapsed from 'components/layout/Menu/MenuCollapsed'
+import Posts from 'components/data/Posts'
+import Player from 'components/audio/Player'
+import ErrorFallback from 'components/data/ErrorFallback'
 
 // Styles
 import classNames from 'classnames/bind'

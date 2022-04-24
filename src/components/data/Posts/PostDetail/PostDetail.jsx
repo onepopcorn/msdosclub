@@ -6,7 +6,7 @@ import classNames from 'classnames/bind'
 import styles from './PostDetail.module.css'
 const cx = classNames.bind(styles)
 
-export default function PostDetail({ title, author, date, beforeContent, images, close, children }) {
+export default function PostDetail({ title, author, date, beforeContent, afterContent, images, close, children }) {
     const [loaded, setLoaded] = useState(false)
 
     return (
@@ -32,6 +32,7 @@ export default function PostDetail({ title, author, date, beforeContent, images,
             </header>
             {beforeContent}
             <div className={cx('content')} dangerouslySetInnerHTML={{ __html: children }}></div>
+            {afterContent}
         </article>
     )
 }
@@ -58,6 +59,11 @@ PostDetail.propTypes = {
      * before the text child content
      */
     beforeContent: PropTypes.node,
+    /**
+     * Slot for an optional component that will be printed
+     * after the text child content
+     */
+    afterContent: PropTypes.node,
     /**
      * Image data
      */

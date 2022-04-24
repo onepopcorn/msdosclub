@@ -1,63 +1,52 @@
 import { Fragment, useContext, useEffect, useRef, useState } from 'react'
-import { useInfiniteQuery } from 'react-query'
+import { useInfiniteQuery, useQueryClient } from 'react-query'
 import { SlSpinner } from '@shoelace-style/shoelace/dist/react'
-import classNames from 'classnames/bind'
 
-import Tab from '../../layout/Tab'
-import PostDetail from './PostDetail'
 import { getPosts } from 'api/wpapi'
-import AudioSources from './AudioSources/AudioSources'
-import { AudioStore, setAudioData } from '../../state/AudioStore'
+import AudioSources from 'components/data/Posts/AudioSources'
+import AudioProgress from 'components/data/Posts/AudioProgress'
+import { AudioStore, setAudioData } from 'providers/AudioStore'
 
+// Custom components
+import Post from 'components/data/Posts/Post'
+import Tab from 'components/layout/Tab'
+import PostDetail from 'components/data/Posts/PostDetail'
+import Comments from 'components/data/Posts/Comments'
+
+// Styles
+import classNames from 'classnames/bind'
 import styles from './Posts.module.css'
-import Post from './Post'
+
 const cx = classNames.bind(styles)
 
-export default function Posts({ categories, queryClient }) {
-    const { dispatch } = useContext(AudioStore)
-
+export default function Posts({ categories }) {
+    const {
+        state: { finished },
+        dispatch,
+    } = useContext(AudioStore)
+    const queryClient = useQueryClient()
     const { data, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage } = useInfiniteQuery(
         ['posts', { categories }],
         getPosts,
-        {
-            getNextPageParam: (lastPage) => lastPage.nextPage,
-            refetchOnWindowFocus: false,
-            retry: 3,
-            refetchOnMount: false,
-            cacheTime: 0,
-        },
+        { getNextPageParam: (lastPage) => lastPage.nextPage },
     )
 
-    const [postsPage, setPostsPage] = useState(new Map())
+    const [postsInPage, setPostsInPage] = useState(new Map())
     const [postData, setPostData] = useState(null)
     const [postDetailOpen, setPostDetailOpen] = useState(false)
     const prevScroll = useRef(0)
     const moreRef = useRef()
 
-    // useEffect(() => {
-    //     const cache = queryClient.getQueryCache()
-    //     const data = cache.find(['posts', { categories }]).state.data
-    //     if (!data) return
-
-    //     setPostsPage(new Map())
-    //     queryClient.setQueryData(['posts', { categories }], data => ({
-    //         pages: [data.pages.shift()],
-    //         pageParams: [data.pageParams.shift()]
-    //     })
-    //     )
-    // }, [categories, queryClient])
-
     // Callback to open the global audio player
-    const openPlayer = (e) => {
-        const id = parseInt(e.target.dataset.id)
-        const page = postsPage.get(id)
+    const openPlayer = (id) => {
+        const page = postsInPage.get(id)
         const { audio: file, title, images } = data.pages[page].posts.find((p) => p.id === id)
         dispatch(setAudioData(id, file, title, images.thumbnail.source_url, true))
     }
 
     // Callback for when the detail view is opened
     const ondetailopen = (postid) => {
-        const page = postsPage.get(postid)
+        const page = postsInPage.get(postid)
         const postdata = data.pages[page].posts.find((p) => p.id === postid)
         setPostData(postdata)
         setPostDetailOpen(true)
@@ -82,7 +71,7 @@ export default function Posts({ categories, queryClient }) {
             if (entries[0].isIntersecting && !isFetchingNextPage) fetchNextPage()
         }
 
-        const observer = new IntersectionObserver(onIntersectionOccured, { rootMargin: '0% 0% 150% 0%' })
+        const observer = new IntersectionObserver(onIntersectionOccured, { rootMargin: '0% 0% 120% 0%' })
         observer.observe(moreRef.current)
 
         return () => observer.disconnect()
@@ -94,10 +83,10 @@ export default function Posts({ categories, queryClient }) {
     useEffect(() => {
         if (!data?.pages.length) return
 
-        const map = new Map(postsPage.entries())
+        const map = new Map(postsInPage.entries())
         const lastPage = data.pages[data.pages.length - 1]
         lastPage.posts.forEach((p) => map.set(p.id, data.pages.indexOf(lastPage)))
-        setPostsPage(map)
+        setPostsInPage(map)
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [data?.pages])
@@ -112,42 +101,59 @@ export default function Posts({ categories, queryClient }) {
     useEffect(() => {
         setPostData(null)
         setPostDetailOpen(false)
+
         window.history.replaceState({}, '', '/')
-    }, [categories])
+
+        // Limit number of posts to be shown from cache to prevent render bottlenecks
+        window.scrollTo({ top: 0 })
+        const cache = queryClient.getQueryCache()
+        const cachedData = cache.find(['posts', { categories }])
+        if (!cachedData.state.data) return
+        cachedData.state.data = {
+            pageParams: [undefined],
+            pages: cachedData.state.data.pages.slice(0, 1),
+        }
+    }, [categories, queryClient])
 
     // initial preloader
     if (isLoading)
         return (
-            <div style={{ width: '100%', margin: '1em auto', textAlign: 'center' }}>
+            <div className={cx('spinner')}>
                 <SlSpinner />
             </div>
         )
-
-    // TODO: Create posts lists here instead of in return function
 
     return (
         <main className={cx('container')}>
             <Tab active={postDetailOpen ? 1 : 0} offset={postDetailOpen ? 0 : prevScroll.current}>
                 <div className={cx('list')}>
                     {data.pages.map((page, i) => (
-                        <Fragment key={i}>
+                        <Fragment key={`${categories.toString()}-${i}`}>
                             {page.posts.map((post) => (
                                 <Post
                                     key={post.id}
                                     post={{
-                                        ...post,
+                                        id: post.id,
+                                        title: post.title,
+                                        date: post.date,
                                         thumb: post.images.thumbnail.source_url,
                                         caption: post.images.caption,
                                     }}
+                                    viewed={finished.includes(post.id)}
                                     onClick={ondetailopen}
                                 >
                                     {post.audio && (
-                                        <AudioSources
-                                            file={post.audio}
-                                            id={post.id}
-                                            sources={post.sources}
-                                            onPlayClick={openPlayer}
-                                        />
+                                        <div
+                                            style={{
+                                                display: 'flex',
+                                                justifyContent: 'space-between',
+                                                alignItems: 'center',
+                                                paddingTop: '1em',
+                                            }}
+                                        >
+                                            <AudioProgress id={post.id} />
+                                            <AudioSources file={post.audio} id={post.id} onPlayClick={openPlayer} />
+                                        </div>
                                     )}
                                 </Post>
                             ))}
@@ -158,17 +164,13 @@ export default function Posts({ categories, queryClient }) {
 
                     {/* preloader for new posts */}
                     {isFetchingNextPage && (
-                        <div style={{ width: '100%', margin: '1em auto', textAlign: 'center' }}>
+                        <div className={cx('spinner')}>
                             <SlSpinner />
                         </div>
                     )}
 
                     {/* no more posts indicator */}
-                    {!hasNextPage && (
-                        <div style={{ margin: '1em auto', textAlign: 'center', color: 'var(--sl-color-neutral-400)' }}>
-                            •
-                        </div>
-                    )}
+                    {!hasNextPage && <div className={cx('listend')}>•</div>}
                 </div>
                 {postData && (
                     <PostDetail
@@ -183,6 +185,7 @@ export default function Posts({ categories, queryClient }) {
                                 />
                             )
                         }
+                        afterContent={<Comments postId={postData.id} />}
                         close={() => window.history.back()}
                     >
                         {postData.content}

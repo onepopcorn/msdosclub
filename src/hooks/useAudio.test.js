@@ -1,8 +1,8 @@
 import { fireEvent } from '@testing-library/react'
 import { renderHook, act } from '@testing-library/react-hooks'
 import audioStub from 'utils/test-utils'
-import AudioProvider from '../../state/AudioStore'
-import useAudio from './useAudio'
+import AudioProvider from 'providers/AudioStore'
+import useAudio from 'hooks/useAudio'
 
 let audio
 beforeEach(() => {

@@ -18,12 +18,13 @@ const baseState = {
     volume: 1,
 }
 
-test('Player should show passed data', () => {
+test('Player should show passed data', async () => {
     jest.spyOn(HTMLMediaElement.prototype, 'play').mockImplementation(() => {})
     jest.spyOn(HTMLMediaElement.prototype, 'pause').mockImplementation(() => {})
 
     render(<Player />, null, { state: baseState, dispatch: jest.fn() })
-    screen.getByText(/test title/i)
+    // Wait for lazy loaded components
+    await screen.findByText(/test title/i)
 
     // With optional thumbnail
     render(<Player />, null, { state: { ...baseState, thumb: thumbnail }, dispatch: jest.fn() })
