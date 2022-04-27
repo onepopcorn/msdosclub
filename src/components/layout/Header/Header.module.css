@@ -4,7 +4,7 @@
     position: sticky;
     z-index: 10;
     border-bottom: 1px solid var(--sl-color-neutral-200);
-    background-color: var(--sl-color-neutral-0);
+    background-color: var(--msdos-header-backdrop-color);
 }
 
 .content {
@@ -31,8 +31,10 @@
         flex-direction: row-reverse;
     }
 
-    .container {
-        background-color: transparent;
-        backdrop-filter: blur(20px);
+    @supports (backdrop-filter: blur()) {
+        .container {
+            background-color: transparent;
+            backdrop-filter: blur(20px);
+        }
     }
 }
