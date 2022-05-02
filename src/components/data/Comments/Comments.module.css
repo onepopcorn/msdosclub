@@ -1,0 +1,13 @@
+.container {
+    padding-top: 1em;
+    margin-top: 3em;
+    border-top: 1px solid var(--sl-color-neutral-300);
+    word-break: break-word;
+    text-align: center;
+}
+
+.list {
+    list-style: none;
+    padding-left: 0;
+    text-align: left;
+}

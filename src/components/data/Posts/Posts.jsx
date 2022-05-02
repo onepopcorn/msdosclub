@@ -3,15 +3,15 @@ import { useInfiniteQuery, useQueryClient } from 'react-query'
 import { SlSpinner } from '@shoelace-style/shoelace/dist/react'
 
 import { getPosts } from 'api/wpapi'
-import AudioSources from 'components/data/Posts/AudioSources'
-import AudioProgress from 'components/data/Posts/AudioProgress'
+import AudioSources from 'components/data/AudioSources'
+import AudioProgress from 'components/data/AudioProgress'
 import { AudioStore, setAudioData } from 'providers/AudioStore'
 
 // Custom components
 import Post from 'components/data/Posts/Post'
 import Tab from 'components/layout/Tab'
 import PostDetail from 'components/data/Posts/PostDetail'
-import Comments from 'components/data/Posts/Comments'
+import Comments from 'components/data/Comments'
 
 // Styles
 import classNames from 'classnames/bind'

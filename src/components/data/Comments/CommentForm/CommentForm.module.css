@@ -1,0 +1,36 @@
+.form {
+    display: flex;
+    flex-wrap: wrap;
+    text-align: left;
+    padding: 0.5em 0 3em;
+    border-bottom: 1px solid var(--sl-color-neutral-300);
+}
+
+.form :is(input, textarea) {
+    width: 100%;
+    padding: 0.5em 1em;
+    color: var(--sl-color-neutral-500);
+    border-radius: var(--sl-border-radius-medium);
+    background-color: var(--sl-color-neutral-100);
+    appearance: none;
+    border: none;
+}
+
+.authorField,
+.emailField,
+.urlField,
+.commentField {
+    flex: 1 0 100%;
+    padding: 0.25em 1em;
+}
+
+.commentField textarea {
+    resize: none;
+    overflow-y: auto;
+}
+
+.button {
+    composes: base-button from 'index.module.css';
+    margin-left: auto;
+    margin-top: 2em;
+}

@@ -50,5 +50,5 @@
 }
 
 .btn {
-    composes: base-button from '../../../../../index.module.css';
+    composes: base-button from 'index.module.css';
 }
