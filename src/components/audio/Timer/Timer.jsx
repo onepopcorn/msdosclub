@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import classNames from 'classnames/bind'
 
-import { secToHMS } from '../../../utils/time-utils'
+import { secToHMS } from 'utils/time-utils'
 import styles from './Timer.module.css'
 import { useState } from 'react'
 const cx = classNames.bind(styles)
