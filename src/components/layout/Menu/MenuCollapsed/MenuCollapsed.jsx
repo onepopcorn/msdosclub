@@ -27,12 +27,12 @@ export default function MenuCollapsed({ menuItems = [], onItemClick }) {
 
     return (
         <SlDrawer
+            label="MS-DOS Club"
             data-testid="drawer"
             open={menuOpen}
-            style={{ '--size': '70vw' }}
+            style={{ '--size': '65vw' }}
             onSlRequestClose={() => setMenuOpen(false)}
         >
-            <h1 className={cx('title')}>MS-DOS Club</h1>
             <nav style={{ display: 'flex', flexDirection: 'column' }}>
                 {menuItems.map(({ icon, label, value }) => (
                     <button className={cx('menuButton')} key={value} onClick={() => onItemClicked(value)}>

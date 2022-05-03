@@ -1,6 +1,5 @@
 .menuButton {
     width: 100%;
-    max-width: 200px;
     padding: 0.75em 0;
     cursor: pointer;
     border-radius: var(--sl-border-radius-pill);
