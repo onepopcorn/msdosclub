@@ -1,0 +1,13 @@
+.menuButton {
+    width: 100%;
+    max-width: 200px;
+    padding: 0.75em 0;
+    cursor: pointer;
+    border-radius: var(--sl-border-radius-pill);
+    background-color: transparent;
+    transition: background-color 250ms;
+}
+
+.icon {
+    margin-right: 0.75em;
+}
