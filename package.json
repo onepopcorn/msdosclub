@@ -35,7 +35,7 @@
         "*.{js,jsx}": [
             "eslint"
         ],
-        "*.{js,jsx,md,mdx,json,css,scss,yaml,yml}": [
+        "*.{js,ts,jsx,tsx,md,mdx,json,css,scss,yaml,yml}": [
             "prettier --write"
         ]
     },

@@ -2,8 +2,8 @@ import { useEffect, useRef, useState } from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames/bind'
 
-import { clamp, valueToPercent, percentToValue } from 'utils/math-utils'
-import { secToHMS } from 'utils/time-utils'
+import { clamp, valueToPercent, percentToValue } from 'utils/math-utils.ts'
+import { secToHMS } from 'utils/time-utils.ts'
 import style from './Progress.module.css'
 let cx = classNames.bind(style)
 

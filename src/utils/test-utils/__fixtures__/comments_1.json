@@ -1,0 +1,293 @@
+[
+    {
+        "id": 98,
+        "post": 730,
+        "parent": 0,
+        "author": 0,
+        "author_name": "Ezequiel Merino Cabrera",
+        "author_url": "",
+        "date": "2020-12-30T07:51:24",
+        "date_gmt": "2020-12-30T07:51:24",
+        "content": {
+            "rendered": "<p>Genial artículo.<br />\nMaravillosa firma de ponernos en situación histórica y plantear el problema del cole flotante.<br />\nLo de win311 para PowerPC no lo tenía en mente y eso que me siguen pareciendo los mejores procesadores que ha habido (de WinCE para para PowerPC so era consciente, gracias a eso funciona mi DREAMCAST y su sistema anticopia y de bloqueo de Homebrew es tan lamentable).<br />\nCreía no recordar está noticia hasta escucharlo en el programa y seguía convencido de ello mientras leía el artículo, pero el chiste me ha hecho volver atrás en el tiempo y me he visto a mi mismo explicándolo (pero ahora lo pillo de verdad jajaja).</p>\n"
+        },
+        "link": "https://msdos.club/el-bug-del-pentium/#comment-98",
+        "status": "approved",
+        "type": "comment",
+        "author_avatar_urls": {
+            "24": "https://secure.gravatar.com/avatar/04b522b6de08f069b6dcb958cbe87771?s=24&d=mm&r=g",
+            "48": "https://secure.gravatar.com/avatar/04b522b6de08f069b6dcb958cbe87771?s=48&d=mm&r=g",
+            "96": "https://secure.gravatar.com/avatar/04b522b6de08f069b6dcb958cbe87771?s=96&d=mm&r=g"
+        },
+        "meta": [],
+        "_links": {
+            "self": [
+                {
+                    "href": "https://msdos.club/wp-json/wp/v2/comments/98"
+                }
+            ],
+            "collection": [
+                {
+                    "href": "https://msdos.club/wp-json/wp/v2/comments"
+                }
+            ],
+            "up": [
+                {
+                    "embeddable": true,
+                    "post_type": "post",
+                    "href": "https://msdos.club/wp-json/wp/v2/posts/730"
+                }
+            ],
+            "children": [
+                {
+                    "href": "https://msdos.club/wp-json/wp/v2/comments?parent=98"
+                }
+            ]
+        }
+    },
+    {
+        "id": 99,
+        "post": 730,
+        "parent": 0,
+        "author": 0,
+        "author_name": "Antonio Lozano (Logaran)",
+        "author_url": "http://www.rigorycriterio.es",
+        "date": "2020-12-30T08:42:37",
+        "date_gmt": "2020-12-30T08:42:37",
+        "content": {
+            "rendered": "<p>¡Me ha encantado!<br />\nNo solo el tema del artículo en si, sino la forma de contar. Espero leerte mucho por este MS-DOS Club 🙂</p>\n"
+        },
+        "link": "https://msdos.club/el-bug-del-pentium/#comment-99",
+        "status": "approved",
+        "type": "comment",
+        "author_avatar_urls": {
+            "24": "https://secure.gravatar.com/avatar/62fac6d2fd50b1cd7b60759b90512cc3?s=24&d=mm&r=g",
+            "48": "https://secure.gravatar.com/avatar/62fac6d2fd50b1cd7b60759b90512cc3?s=48&d=mm&r=g",
+            "96": "https://secure.gravatar.com/avatar/62fac6d2fd50b1cd7b60759b90512cc3?s=96&d=mm&r=g"
+        },
+        "meta": [],
+        "_links": {
+            "self": [
+                {
+                    "href": "https://msdos.club/wp-json/wp/v2/comments/99"
+                }
+            ],
+            "collection": [
+                {
+                    "href": "https://msdos.club/wp-json/wp/v2/comments"
+                }
+            ],
+            "up": [
+                {
+                    "embeddable": true,
+                    "post_type": "post",
+                    "href": "https://msdos.club/wp-json/wp/v2/posts/730"
+                }
+            ],
+            "children": [
+                {
+                    "href": "https://msdos.club/wp-json/wp/v2/comments?parent=99"
+                }
+            ]
+        }
+    },
+    {
+        "id": 100,
+        "post": 730,
+        "parent": 99,
+        "author": 7,
+        "author_name": "Vampirro",
+        "author_url": "",
+        "date": "2020-12-30T09:41:29",
+        "date_gmt": "2020-12-30T09:41:29",
+        "content": {
+            "rendered": "<p>¡Gracias! Espero yo también estar a la altura de esta tan grande casa del saber 🙂</p>\n"
+        },
+        "link": "https://msdos.club/el-bug-del-pentium/#comment-100",
+        "status": "approved",
+        "type": "comment",
+        "author_avatar_urls": {
+            "24": "https://secure.gravatar.com/avatar/92a9f1a54f8b421c8ca7b9dfad41df08?s=24&d=mm&r=g",
+            "48": "https://secure.gravatar.com/avatar/92a9f1a54f8b421c8ca7b9dfad41df08?s=48&d=mm&r=g",
+            "96": "https://secure.gravatar.com/avatar/92a9f1a54f8b421c8ca7b9dfad41df08?s=96&d=mm&r=g"
+        },
+        "meta": [],
+        "_links": {
+            "self": [
+                {
+                    "href": "https://msdos.club/wp-json/wp/v2/comments/100"
+                }
+            ],
+            "collection": [
+                {
+                    "href": "https://msdos.club/wp-json/wp/v2/comments"
+                }
+            ],
+            "author": [
+                {
+                    "embeddable": true,
+                    "href": "https://msdos.club/wp-json/wp/v2/users/7"
+                }
+            ],
+            "up": [
+                {
+                    "embeddable": true,
+                    "post_type": "post",
+                    "href": "https://msdos.club/wp-json/wp/v2/posts/730"
+                }
+            ],
+            "in-reply-to": [
+                {
+                    "embeddable": true,
+                    "href": "https://msdos.club/wp-json/wp/v2/comments/99"
+                }
+            ]
+        }
+    },
+    {
+        "id": 102,
+        "post": 730,
+        "parent": 98,
+        "author": 7,
+        "author_name": "Vampirro",
+        "author_url": "",
+        "date": "2020-12-30T21:20:09",
+        "date_gmt": "2020-12-30T21:20:09",
+        "content": {
+            "rendered": "<p>No, Win 3.11 no estaba para PowerPC. A fin de cuentas, este Windows fue diseñado para ejecutarse encima del DOS y el DOS sólo corría en x86. El que sí tuvo versión fue Windows NT 3.51. Pero es que Windows NT fue diseñado para poder funcionar en varios tipos de procesador, a diferencia del DOS/Windows clásico.</p>\n<p>En cualquier caso, muchas gracias por tus palabras 🙂</p>\n"
+        },
+        "link": "https://msdos.club/el-bug-del-pentium/#comment-102",
+        "status": "approved",
+        "type": "comment",
+        "author_avatar_urls": {
+            "24": "https://secure.gravatar.com/avatar/92a9f1a54f8b421c8ca7b9dfad41df08?s=24&d=mm&r=g",
+            "48": "https://secure.gravatar.com/avatar/92a9f1a54f8b421c8ca7b9dfad41df08?s=48&d=mm&r=g",
+            "96": "https://secure.gravatar.com/avatar/92a9f1a54f8b421c8ca7b9dfad41df08?s=96&d=mm&r=g"
+        },
+        "meta": [],
+        "_links": {
+            "self": [
+                {
+                    "href": "https://msdos.club/wp-json/wp/v2/comments/102"
+                }
+            ],
+            "collection": [
+                {
+                    "href": "https://msdos.club/wp-json/wp/v2/comments"
+                }
+            ],
+            "author": [
+                {
+                    "embeddable": true,
+                    "href": "https://msdos.club/wp-json/wp/v2/users/7"
+                }
+            ],
+            "up": [
+                {
+                    "embeddable": true,
+                    "post_type": "post",
+                    "href": "https://msdos.club/wp-json/wp/v2/posts/730"
+                }
+            ],
+            "in-reply-to": [
+                {
+                    "embeddable": true,
+                    "href": "https://msdos.club/wp-json/wp/v2/comments/98"
+                }
+            ]
+        }
+    },
+    {
+        "id": 190,
+        "post": 730,
+        "parent": 0,
+        "author": 0,
+        "author_name": "olisseh",
+        "author_url": "",
+        "date": "2021-04-06T15:26:29",
+        "date_gmt": "2021-04-06T15:26:29",
+        "content": {
+            "rendered": "<p>Que grande el articulo!!! Tenía este tema perdido en la memoria, y me has recordado a algún conspiranóico de la época, que afirmaba sufrir este bug en su 486 XD</p>\n"
+        },
+        "link": "https://msdos.club/el-bug-del-pentium/#comment-190",
+        "status": "approved",
+        "type": "comment",
+        "author_avatar_urls": {
+            "24": "https://secure.gravatar.com/avatar/9c75ac071d0b5333ae5013e3fb6c35a1?s=24&d=mm&r=g",
+            "48": "https://secure.gravatar.com/avatar/9c75ac071d0b5333ae5013e3fb6c35a1?s=48&d=mm&r=g",
+            "96": "https://secure.gravatar.com/avatar/9c75ac071d0b5333ae5013e3fb6c35a1?s=96&d=mm&r=g"
+        },
+        "meta": [],
+        "_links": {
+            "self": [
+                {
+                    "href": "https://msdos.club/wp-json/wp/v2/comments/190"
+                }
+            ],
+            "collection": [
+                {
+                    "href": "https://msdos.club/wp-json/wp/v2/comments"
+                }
+            ],
+            "up": [
+                {
+                    "embeddable": true,
+                    "post_type": "post",
+                    "href": "https://msdos.club/wp-json/wp/v2/posts/730"
+                }
+            ],
+            "children": [
+                {
+                    "href": "https://msdos.club/wp-json/wp/v2/comments?parent=190"
+                }
+            ]
+        }
+    },
+    {
+        "id": 191,
+        "post": 730,
+        "parent": 190,
+        "author": 0,
+        "author_name": "Vampirro",
+        "author_url": "",
+        "date": "2021-04-07T08:10:50",
+        "date_gmt": "2021-04-07T08:10:50",
+        "content": {
+            "rendered": "<p>Bueno, todos los procesadores tienen bugs, los 486 incluídos, aunque cada bug descubierto normalmente sólo afecta a una familia de procesadores (y posiblemente a unos lotes hasta que se corrige). Lo raro es lo que ha pasado hace poco con lo de los procesadores Intel, que tenían un bug y desde no sé si el Pentium IV o puede que incluso antes todos los tenían y era jodido, y el parche que desarrolló Intel hacía que el procesador te fuera un 15% más lento. La verdad es que no he buscado mucho más de esto, no sé cómo ha acabado la cosa, la verdad.</p>\n"
+        },
+        "link": "https://msdos.club/el-bug-del-pentium/#comment-191",
+        "status": "approved",
+        "type": "comment",
+        "author_avatar_urls": {
+            "24": "https://secure.gravatar.com/avatar/92a9f1a54f8b421c8ca7b9dfad41df08?s=24&d=mm&r=g",
+            "48": "https://secure.gravatar.com/avatar/92a9f1a54f8b421c8ca7b9dfad41df08?s=48&d=mm&r=g",
+            "96": "https://secure.gravatar.com/avatar/92a9f1a54f8b421c8ca7b9dfad41df08?s=96&d=mm&r=g"
+        },
+        "meta": [],
+        "_links": {
+            "self": [
+                {
+                    "href": "https://msdos.club/wp-json/wp/v2/comments/191"
+                }
+            ],
+            "collection": [
+                {
+                    "href": "https://msdos.club/wp-json/wp/v2/comments"
+                }
+            ],
+            "up": [
+                {
+                    "embeddable": true,
+                    "post_type": "post",
+                    "href": "https://msdos.club/wp-json/wp/v2/posts/730"
+                }
+            ],
+            "in-reply-to": [
+                {
+                    "embeddable": true,
+                    "href": "https://msdos.club/wp-json/wp/v2/comments/190"
+                }
+            ]
+        }
+    }
+]
