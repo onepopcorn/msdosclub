@@ -2,6 +2,7 @@ import { render } from '@testing-library/react'
 import AudioProvider, { AudioStore } from 'providers/AudioStore'
 import ThemeProvider, { ThemeStore } from 'providers/ThemeStore'
 import MenuProvider, { MenuStore } from 'providers/MenuStore'
+import { QueryClient, QueryClientProvider } from 'react-query'
 
 /**
  * Render with all providers
@@ -51,10 +52,32 @@ const renderWithMenuProvider = (ui, options, providerValue) => {
     render(ui, { wrapper: withMenuProvider(providerValue), ...options })
 }
 
+/**
+ * Render with ReactQuery Provider
+ *
+ */
+const queryClient = new QueryClient({
+    defaultOptions: {
+        queries: {
+            refetchOnWindowFocus: false,
+            retry: 1,
+            refetchOnMount: false,
+        },
+    },
+})
+const withQueryProvider = () => {
+    return ({ children }) => <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+}
+
+const renderWithQueryClientProvider = (ui, options) => {
+    render(ui, { wrapper: withQueryProvider(), ...options })
+}
+
 export * from '@testing-library/react'
 export {
     renderWithProviders as render,
     renderWithThemeProvider as renderWithTheme,
     renderWithAudioProvider as renderWithAudio,
     renderWithMenuProvider as renderWithMenu,
+    renderWithQueryClientProvider as renderWithQueryClient,
 }
