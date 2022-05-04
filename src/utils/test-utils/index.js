@@ -48,9 +48,8 @@ const withMenuProvider = (providerValue = {}) => {
     return ({ children }) => <MenuStore.Provider value={providerValue}>{children}</MenuStore.Provider>
 }
 
-const renderWithMenuProvider = (ui, options, providerValue) => {
+const renderWithMenuProvider = (ui, options, providerValue) =>
     render(ui, { wrapper: withMenuProvider(providerValue), ...options })
-}
 
 /**
  * Render with ReactQuery Provider
@@ -69,9 +68,7 @@ const withQueryProvider = () => {
     return ({ children }) => <QueryClientProvider client={client}>{children}</QueryClientProvider>
 }
 
-const renderWithQueryClientProvider = (ui, options) => {
-    render(ui, { wrapper: withQueryProvider(), ...options })
-}
+const renderWithQueryClientProvider = (ui, options) => render(ui, { wrapper: withQueryProvider(), ...options })
 
 export * from '@testing-library/react'
 export {
