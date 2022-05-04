@@ -56,17 +56,17 @@ const renderWithMenuProvider = (ui, options, providerValue) => {
  * Render with ReactQuery Provider
  *
  */
-const queryClient = new QueryClient({
+const client = new QueryClient({
     defaultOptions: {
         queries: {
-            refetchOnWindowFocus: false,
-            retry: 1,
-            refetchOnMount: false,
+            retry: false,
+            cacheTime: Infinity,
         },
     },
 })
+
 const withQueryProvider = () => {
-    return ({ children }) => <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+    return ({ children }) => <QueryClientProvider client={client}>{children}</QueryClientProvider>
 }
 
 const renderWithQueryClientProvider = (ui, options) => {
@@ -80,4 +80,5 @@ export {
     renderWithAudioProvider as renderWithAudio,
     renderWithMenuProvider as renderWithMenu,
     renderWithQueryClientProvider as renderWithQueryClient,
+    client as queryClient,
 }
