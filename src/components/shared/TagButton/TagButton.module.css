@@ -1,0 +1,14 @@
+.container {
+    composes: base-button from 'index.module.css';
+    display: inline-flex;
+    align-items: center;
+    padding: 0.15em 0.5em;
+    min-width: min-content;
+}
+
+.btn {
+    padding: 0;
+    margin-left: 0.5em;
+    height: 16px;
+    cursor: pointer;
+}
