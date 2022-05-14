@@ -48,7 +48,3 @@
     display: flex;
     justify-content: flex-end;
 }
-
-.btn {
-    composes: base-button from 'index.module.css';
-}

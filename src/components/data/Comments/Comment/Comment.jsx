@@ -5,7 +5,7 @@ import classNames from 'classnames/bind'
 import styles from './Comment.module.css'
 const cx = classNames.bind(styles)
 
-export default function Comment({ author, avatar, date, content, parent = null, onResponse, isConnected = false }) {
+export default function Comment({ author, avatar, date, content, isConnected = false, children }) {
     return (
         <li className={cx('container', { connected: isConnected })}>
             <div className={cx('header')}>
@@ -16,16 +16,7 @@ export default function Comment({ author, avatar, date, content, parent = null, 
                 </div>
             </div>
             <div className={cx('content')} dangerouslySetInnerHTML={{ __html: content }}></div>
-            <div className={cx('actions')}>
-                {onResponse && (
-                    <button
-                        className={cx('btn')}
-                        onClick={() => typeof onResponse === 'function' && onResponse(parent)}
-                    >
-                        Contestar
-                    </button>
-                )}
-            </div>
+            <div className={cx('actions')}>{children}</div>
         </li>
     )
 }
@@ -48,15 +39,11 @@ Comment.propTypes = {
      */
     content: PropTypes.string.isRequired,
     /**
-     * Comment parent comment id (used to know what to reply)
-     */
-    parent: PropTypes.number,
-    /**
      * Used to know if a thread has to be shown next to the comment
      */
     isConnected: PropTypes.bool,
     /**
-     * Callback for when reply button is clicked
+     * Any passed children
      */
-    onResponse: PropTypes.func,
+    children: PropTypes.node,
 }
