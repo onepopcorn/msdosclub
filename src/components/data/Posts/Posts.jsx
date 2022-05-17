@@ -119,7 +119,7 @@ export default function Posts({ categories }) {
     if (isLoading)
         return (
             <div className={cx('spinner')}>
-                <SlSpinner />
+                <SlSpinner data-testid="spinner" />
             </div>
         )
 
