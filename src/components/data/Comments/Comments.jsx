@@ -1,4 +1,4 @@
-import { Fragment, lazy, Suspense, useState, useRef } from 'react'
+import { Fragment, lazy, Suspense } from 'react'
 import PropTypes from 'prop-types'
 import { useQuery } from 'react-query'
 import { SlSpinner } from '@shoelace-style/shoelace/dist/react'
@@ -15,8 +15,6 @@ const Comment = lazy(() => import('./Comment'))
 
 export default function Comments({ postId }) {
     const { data, isLoading } = useQuery(['comments', postId], getComments)
-    const [respondTo, setRespondTo] = useState(null)
-    const form = useRef()
 
     if (isLoading)
         return (
@@ -27,25 +25,16 @@ export default function Comments({ postId }) {
 
     const { parentComments, childComments } = data
     const text = () => {
-        if (respondTo) {
-            const comment = parentComments.find((comment) => comment.id === respondTo)
-            return `Responder a ${comment.author_name}`
-        }
-
         if (parentComments.length > 0) return 'Déjanos tu comentario'
-
         return 'Sé el primero de dejar un comentario'
     }
 
-    const onResponseClicked = (parentId) => {
-        window.scrollTo({ top: form.current.offsetTop, behavior: 'smooth' })
-        setRespondTo(parentId)
-    }
-
     return (
-        <div ref={form} className={cx('container')}>
+        <div className={cx('container')}>
             <Suspense fallback={<SlSpinner data-testid="spinner" />}>
-                <div>{text()}</div>
+                <a href={`https://msdos.club?p=${postId}#comments`} target="_blank" rel="noopener noreferrer nofollow">
+                    {text()}
+                </a>
                 <ul className={cx('list')}>
                     {parentComments.map((comment) => (
                         <Fragment key={comment.id}>
@@ -54,7 +43,6 @@ export default function Comments({ postId }) {
                                 avatar={comment.author_avatar_urls[48]}
                                 date={comment.date}
                                 content={comment.content.rendered}
-                                onResponse={() => onResponseClicked(comment.id)}
                                 isConnected={comment._links.hasOwnProperty('children')}
                             />
                             {Object.keys(childComments).includes(comment.id.toString()) &&
@@ -78,5 +66,8 @@ export default function Comments({ postId }) {
 }
 
 Comments.propTypes = {
+    /**
+     * Post ID
+     */
     postId: PropTypes.number.isRequired,
 }
