@@ -15,3 +15,10 @@
     text-align: center;
     color: var(--sl-color-neutral-400);
 }
+
+.actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 1em;
+}

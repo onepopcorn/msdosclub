@@ -143,14 +143,7 @@ export default function Posts({ categories }) {
                                     onClick={ondetailopen}
                                 >
                                     {post.audio && (
-                                        <div
-                                            style={{
-                                                display: 'flex',
-                                                justifyContent: 'space-between',
-                                                alignItems: 'center',
-                                                paddingTop: '1em',
-                                            }}
-                                        >
+                                        <div className={cx('actions')}>
                                             <AudioProgress id={post.id} />
                                             <AudioSources file={post.audio} id={post.id} onPlayClick={openPlayer} />
                                         </div>
