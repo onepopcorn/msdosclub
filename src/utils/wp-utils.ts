@@ -19,9 +19,9 @@ function isValidNode(node: HTMLElement, title: string): boolean {
         // Remove node that contains the post title
         node.id !== 'lineaTiempo' &&
         // Remove node with audio file link
-        !node.innerText?.includes('Descargar el episodio') &&
+        !node.textContent?.includes('Descargar el episodio') &&
         // Remove other possible nodes containing the post title
-        !(['h2', 'h3'].includes(node.nodeName.toLocaleLowerCase()) && node.innerText?.includes(title))
+        !(['h2', 'h3'].includes(node.nodeName.toLocaleLowerCase()) && node.textContent?.includes(title))
     )
 }
 /**
@@ -94,7 +94,7 @@ export const getPodcastdata = (html: string, title: string, slug: string): Podca
     sourcesList.forEach((node) => {
         if (!regex.test(node.host)) return
         sources.push({
-            name: node.innerText,
+            name: node.textContent,
             url: node.href,
         })
     })
