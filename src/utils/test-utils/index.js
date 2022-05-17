@@ -4,19 +4,6 @@ import ThemeProvider, { ThemeStore } from 'providers/ThemeStore'
 import MenuProvider, { MenuStore } from 'providers/MenuStore'
 import { QueryClient, QueryClientProvider } from 'react-query'
 
-/**
- * Render with all providers
- *
- */
-const withAllProviders = ({ children }) => {
-    return (
-        <ThemeProvider>
-            <MenuProvider>
-                <AudioProvider>{children}</AudioProvider>
-            </MenuProvider>
-        </ThemeProvider>
-    )
-}
 const renderWithProviders = (ui, options) => render(ui, { wrapper: withAllProviders, ...options })
 
 /**
@@ -69,6 +56,22 @@ const withQueryProvider = () => {
 }
 
 const renderWithQueryClientProvider = (ui, options) => render(ui, { wrapper: withQueryProvider(), ...options })
+
+/**
+ * Render with all providers
+ *
+ */
+const withAllProviders = ({ children }) => {
+    return (
+        <QueryClientProvider client={client}>
+            <ThemeProvider>
+                <MenuProvider>
+                    <AudioProvider>{children}</AudioProvider>
+                </MenuProvider>
+            </ThemeProvider>
+        </QueryClientProvider>
+    )
+}
 
 export * from '@testing-library/react'
 export {
