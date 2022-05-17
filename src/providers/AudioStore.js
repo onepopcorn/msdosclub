@@ -1,11 +1,17 @@
 import { createContext, useReducer } from 'react'
 
-// Storage constants
+/**
+ * Storage constants
+ *
+ */
 export const VOLUME_KEY = 'msdos-player-volume'
 export const PROG_KEY = 'msdos-progress'
 export const FINISHED_KEY = 'msdos-finished'
 
-// Actions
+/**
+ * Actions
+ *
+ */
 const SET_AUDIO_DATA = 'set-audio-data'
 const STORE_AUDIO_PROGRESS = 'store-audio-progress'
 const STORE_VOLUME = 'store-volume'
@@ -25,7 +31,10 @@ export const storeVolume = (value) => ({
     payload: value,
 })
 
-// State
+/**
+ * State
+ *
+ */
 const defaultState = {
     title: null,
     file: null,
@@ -41,11 +50,13 @@ const reducer = (state, action) => {
     switch (action.type) {
         /**
          * Set all data audio player needs to work and retrieve audio offset for specified file is any
+         *
          */
         case SET_AUDIO_DATA:
             return { ...state, ...action.payload, offset: state.progress[action.payload.id]?.elapsed || 0 }
         /**
          * Store user's volume preference
+         *
          */
         case STORE_VOLUME: {
             // prevent setting a non-numeric value
@@ -55,7 +66,6 @@ const reducer = (state, action) => {
         }
         /**
          * Save audio offset for the next time the audio is accessed
-         * This operation doesn't modifies state
          *
          */
         case STORE_AUDIO_PROGRESS: {
@@ -81,10 +91,16 @@ const reducer = (state, action) => {
     }
 }
 
-// Store
+/**
+ * Store
+ *
+ */
 export const AudioStore = createContext()
 
-// Provider
+/**
+ * Provider
+ *
+ */
 export default function AudioProvider({ initialState, children }) {
     // Assing non undefined or null initial state values
     Object.keys(defaultState).forEach((key) => {
