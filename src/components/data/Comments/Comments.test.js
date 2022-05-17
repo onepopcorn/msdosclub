@@ -6,7 +6,6 @@ import {
     waitForElementToBeRemoved,
     within,
 } from 'utils/test-utils'
-import userEvent from '@testing-library/user-event'
 import Comments from './Comments'
 
 // Clear react-query cache after each test
