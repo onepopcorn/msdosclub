@@ -21,9 +21,15 @@
         "start": "react-app-rewired start --scripts-version react-scripts",
         "build": "react-app-rewired build --scripts-version react-scripts",
         "test": "react-app-rewired test --scripts-version react-scripts --transformIgnorePatterns \"node_modules/(?!@shoelace-style)/\" --env=jsdom",
+        "test:cov": "npm test -- --coverage --watchAll=false",
         "lint": "eslint ./src",
         "eject": "react-scripts eject",
         "prepare": "husky install"
+    },
+    "jest": {
+        "coveragePathIgnorePatterns": [
+            "<rootDir>/src/test-utils"
+        ]
     },
     "eslintConfig": {
         "extends": [
