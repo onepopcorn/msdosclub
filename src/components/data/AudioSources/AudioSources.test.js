@@ -1,4 +1,4 @@
-import { renderWithAudio as render, screen } from 'utils/test-utils'
+import { renderWithAudio as render, screen } from 'test-utils'
 import userEvent from '@testing-library/user-event'
 import AudioSources from './AudioSources'
 

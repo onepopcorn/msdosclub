@@ -1,6 +1,6 @@
-import { render, screen, waitForElementToBeRemoved, queryClient } from 'utils/test-utils'
+import { render, screen, waitForElementToBeRemoved, queryClient } from 'test-utils'
 import userEvent from '@testing-library/user-event'
-import { server, rest } from 'utils/test-utils/mocks/server'
+import { server, rest } from 'test-utils/mocks/server'
 import Posts from './Posts'
 
 const endpoint = 'https://msdos.club/wp-json/wp/v2/posts'
@@ -23,7 +23,7 @@ test('Posts should show retrieved posts from API', async () => {
     server.use(
         rest.get(endpoint, async (req, res, ctx) => {
             const page = req.url.searchParams.get('page')
-            const posts = await require(`utils/test-utils/__fixtures__/posts_page_${page}.json`)
+            const posts = await require(`test-utils/__fixtures__/posts_page_${page}.json`)
             return res(ctx.set('X-WP-Total', 10), ctx.set('X-WP-TotalPages', 2), ctx.json(posts))
         }),
     )
@@ -47,7 +47,7 @@ test('Posts should open post detail when click on a post', async () => {
     // Mock api response
     server.use(
         rest.get(endpoint, async (_, res, ctx) => {
-            const posts = await require(`utils/test-utils/__fixtures__/posts_page_1.json`)
+            const posts = await require(`test-utils/__fixtures__/posts_page_1.json`)
             return res(ctx.set('X-WP-Total', 5), ctx.set('X-WP-TotalPages', 1), ctx.json(posts))
         }),
         rest.get('https://msdos.club/wp-json/wp/v2/comments', (_, res, ctx) => {

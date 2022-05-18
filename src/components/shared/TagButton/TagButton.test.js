@@ -1,5 +1,5 @@
 import userEvent from '@testing-library/user-event'
-import { screen, render } from 'utils/test-utils'
+import { screen, render } from 'test-utils'
 import TagButton from './TagButton'
 
 test('TagButton should print passed text', () => {

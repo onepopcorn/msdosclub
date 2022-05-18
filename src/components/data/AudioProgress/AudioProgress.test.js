@@ -1,4 +1,4 @@
-import { renderWithAudio as render, screen } from 'utils/test-utils'
+import { renderWithAudio as render, screen } from 'test-utils'
 import AudioProgress from '.'
 
 const providerData = {

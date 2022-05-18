@@ -3,7 +3,7 @@
 // expect(element).toHaveTextContent(/react/i)
 // learn more: https://github.com/testing-library/jest-dom
 import '@testing-library/jest-dom'
-import { server } from './utils/test-utils/mocks/server'
+import { server } from './test-utils/mocks/server'
 
 // Testing mocks for Shoelace
 // for more info, visit: https://shoelace.style/frameworks/react?id=testing-with-jest

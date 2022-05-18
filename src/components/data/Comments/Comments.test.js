@@ -1,11 +1,5 @@
-import { server, rest } from 'utils/test-utils/mocks/server'
-import {
-    renderWithQueryClient as render,
-    queryClient,
-    screen,
-    waitForElementToBeRemoved,
-    within,
-} from 'utils/test-utils'
+import { server, rest } from 'test-utils/mocks/server'
+import { renderWithQueryClient as render, queryClient, screen, waitForElementToBeRemoved, within } from 'test-utils'
 import Comments from './Comments'
 
 // Clear react-query cache after each test
@@ -18,7 +12,7 @@ test('Comments should render comments for given post ID', async () => {
     // Mock api response
     server.use(
         rest.get(endpoint, async (_, res, ctx) => {
-            const comments = await require('utils/test-utils/__fixtures__/comments_single.json')
+            const comments = await require('test-utils/__fixtures__/comments_single.json')
             return res(ctx.json(comments))
         }),
     )
@@ -38,7 +32,7 @@ test('Comments should show nested comments in order when needed', async () => {
     // Mock api response
     server.use(
         rest.get(endpoint, async (_, res, ctx) => {
-            const comments = await require('utils/test-utils/__fixtures__/comments_nested.json')
+            const comments = await require('test-utils/__fixtures__/comments_nested.json')
             return res(ctx.json(comments))
         }),
     )

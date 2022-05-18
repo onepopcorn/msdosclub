@@ -1,4 +1,4 @@
-import { screen, renderWithMenu as render } from 'utils/test-utils'
+import { screen, renderWithMenu as render } from 'test-utils'
 import userEvent from '@testing-library/user-event'
 import Menu from './MenuCollapsed'
 

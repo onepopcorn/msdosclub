@@ -1,9 +1,9 @@
-import { renderWithAudio as render, screen, fireEvent } from 'utils/test-utils'
+import { renderWithAudio as render, screen, fireEvent } from 'test-utils'
 import userEvent from '@testing-library/user-event'
 
 import Player from './Player'
 import thumbnail from '../../../public/default_thumbnail.jpg'
-import audioStub from 'utils/test-utils/audiostub.mp3'
+import audioStub from 'test-utils/audiostub.mp3'
 
 const originalAudio = window.Audio
 afterEach(() => {
