@@ -10,3 +10,8 @@
 .icon {
     margin-right: 0.75em;
 }
+
+.nav {
+    display: flex;
+    flex-direction: column;
+}

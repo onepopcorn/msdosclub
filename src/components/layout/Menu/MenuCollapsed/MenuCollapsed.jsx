@@ -33,7 +33,7 @@ export default function MenuCollapsed({ menuItems = [], onItemClick }) {
             style={{ '--size': '65vw' }}
             onSlRequestClose={() => setMenuOpen(false)}
         >
-            <nav style={{ display: 'flex', flexDirection: 'column' }}>
+            <nav className={cx('nav')}>
                 {menuItems.map(({ icon, label, value }) => (
                     <button className={cx('menuButton')} key={value} onClick={() => onItemClicked(value)}>
                         {icon && <SlIcon className={cx('icon')} name={icon} />}
