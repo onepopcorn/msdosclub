@@ -7,7 +7,7 @@ import { ReactComponent as CheckIcon } from '@shoelace-style/shoelace/dist/asset
 import styles from './Post.module.css'
 const cx = classNames.bind(styles)
 
-export default function Post({ post, children, viewed = false, onClick }) {
+export default function Post({ post, children, viewed = false, isCurrent = false, onClick }) {
     const [imgLoaded, setImgLoaded] = useState(false)
     const onPostClicked = (e) => {
         const { postid } = e.currentTarget.dataset
@@ -15,7 +15,7 @@ export default function Post({ post, children, viewed = false, onClick }) {
     }
 
     return (
-        <article className={cx('entry')}>
+        <article className={cx('entry', { isPlaying: isCurrent })}>
             <button className={cx('btn')} onClick={onPostClicked} data-postid={post.id} tabIndex="0">
                 <div className={cx('thumb')}>
                     <img
@@ -72,6 +72,11 @@ Post.propTypes = {
      *
      */
     viewed: PropTypes.bool,
+    /**
+     * Mark the podcast as currently listening
+     *
+     */
+    isCurrent: PropTypes.bool,
     /**
      * Any children type that will be appended at the end of the content
      */

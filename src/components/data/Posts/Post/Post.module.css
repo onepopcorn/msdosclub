@@ -9,6 +9,10 @@
     background-color: var(--sl-color-neutral-0);
 }
 
+.isPlaying {
+    background-color: var(--sl-color-neutral-200);
+}
+
 .btn {
     display: flex;
     justify-content: flex-start;
