@@ -21,7 +21,7 @@ const cx = classNames.bind(styles)
 
 export default function Posts({ categories }) {
     const {
-        state: { finished },
+        state: { id: playingId, finished },
         dispatch,
     } = useContext(AudioStore)
     const queryClient = useQueryClient()
@@ -140,6 +140,7 @@ export default function Posts({ categories }) {
                                         caption: post.images.caption,
                                     }}
                                     viewed={finished.includes(post.id)}
+                                    isCurrent={playingId === post.id}
                                     onClick={ondetailopen}
                                 >
                                     {post.audio && (
