@@ -1,13 +1,25 @@
-import WPAPI from 'wpapi'
+// import WPAPI from 'wpapi'
 import { processPosts } from 'utils/wp-utils.ts'
 
-const endpoint = 'https://msdos.club/wp-json'
-const wp = new WPAPI({ endpoint })
+const endpoint = 'https://msdos.club/wp-json/wp/v2'
+
+const makeRequest = async (route) => {
+    const req = await fetch(`${endpoint}/${route}`)
+    const res = await req.json()
+
+    Object.defineProperty(res, '_paging', {
+        value: {
+            total: req.headers.get('X-WP-Total'),
+            totalPages: req.headers.get('X-WP-TotalPages'),
+        },
+    })
+
+    return res
+}
 
 export const getPosts = async ({ queryKey, pageParam = 1 }) => {
-    // eslint-disable-next-line no-unused-vars
-    const [_, { categories = 2, perPage = 6 }] = queryKey
-    const data = await wp.posts().categories(categories.toString()).perPage(perPage).page(pageParam).embed().get()
+    const [, { categories = 2, perPage = 6 }] = queryKey
+    const data = await makeRequest(`posts?_embed=true&categories=${categories}&page=${pageParam}&per_page=${perPage}`)
     return {
         posts: processPosts(data),
         nextPage: data._paging.totalPages > pageParam ? pageParam + 1 : null,
@@ -15,9 +27,8 @@ export const getPosts = async ({ queryKey, pageParam = 1 }) => {
 }
 
 export const getComments = async ({ queryKey }) => {
-    // eslint-disable-next-line no-unused-vars
-    const [_, id] = queryKey
-    const comments = await wp.comments().post(id).perPage(100).order('asc')
+    const [, id] = queryKey
+    const comments = await makeRequest(`comments?order=asc&per_page=100&post=${id}`)
     const data = comments.reduce(
         (acc, curr) => {
             if (curr.parent === 0) acc.parentComments.push(curr)
