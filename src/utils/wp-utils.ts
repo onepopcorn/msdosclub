@@ -14,8 +14,6 @@ function isValidNode(node: HTMLElement, title: string): boolean {
     // Remove node that contains the audio file
     return (
         !node.querySelector('.powerpress_player') &&
-        // Remove node that contains external sources
-        !node.classList.contains('infopodcast') &&
         // Remove node that contains the post title
         node.id !== 'lineaTiempo' &&
         // Remove node with audio file link
@@ -41,12 +39,29 @@ type PodcastData = {
     slug: string
 }
 
+const getSourcesList = (doc: Document): NodeListOf<HTMLAnchorElement> | undefined => {
+    // Try to get the links with query selector
+    const sources: NodeListOf<HTMLAnchorElement> = doc.querySelectorAll('.infopodcast b > a')
+    if (sources.length) return sources
+
+    // If not links found try to use XPATH
+    const paths = document.evaluate('//p[contains(., "Escuchar en")]', doc, null, XPathResult.ANY_TYPE, null)
+    const node = paths.iterateNext() as HTMLElement
+
+    // If XPath didn't work just bail out
+    if (!node) return
+
+    // XPath found, return its a tagas
+    const links = node.querySelectorAll('a')
+    if (links) return links
+}
+
 export const getPodcastdata = (html: string, title: string, slug: string): PodcastData => {
     const parser: DOMParser = new DOMParser()
     const doc: Document = parser.parseFromString(html, 'text/html')
 
     const audio: HTMLAudioElement | null = doc.querySelector('audio source')
-    const sourcesList: NodeListOf<HTMLAnchorElement> = doc.querySelectorAll('.infopodcast b > a')
+    const sourcesList: NodeListOf<HTMLAnchorElement> | [] = getSourcesList(doc) || []
     const contents: NodeListOf<HTMLElement> = doc.querySelectorAll('body > *')
 
     const text: string[] = []
@@ -54,6 +69,11 @@ export const getPodcastdata = (html: string, title: string, slug: string): Podca
     contents.forEach((node: HTMLElement) => {
         // Discard unwanted nodes
         if (!isValidNode(node, title)) return
+
+        // Remove sources list from content
+        const xpaths = document.evaluate('//p[contains(., "Escuchar en")]', node, null, XPathResult.ANY_TYPE, null)
+        const found = xpaths.iterateNext()
+        if (found && found.parentElement === node) node.removeChild(found)
 
         // Remove first image because it's the same as thumbnail
         if (node.querySelector('img') && !firstImageFound) {
@@ -72,12 +92,10 @@ export const getPodcastdata = (html: string, title: string, slug: string): Podca
 
         // External links
         const links: NodeListOf<HTMLAnchorElement> | null = node.querySelectorAll('a')
-        if (links) {
-            links.forEach((link: HTMLAnchorElement) => {
-                link.setAttribute('target', '_blank')
-                link.setAttribute('rel', 'noopener')
-            })
-        }
+        links.forEach((link: HTMLAnchorElement) => {
+            link.setAttribute('target', '_blank')
+            link.setAttribute('rel', 'noopener')
+        })
 
         // Clean any inline style
         let cleaned = node.outerHTML
@@ -91,13 +109,15 @@ export const getPodcastdata = (html: string, title: string, slug: string): Podca
 
     const sources: AudioSource[] = []
     const regex: RegExp = /(apple|ivoox|spotify|google|podimo)/i
-    sourcesList.forEach((node) => {
-        if (!regex.test(node.host)) return
-        sources.push({
-            name: node.textContent,
-            url: node.href,
+    if (sourcesList) {
+        sourcesList.forEach((node) => {
+            if (!regex.test(node.host)) return
+            sources.push({
+                name: node.textContent,
+                url: node.href,
+            })
         })
-    })
+    }
 
     return {
         content: text.join(''),
