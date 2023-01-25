@@ -39,12 +39,7 @@ type PodcastData = {
     slug: string
 }
 
-const getSourcesList = (doc: Document): NodeListOf<HTMLAnchorElement> | undefined => {
-    // Try to get the links with query selector
-    const sources: NodeListOf<HTMLAnchorElement> = doc.querySelectorAll('.infopodcast b > a')
-    if (sources.length) return sources
-
-    // If not links found try to use XPATH
+const getSourcesList = (doc: Document): [NodeListOf<HTMLAnchorElement>, HTMLElement] | Array<undefined> => {
     const paths = document.evaluate('//p[contains(., "Escuchar en")]', doc, null, XPathResult.ANY_TYPE, null)
     const node = paths.iterateNext() as HTMLElement
 
@@ -53,16 +48,15 @@ const getSourcesList = (doc: Document): NodeListOf<HTMLAnchorElement> | undefine
 
     // XPath found, return its a tagas
     const links = node.querySelectorAll('a')
-    if (links) return links
+    if (links) return [links, node]
 }
 
 export const getPodcastdata = (html: string, title: string, slug: string): PodcastData => {
     const parser: DOMParser = new DOMParser()
     const doc: Document = parser.parseFromString(html, 'text/html')
-
     const audio: HTMLAudioElement | null = doc.querySelector('audio source')
-    const sourcesList: NodeListOf<HTMLAnchorElement> | [] = getSourcesList(doc) || []
     const contents: NodeListOf<HTMLElement> = doc.querySelectorAll('body > *')
+    const [sourcesList, sourcesNode] = getSourcesList(doc) || [[], null]
 
     const text: string[] = []
     let firstImageFound: boolean = false
@@ -70,10 +64,8 @@ export const getPodcastdata = (html: string, title: string, slug: string): Podca
         // Discard unwanted nodes
         if (!isValidNode(node, title)) return
 
-        // Remove sources list from content
-        const xpaths = document.evaluate('//p[contains(., "Escuchar en")]', node, null, XPathResult.ANY_TYPE, null)
-        const found = xpaths.iterateNext()
-        if (found && found.parentElement === node) node.removeChild(found)
+        // Remove sources list if still there (because classname is not set)
+        if (sourcesNode && sourcesNode.parentElement === node) node.removeChild(sourcesNode)
 
         // Remove first image because it's the same as thumbnail
         if (node.querySelector('img') && !firstImageFound) {
