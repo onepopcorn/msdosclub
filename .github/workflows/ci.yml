@@ -1,62 +1,61 @@
 name: CI
 
 on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+    push:
+        branches: [main]
+    pull_request:
+        branches: [main]
 
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
+    # Allows you to run this workflow manually from the Actions tab
+    workflow_dispatch:
 
 jobs:
-  # Linting on pull_request only
-  lint:
-    runs-on: ubuntu-latest
-    if: ${{ github.event.pull_request }}
+    # Linting on pull_request only
+    lint:
+        runs-on: ubuntu-latest
+        if: ${{ github.event.pull_request }}
 
-    strategy:
-      matrix:
-        node-version: [16.x]
+        strategy:
+            matrix:
+                node-version: [16.x]
 
-    steps:
-      - uses: actions/checkout@v3
+        steps:
+            - uses: actions/checkout@v3
 
-      - name: Linting check
-        uses: actions/setup-node@v3.2.0
-        with:
-          node-version: ${{matrix.node-version}}
-      
-      - name: Install packages
-        run: npm ci
+            - name: Linting check
+              uses: actions/setup-node@v3.2.0
+              with:
+                  node-version: ${{matrix.node-version}}
+                  cache: npm
 
-      - name: Run linter
-        run: npm run lint
+            - name: Install packages
+              run: npm ci
 
-  # Build task
-  build:
-    runs-on: ubuntu-latest
-    
-    strategy:
-      matrix:
-        node-version: [16.x]
+            - name: Run linter
+              run: npm run lint
 
-    steps:
-      - uses: actions/checkout@v3
+    # Build task
+    build:
+        runs-on: ubuntu-latest
 
-      - name: Setup Node.js environment ${{matrix.node-version}}
-        uses: actions/setup-node@v3.2.0
-        with:
-          node-version: ${{matrix.node-version}}
-      
-      - name: Install packages
-        run: npm ci
+        strategy:
+            matrix:
+                node-version: [16.x]
 
-      - name: Run tests
-        run: npm test
+        steps:
+            - uses: actions/checkout@v3
 
-      - name: Build
-        run: npm run build
-        
+            - name: Setup Node.js environment ${{matrix.node-version}}
+              uses: actions/setup-node@v3.2.0
+              with:
+                  node-version: ${{matrix.node-version}}
+                  cache: npm
 
+            - name: Install packages
+              run: npm ci
 
+            - name: Run tests
+              run: npm test
+
+            - name: Build
+              run: npm run build
