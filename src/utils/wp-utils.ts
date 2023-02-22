@@ -37,6 +37,7 @@ type PodcastData = {
     sources: AudioSource[]
     title: string
     slug: string
+    firstImage?: { source_url: string; media_details: { width: number; height: number } }
 }
 
 const getSourcesList = (doc: Document): [NodeListOf<HTMLAnchorElement>, HTMLElement] | Array<undefined> => {
@@ -51,7 +52,7 @@ const getSourcesList = (doc: Document): [NodeListOf<HTMLAnchorElement>, HTMLElem
     if (links) return [links, node]
 }
 
-export const getPodcastdata = (html: string, title: string, slug: string): PodcastData => {
+export const getPodcastdata = (html: string, title: string, slug: string, featured_media: boolean): PodcastData => {
     const parser: DOMParser = new DOMParser()
     const doc: Document = parser.parseFromString(html, 'text/html')
     const audio: HTMLAudioElement | null = doc.querySelector('audio source')
@@ -60,6 +61,8 @@ export const getPodcastdata = (html: string, title: string, slug: string): Podca
 
     const text: string[] = []
     let firstImageFound: boolean = false
+    let firstImage: PodcastData['firstImage']
+
     contents.forEach((node: HTMLElement) => {
         // Discard unwanted nodes
         if (!isValidNode(node, title)) return
@@ -70,6 +73,10 @@ export const getPodcastdata = (html: string, title: string, slug: string): Podca
         // Remove first image because it's the same as thumbnail
         if (node.querySelector('img') && !firstImageFound) {
             firstImageFound = true
+            if (featured_media) {
+                const img = node.querySelector('img')
+                firstImage = { source_url: img.src, media_details: { width: img.width, height: img.height } }
+            }
             return false
         }
 
@@ -117,6 +124,7 @@ export const getPodcastdata = (html: string, title: string, slug: string): Podca
         sources,
         title,
         slug,
+        firstImage,
     }
 }
 
@@ -140,15 +148,15 @@ type PostImageData = {
     caption: string
 }
 
-export const getPostImages = (embed: any): PostImageData => {
-    const images = embed['wp:featuredmedia'][0]
-    let { thumbnail, medium, full }: { thumbnail: PostImage; medium: PostImage; full: PostImage } =
-        images.media_details.sizes
+export const getPostImages = (embed: any, defaultImage?: PodcastData['firstImage']): PostImageData => {
+    let images = embed['wp:featuredmedia']?.[0] || defaultImage
+    let { thumbnail, medium, full }: Pick<PostImageData, 'thumbnail' | 'medium' | 'full'> =
+        images.media_details?.sizes || {}
 
     const defaultImageValues = {
-        source_url: images.source_url,
-        width: images.media_details.width,
-        height: images.media_details.height,
+        source_url: images?.source_url,
+        width: images?.media_details?.width,
+        height: images?.media_details?.height,
     }
 
     // Ensure there's the 3 image sizes even if they are the same
@@ -174,19 +182,19 @@ type Post = PodcastData & {
     id: number
     author: string
     date: string
-    images: PostImageData
+    images: PostImageData | undefined
 }
 
 export const processPosts = (posts: any): Post[] =>
     posts.map((p: any) => {
         if (cache.has(p.id)) return cache.get(p.id)
-
+        const rawData = getPodcastdata(decode(p.content?.rendered), decode(p.title.rendered), p.slug, !p.featured_media)
         const postData = {
             id: p.id,
             author: p._embedded.author[0]?.name,
             date: new Date(p.date).toLocaleDateString(),
-            ...getPodcastdata(decode(p.content?.rendered), decode(p.title.rendered), p.slug),
-            images: getPostImages(p._embedded),
+            ...rawData,
+            images: getPostImages(p._embedded, rawData.firstImage),
         }
 
         cache.set(p.id, postData)
