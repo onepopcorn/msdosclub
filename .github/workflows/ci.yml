@@ -17,7 +17,7 @@ jobs:
 
         strategy:
             matrix:
-                node-version: [16.x]
+                node-version: [20.x]
 
         steps:
             - uses: actions/checkout@v3
@@ -40,7 +40,7 @@ jobs:
 
         strategy:
             matrix:
-                node-version: [16.x]
+                node-version: [20.x]
 
         steps:
             - uses: actions/checkout@v3
@@ -59,3 +59,5 @@ jobs:
 
             - name: Build
               run: npm run build
+            # Use this action to publish to server
+            # https://github.com/marketplace/actions/scp-files
