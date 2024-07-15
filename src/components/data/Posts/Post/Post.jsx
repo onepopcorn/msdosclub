@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames/bind'
-import { ReactComponent as ChevronRightIcon } from '@shoelace-style/shoelace/dist/assets/icons/chevron-right.svg'
-import { ReactComponent as CheckIcon } from '@shoelace-style/shoelace/dist/assets/icons/check-circle-fill.svg'
+import ChevronRightIcon from '@shoelace-style/shoelace/dist/assets/icons/chevron-right.svg?react'
+import CheckIcon from '@shoelace-style/shoelace/dist/assets/icons/check-circle-fill.svg?react'
 
 import styles from './Post.module.css'
 const cx = classNames.bind(styles)

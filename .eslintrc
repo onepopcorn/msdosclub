@@ -11,7 +11,7 @@
         "ecmaVersion": "latest",
         "sourceType": "module"
     },
-    "plugins": ["import", "react", "prettier", "cypress"],
+    "plugins": ["import", "react", "prettier", "cypress", "react-hooks"],
     "ignorePatterns": ["src/**/*.test.js"],
     "rules": {},
     "settings": {

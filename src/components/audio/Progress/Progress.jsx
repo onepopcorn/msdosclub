@@ -209,7 +209,7 @@ Progress.propTypes = {
     /**
      * Current progress value
      */
-    value: PropTypes.number.isRequired,
+    value: PropTypes.number,
     /**
      * Calback for when progress is changed manually by the user
      */

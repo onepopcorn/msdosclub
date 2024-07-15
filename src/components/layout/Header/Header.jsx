@@ -21,7 +21,7 @@ export default function Header() {
         <header className={cx('container')}>
             <div className={cx('content')}>
                 <SlIconButton data-testid="theme-btn" name={icon} onClick={onChangeTheme} label="change theme" />
-                <img width="42" height="42" src={`${process.env.PUBLIC_URL}/logo192.png`} alt="MS-DOS Club" />
+                <img width="42" height="42" src="/logo192.png" alt="MS-DOS Club" />
                 <SlIconButton
                     data-testid="menu-btn"
                     className={cx('menu')}

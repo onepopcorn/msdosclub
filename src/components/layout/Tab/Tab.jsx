@@ -1,27 +1,22 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames/bind'
 
 import styles from './Tab.module.css'
 const cx = classNames.bind(styles)
 
-export default function Tab({ children, active, offset = 0, onChange }) {
-    const [activeTab, setActiveTab] = useState(0)
-    const [inTransition, setInTransition] = useState(false)
+export default function Tab({ children, active = 0, offset = 0, onChange }) {
+    const activeTab = active
+    const [inTransition, setInTransition] = useState(true)
     const timerRef = useRef()
 
-    // Handle active tab
-    useEffect(() => {
-        if (activeTab === active || !Number.isInteger(active)) return
-
-        setInTransition(true)
-        setActiveTab(active)
-
+    useLayoutEffect(() => {
         window.scrollTo({ top: offset })
-    }, [active, activeTab, offset])
+    }, [offset, active])
 
     // Handle transition
     useEffect(() => {
+        setInTransition(true)
         clearInterval(timerRef.current)
 
         timerRef.current = setTimeout(() => {

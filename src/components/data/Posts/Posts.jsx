@@ -61,7 +61,7 @@ export default function Posts({ categories }) {
         setPostData(null)
 
         window.history.replaceState({}, '', '/')
-        prevScroll.current = 0
+        // prevScroll.current = 0
     }
 
     // Infinite scroll
@@ -186,6 +186,6 @@ export default function Posts({ categories }) {
                     </PostDetail>
                 )}
             </Tab>
-        </main>
+        </main >
     )
 }

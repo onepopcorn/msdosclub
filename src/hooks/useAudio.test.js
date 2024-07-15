@@ -1,5 +1,5 @@
-import { fireEvent } from '@testing-library/react'
-import { renderHook, act } from '@testing-library/react-hooks'
+import { fireEvent, renderHook } from '@testing-library/react'
+import { act } from 'react'
 import audioStub from 'test-utils'
 import AudioProvider from 'providers/AudioStore'
 import useAudio from 'hooks/useAudio'
@@ -10,7 +10,7 @@ beforeEach(() => {
 })
 
 afterEach(() => {
-    jest.restoreAllMocks()
+    vi.restoreAllMocks()
 })
 
 test('useAudio should have a correct initial state', () => {
@@ -27,8 +27,8 @@ test('useAudio should have a correct initial state', () => {
 })
 
 test('useAudio should allow control the audio reproduction', () => {
-    const pauseSpy = jest.spyOn(audio, 'pause').mockImplementation(() => {})
-    const playSpy = jest.spyOn(audio, 'play').mockImplementation(() => {})
+    const pauseSpy = vi.spyOn(audio, 'pause').mockImplementation(() => { })
+    const playSpy = vi.spyOn(audio, 'play').mockImplementation(() => { })
 
     const { result } = renderHook(() => useAudio(audio), { wrapper: AudioProvider })
 
@@ -61,7 +61,7 @@ test('useAudio should allow control the audio reproduction', () => {
 })
 
 test('useAudio should allow to seek to specific audio position', () => {
-    const currentTimeSetSpy = jest.spyOn(audio, 'currentTime', 'set')
+    const currentTimeSetSpy = vi.spyOn(audio, 'currentTime', 'set')
 
     const { result } = renderHook(() => useAudio(audio), { wrapper: AudioProvider })
 
