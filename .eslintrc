@@ -3,7 +3,7 @@
         "browser": true,
         "es2021": true
     },
-    "extends": ["react-app", "plugin:react/jsx-runtime", "prettier", "plugin:cypress/recommended"],
+    "extends": ["plugin:react/jsx-runtime", "prettier", "plugin:cypress/recommended"],
     "parserOptions": {
         "ecmaFeatures": {
             "jsx": true
