@@ -23,16 +23,7 @@
         "test:cov": "npm test -- --coverage --watchAll=false",
         "serve": "vite preview",
         "lint": "eslint ./src",
-        "prepare": "husky install",
         "format": "prettier ./src"
-    },
-    "lint-staged": {
-        "*.{js,jsx}": [
-            "eslint"
-        ],
-        "*.{js,ts,jsx,tsx,md,mdx,json,css,scss,yaml,yml}": [
-            "prettier --write"
-        ]
     },
     "browserslist": {
         "production": [
@@ -57,9 +48,7 @@
         "eslint-plugin-prettier": "^4.0.0",
         "eslint-plugin-react": "^7.34.4",
         "eslint-plugin-react-hooks": "^4.6.2",
-        "husky": "^7.0.4",
         "jsdom": "^24.1.0",
-        "lint-staged": "^12.3.4",
         "msw": "^0.39.2",
         "prettier": "2.5.1",
         "serve": "^14.1.2",
