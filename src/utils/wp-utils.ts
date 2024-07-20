@@ -41,7 +41,7 @@ type PodcastData = {
 }
 
 const getSourcesList = (doc: Document): [NodeListOf<HTMLAnchorElement>, HTMLElement] | undefined => {
-    const paths = document.evaluate('//p[contains(., "Escuchar en")]', doc, null, XPathResult.ANY_TYPE, null)
+    const paths = doc.evaluate('//p[contains(., "Escuchar en")]', doc, null, XPathResult.ANY_TYPE, null)
     const node = paths.iterateNext() as HTMLElement
 
     // If XPath didn't work just bail out
