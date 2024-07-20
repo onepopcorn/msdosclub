@@ -22,7 +22,7 @@ export default function Player() {
     } = useContext(AudioStore)
     const lastTimeStamp = useRef(0)
     const audio = useRef(new Audio())
-    useMemo(() => (audio.current.src = file), [file])
+    useMemo(() => { audio.current.src = file }, [file])
 
     const { ready, elapsed, loading, isPlaying, play, toggle, seekTo, duration, setVolume, volume } = useAudio(
         audio.current,

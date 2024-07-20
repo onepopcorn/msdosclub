@@ -11,7 +11,7 @@ export default function TagButton({ onClick, children }) {
         <div className={cx('container')}>
             {children}
             {onClick && (
-                <button className={cx('btn')} onClick={onClick}>
+                <button type='button' className={cx('btn')} onClick={onClick}>
                     <CloseIcon />
                 </button>
             )}

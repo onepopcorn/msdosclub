@@ -30,7 +30,7 @@ export default function useAudio(audio) {
         audio.currentTime = val
     }
 
-    const setVolume = (val) => (audio.volume = val)
+    const setVolume = (val) => { audio.volume = val }
 
     // Reset
     useEffect(() => {

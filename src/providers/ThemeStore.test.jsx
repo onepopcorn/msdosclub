@@ -13,8 +13,8 @@ const TestComponent = () => {
     return (
         <div>
             <h1>current theme is {theme}</h1>
-            <button onClick={() => setTheme(THEME_DARK)}>Dark</button>
-            <button onClick={() => setTheme(THEME_LIGHT)}>Light</button>
+            <button type='button' onClick={() => setTheme(THEME_DARK)}>Dark</button>
+            <button type='button' onClick={() => setTheme(THEME_LIGHT)}>Light</button>
         </div>
     )
 }
