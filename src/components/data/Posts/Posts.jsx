@@ -37,33 +37,6 @@ export default function Posts({ categories }) {
     const prevScroll = useRef(0)
     const moreRef = useRef()
 
-    // Callback to open the global audio player
-    const openPlayer = (id) => {
-        const page = postsInPage.get(id)
-        const { audio: file, title, images } = data.pages[page].posts.find((p) => p.id === id)
-        dispatch(setAudioData(id, file, title, images.thumbnail.source_url, true))
-    }
-
-    // Callback for when the detail view is opened
-    const ondetailopen = (postid) => {
-        const page = postsInPage.get(postid)
-        const postdata = data.pages[page].posts.find((p) => p.id === postid)
-        setPostData(postdata)
-        setPostDetailOpen(true)
-
-        window.history.pushState({}, postdata.slug, postdata.slug)
-        prevScroll.current = window.scrollY
-    }
-
-    // Callback for when the detail view is closed
-    const ondetailclose = () => {
-        setPostDetailOpen(false)
-        setPostData(null)
-
-        window.history.replaceState({}, '', '/')
-        // prevScroll.current = 0
-    }
-
     // Infinite scroll
     useEffect(() => {
         if (!moreRef.current || postData) return
@@ -114,6 +87,33 @@ export default function Posts({ categories }) {
             pages: cachedData.state.data.pages.slice(0, 1),
         }
     }, [categories, queryClient])
+
+    // Callback to open the global audio player
+    const openPlayer = (id) => {
+        const page = postsInPage.get(id)
+        const { audio: file, title, images } = data.pages[page].posts.find((p) => p.id === id)
+        dispatch(setAudioData(id, file, title, images.thumbnail.source_url, true))
+    }
+
+    // Callback for when the detail view is opened
+    const ondetailopen = (postid) => {
+        const page = postsInPage.get(postid)
+        const postdata = data.pages[page].posts.find((p) => p.id === postid)
+        setPostData(postdata)
+        setPostDetailOpen(true)
+
+        window.history.pushState({}, postdata.slug, postdata.slug)
+        prevScroll.current = window.scrollY
+    }
+
+    // Callback for when the detail view is closed
+    const ondetailclose = () => {
+        setPostDetailOpen(false)
+        setPostData(null)
+
+        window.history.replaceState({}, '', '/')
+        // prevScroll.current = 0
+    }
 
     // initial preloader
     if (isLoading)

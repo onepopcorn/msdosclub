@@ -20,7 +20,7 @@ test('Comments should render comments for given post ID', async () => {
     render(<Comments postId={1} />)
 
     // show loader while comments are not loaded yet
-    await waitForElementToBeRemoved(() => screen.getByTestId('spinner'))
+    await waitForElementToBeRemoved(screen.queryByTestId('spinner'))
 
     // show comments & comment author after loading
     expect(screen.getAllByRole('listitem').length).toBe(1)
@@ -40,7 +40,7 @@ test('Comments should show nested comments in order when needed', async () => {
     render(<Comments postId={1} />)
 
     // show loader while comments are not loaded yet
-    await waitForElementToBeRemoved(() => screen.getByTestId('spinner'))
+    await waitForElementToBeRemoved(screen.queryByTestId('spinner'))
 
     // show comments & comment author after loading
     const commentsList = screen.getAllByRole('listitem')

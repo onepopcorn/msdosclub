@@ -31,36 +31,34 @@ export default function Comments({ postId }) {
 
     return (
         <div className={cx('container')}>
-            <Suspense fallback={<SlSpinner data-testid="spinner" />}>
-                <a href={`https://msdos.club?p=${postId}#comments`} target="_blank" rel="noopener noreferrer nofollow">
-                    {text()}
-                </a>
-                <ul className={cx('list')}>
-                    {parentComments.map((comment) => (
-                        <Fragment key={comment.id}>
-                            <Comment
-                                author={comment.author_name}
-                                avatar={comment.author_avatar_urls[48]}
-                                date={comment.date}
-                                content={comment.content.rendered}
-                                isConnected={comment._links.hasOwnProperty('children')}
-                            />
-                            {Object.keys(childComments).includes(comment.id.toString()) &&
-                                childComments[comment.id].map((subcomment, i) => (
-                                    <Comment
-                                        key={subcomment.id}
-                                        author={subcomment.author_name}
-                                        avatar={subcomment.author_avatar_urls[48]}
-                                        date={subcomment.date}
-                                        content={subcomment.content.rendered}
-                                        parent={comment.id}
-                                        isConnected={i + 1 !== childComments[comment.id].length}
-                                    />
-                                ))}
-                        </Fragment>
-                    ))}
-                </ul>
-            </Suspense>
+            <a href={`https://msdos.club?p=${postId}#comments`} target="_blank" rel="noopener noreferrer nofollow">
+                {text()}
+            </a>
+            <ul className={cx('list')}>
+                {parentComments.map((comment) => (
+                    <Fragment key={comment.id}>
+                        <Comment
+                            author={comment.author_name}
+                            avatar={comment.author_avatar_urls[48]}
+                            date={comment.date}
+                            content={comment.content.rendered}
+                            isConnected={comment._links.hasOwnProperty('children')}
+                        />
+                        {Object.keys(childComments).includes(comment.id.toString()) &&
+                            childComments[comment.id].map((subcomment, i) => (
+                                <Comment
+                                    key={subcomment.id}
+                                    author={subcomment.author_name}
+                                    avatar={subcomment.author_avatar_urls[48]}
+                                    date={subcomment.date}
+                                    content={subcomment.content.rendered}
+                                    parent={comment.id}
+                                    isConnected={i + 1 !== childComments[comment.id].length}
+                                />
+                            ))}
+                    </Fragment>
+                ))}
+            </ul>
         </div>
     )
 }
