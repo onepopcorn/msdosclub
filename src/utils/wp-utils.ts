@@ -33,14 +33,14 @@ type AudioSource = {
 
 type PodcastData = {
     content: string
-    audio: string
+    audio?: string
     sources: AudioSource[]
     title: string
     slug: string
     firstImage?: { source_url: string; media_details: { width: number; height: number } }
 }
 
-const getSourcesList = (doc: Document): [NodeListOf<HTMLAnchorElement>, HTMLElement] | Array<undefined> => {
+const getSourcesList = (doc: Document): [NodeListOf<HTMLAnchorElement>, HTMLElement] | undefined => {
     const paths = document.evaluate('//p[contains(., "Escuchar en")]', doc, null, XPathResult.ANY_TYPE, null)
     const node = paths.iterateNext() as HTMLElement
 
@@ -52,7 +52,7 @@ const getSourcesList = (doc: Document): [NodeListOf<HTMLAnchorElement>, HTMLElem
     if (links) return [links, node]
 }
 
-export const getPodcastdata = (html: string, title: string, slug: string, featured_media: boolean): PodcastData => {
+export function getPodcastdata(html: string, title: string, slug: string, featured_media: boolean): PodcastData {
     const parser: DOMParser = new DOMParser()
     const doc: Document = parser.parseFromString(html, 'text/html')
     const audio: HTMLAudioElement | null = doc.querySelector('audio source')
@@ -75,7 +75,9 @@ export const getPodcastdata = (html: string, title: string, slug: string, featur
             firstImageFound = true
             if (featured_media) {
                 const img = node.querySelector('img')
-                firstImage = { source_url: img.src, media_details: { width: img.width, height: img.height } }
+                firstImage = img
+                    ? { source_url: img.src, media_details: { width: img.width, height: img.height } }
+                    : undefined
             }
             return false
         }
@@ -148,7 +150,7 @@ type PostImageData = {
     caption: string
 }
 
-export const getPostImages = (embed: any, defaultImage?: PodcastData['firstImage']): PostImageData => {
+export function getPostImages(embed: any, defaultImage?: PodcastData['firstImage']): PostImageData {
     let images = embed['wp:featuredmedia']?.[0] || defaultImage
     let { thumbnail, medium, full }: Pick<PostImageData, 'thumbnail' | 'medium' | 'full'> =
         images.media_details?.sizes || {}
@@ -200,3 +202,26 @@ export const processPosts = (posts: any): Post[] =>
         cache.set(p.id, postData)
         return postData
     })
+
+/**
+ * Utility function to parse categories ids and transform them to
+ * URL parameters
+ *
+ */
+export function parseCategoryArrays(categories: number | Array<number>): { include: string; exclude?: string } {
+    const catsToProcess = Array.isArray(categories) ? categories : [categories]
+    return catsToProcess.reduce(
+        (result, category) => {
+            if (category >= 0) {
+                result.include += result.include.length > 0 ? `,${category}` : category
+            }
+
+            if (category < 0) {
+                result.exclude += result.exclude.length > 0 ? `,${category}` : category
+            }
+
+            return result
+        },
+        { include: '', exclude: '' },
+    )
+}

@@ -1,5 +1,5 @@
 // import WPAPI from 'wpapi'
-import { processPosts } from 'utils/wp-utils.ts'
+import { processPosts, parseCategoryArrays } from 'utils/wp-utils.ts'
 
 const endpoint = 'https://msdos.club/wp-json/wp/v2'
 
@@ -18,8 +18,18 @@ const makeRequest = async (route) => {
 }
 
 export const getPosts = async ({ queryKey, pageParam = 1 }) => {
-    const [, { categories = 2, perPage = 6 }] = queryKey
-    const data = await makeRequest(`posts?_embed=true&categories=${categories}&page=${pageParam}&per_page=${perPage}`)
+    const [, { categories, perPage = 6 }] = queryKey
+    const { include, exclude } = parseCategoryArrays(categories);
+
+    // Manage URL parameters
+    const params = new URLSearchParams()
+    params.append('_embed', true)
+    params.append('categories', include)
+    params.append('page', pageParam)
+    params.append('per_page', perPage)
+    exclude && params.append('categories_exclude', exclude)
+
+    const data = await makeRequest(`posts?${params.toString()}`)
     return {
         posts: processPosts(data),
         nextPage: data._paging.totalPages > pageParam ? pageParam + 1 : null,
