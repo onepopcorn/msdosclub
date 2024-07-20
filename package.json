@@ -20,7 +20,7 @@
         "build": "rm -rf build && vite build",
         "preview": "vite preview",
         "test": "vitest",
-        "test:cov": "npm test -- --coverage --watchAll=false",
+        "test:ci": "vitest --run",
         "serve": "vite preview",
         "lint": "eslint ./src",
         "format": "prettier ./src"
