@@ -1,9 +1,9 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react-swc'
-import { viteStaticCopy } from 'vite-plugin-static-copy'
-import svgr from 'vite-plugin-svgr'
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react-swc';
+import { viteStaticCopy } from 'vite-plugin-static-copy';
+import svgr from 'vite-plugin-svgr';
 
-import path from 'node:path'
+import path from 'node:path';
 
 export default defineConfig({
     publicDir: 'public',
@@ -22,15 +22,15 @@ export default defineConfig({
             targets: [
                 {
                     src: 'public/manifest.json',
-                    dest: '/',
+                    dest: path.join(__dirname, 'build/'),
                 },
                 {
                     src: 'node_modules/@shoelace-style/shoelace/dist/assets/icons/*.svg',
-                    dest: 'shoelace/assets/icons',
+                    dest: path.join(__dirname, 'build/shoelace/assets/icons'),
                 },
                 {
                     src: 'node_modules/@shoelace-style/shoelace/dist/themes/*.css',
-                    dest: 'shoelace/themes',
+                    dest: path.join(__dirname, 'build/shoelace/themes'),
                 },
             ],
         }),
@@ -51,4 +51,4 @@ export default defineConfig({
         environment: 'jsdom',
         setupFiles: './src/setupTests.js',
     },
-})
+});
