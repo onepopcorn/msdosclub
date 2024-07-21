@@ -1,1 +1,1 @@
-export { default } from './TagButton'
+export { default } from './TagButton';

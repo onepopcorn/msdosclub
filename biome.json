@@ -4,7 +4,7 @@
         "enabled": true,
         "formatWithErrors": false,
         "indentStyle": "space",
-        "indentWidth": 4,
+        "indentWidth": 2,
         "lineEnding": "lf",
         "lineWidth": 120,
         "attributePosition": "auto",
@@ -13,7 +13,10 @@
     "organizeImports": { "enabled": true },
     "linter": {
         "enabled": true,
-        "rules": { "recommended": false, "style": { "useBlockStatements": "off" } },
+        "rules": {
+            "recommended": false,
+            "style": { "useBlockStatements": "off" }
+        },
         "ignore": ["src/**/*.test.js", "**/build", "**/node_modules"]
     },
     "javascript": {
@@ -21,7 +24,7 @@
             "jsxQuoteStyle": "double",
             "quoteProperties": "asNeeded",
             "trailingCommas": "all",
-            "semicolons": "asNeeded",
+            "semicolons": "always",
             "arrowParentheses": "always",
             "bracketSpacing": true,
             "bracketSameLine": false,
