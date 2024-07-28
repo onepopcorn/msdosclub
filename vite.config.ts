@@ -5,6 +5,11 @@ import svgr from 'vite-plugin-svgr';
 
 import path from 'node:path';
 
+process.env.VITE_SHOELACE_PREFIX =
+    process.env.NODE_ENV === 'development'
+        ? '/node_modules/@shoelace-style/shoelace/dist'
+        : '/shoelace';
+
 export default defineConfig({
     publicDir: 'public',
     build: {

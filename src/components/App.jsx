@@ -22,7 +22,7 @@ import styles from './App.module.css';
 const cx = classNames.bind(styles);
 
 // Config shoelace assets path & custom icons
-setBasePath('/shoelace');
+setBasePath(import.meta.env.VITE_SHOELACE_PREFIX);
 
 const storedState = {
   volume: localStorage.getItem(VOLUME_KEY),
