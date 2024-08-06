@@ -36,9 +36,34 @@ jobs:
             - name: Run linter
               run: npm run lint
 
+    test:
+        runs-on: ubuntu-latest
+        strategy:
+            matrix:
+                node-version: [20.x]
+        steps:
+            - uses: actions/checkout@v3
+
+            - name: Setup Node.js environment ${{matrix.node-version}}
+              uses: actions/setup-node@v3
+              with:
+                  node-version: ${{matrix.node-version}}
+                  cache: npm
+
+            - name: Install packages
+              run: npm ci
+
+            - name: Run tests
+              run: npm run test:ci
+
+            - name: Build
+              run: npm run build
+
     # Build task
     build:
         runs-on: ubuntu-latest
+        if: github.ref_type == 'tag'
+        needs: test
         environment: production
         permissions:
             contents: write
@@ -58,18 +83,13 @@ jobs:
             - name: Install packages
               run: npm ci
 
-            - name: Run tests
-              run: npm run test:ci
-
             - name: Build
               run: npm run build
 
             - name: Archive
-              if: github.ref_type == 'tag'
               run: tar -czf ./build.tar.gz ./build
 
             - name: Publish
-              if: github.ref_type == 'tag'
               uses: ncipollo/release-action@v1
               with:
                   artifacts: './build.tar.gz' # find a way to zip build folder
