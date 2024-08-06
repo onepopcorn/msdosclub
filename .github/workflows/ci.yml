@@ -1,8 +1,10 @@
-name: CI
+name: CI/CD
 
 on:
     push:
         branches: [main]
+        tags:
+            - 'v[0-9]+.[0-9]+.[0-9]+'
     pull_request:
         branches: [main]
 
@@ -37,7 +39,9 @@ jobs:
     # Build task
     build:
         runs-on: ubuntu-latest
-
+        environment: production
+        permissions:
+            contents: write
         strategy:
             matrix:
                 node-version: [20.x]
@@ -59,5 +63,17 @@ jobs:
 
             - name: Build
               run: npm run build
+
+            - name: Archive
+              if: github.ref_type == 'tag'
+              run: tar -czf ./build.tar.gz ./build
+
+            - name: Publish
+              if: github.ref_type == 'tag'
+              uses: ncipollo/release-action@v1
+              with:
+                  artifacts: './build.tar.gz' # find a way to zip build folder
+
+
             # Use this action to publish to server
             # https://github.com/marketplace/actions/scp-files
