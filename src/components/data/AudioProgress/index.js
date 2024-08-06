@@ -1,1 +1,1 @@
-export { default } from './AudioProgress'
+export { default } from './AudioProgress';

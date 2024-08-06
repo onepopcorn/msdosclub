@@ -1,63 +1,58 @@
-import { useEffect, useRef, useState } from 'react'
-import PropTypes from 'prop-types'
-import classNames from 'classnames/bind'
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import PropTypes from 'prop-types';
+import classNames from 'classnames/bind';
 
-import styles from './Tab.module.css'
-const cx = classNames.bind(styles)
+import styles from './Tab.module.css';
+const cx = classNames.bind(styles);
 
-export default function Tab({ children, active, offset = 0, onChange }) {
-    const [activeTab, setActiveTab] = useState(0)
-    const [inTransition, setInTransition] = useState(false)
-    const timerRef = useRef()
+export default function Tab({ children, active = 0, offset = 0, onChange }) {
+  const activeTab = active;
+  const [inTransition, setInTransition] = useState(true);
+  const timerRef = useRef();
 
-    // Handle active tab
-    useEffect(() => {
-        if (activeTab === active || !Number.isInteger(active)) return
+  useLayoutEffect(() => {
+    window.scrollTo({ top: offset });
+  }, [offset, active]);
 
-        setInTransition(true)
-        setActiveTab(active)
+  // Handle transition
+  useEffect(() => {
+    setInTransition(true);
+    clearInterval(timerRef.current);
 
-        window.scrollTo({ top: offset })
-    }, [active, activeTab, offset])
+    timerRef.current = setTimeout(() => {
+      setInTransition(false);
+      if (typeof onChange === 'function') onChange(activeTab);
+    }, 250);
 
-    // Handle transition
-    useEffect(() => {
-        clearInterval(timerRef.current)
+    return () => clearTimeout(timerRef.current);
+  }, [active, activeTab, onChange]);
 
-        timerRef.current = setTimeout(() => {
-            setInTransition(false)
-            if (typeof onChange === 'function') onChange(activeTab)
-        }, 250)
+  const childnodes = Array.isArray(children) ? children : [children];
 
-        return () => clearTimeout(timerRef.current)
-    }, [active, activeTab, onChange])
-
-    const childnodes = Array.isArray(children) ? children : [children]
-
-    return (
-        <div>
-            <div className={cx('inner')} style={{ transform: `translateX(${activeTab * -100}%)` }}>
-                {childnodes.map((child, i) => (
-                    <div
-                        key={i}
-                        className={cx('tab', { transition: inTransition && activeTab !== i })}
-                        hidden={!inTransition && activeTab !== i}
-                    >
-                        {child}
-                    </div>
-                ))}
-            </div>
-        </div>
-    )
+  return (
+    <div>
+      <div className={cx('inner')} style={{ transform: `translateX(${activeTab * -100}%)` }}>
+        {childnodes.map((child, i) => (
+          <div
+            key={i}
+            className={cx('tab', { transition: inTransition && activeTab !== i })}
+            hidden={!inTransition && activeTab !== i}
+          >
+            {child}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
 }
 
 Tab.propTypes = {
-    /**
-     * Child elements that will be wrapped
-     */
-    children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]).isRequired,
-    /**
-     * Tab inddex to show
-     */
-    active: PropTypes.number,
-}
+  /**
+   * Child elements that will be wrapped
+   */
+  children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]).isRequired,
+  /**
+   * Tab inddex to show
+   */
+  active: PropTypes.number,
+};
