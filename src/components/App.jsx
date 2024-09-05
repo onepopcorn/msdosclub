@@ -41,10 +41,10 @@ const queryClient = new QueryClient({
 });
 
 export default function App() {
-  const [categories, setCategories] = useState(635);
+  const [categories, setCategories] = useState([2, -635]);
   const menuContents = [
-    { icon: 'newspaper', label: 'Notícias', value: 635 },
     { icon: 'megaphone-fill', label: 'Podcasts', value: [2, -635] },
+    { icon: 'newspaper', label: 'Notícias', value: 635 },
     { icon: 'book-fill', label: 'Artículos', value: [4, 46] },
     { icon: 'filetype-exe', label: 'Utilidades', value: 6 },
   ];
