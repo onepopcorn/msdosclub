@@ -3,27 +3,28 @@ import React from 'react';
 import Progress from './Progress';
 
 // vi.useFakeTimers()
+// onChange uses useRef & getBoundingClientRect to calculate results hence the mocking
 
 // Usually you should never mock React internals but this is a special case
 // where whe need get a DOMRect from a ref HTMLElement
-beforeEach(() => {
-  // onChange uses useRef & getBoundingClientRect to calculate results hence the mocking
-  vi.mock('react', async () => {
-    const ref = { current: {} };
-    const DOMRect = { width: 100, x: 20 };
-    Object.defineProperty(ref, 'current', {
-      set() {},
-      get() {
-        return {
-          getBoundingClientRect: () => DOMRect,
-        };
-      },
-    });
-
-    const actual = await vi.importActual('react');
-    return { ...actual, useRef: vi.fn().mockReturnValue(ref) };
+vi.mock('react', async () => {
+  const ref = { current: {} };
+  const DOMRect = { width: 100, x: 20 };
+  Object.defineProperty(ref, 'current', {
+    set() {},
+    get() {
+      return {
+        getBoundingClientRect: () => DOMRect,
+      };
+    },
   });
+
+  const actual = await vi.importActual('react');
+  return { ...actual, useRef: vi.fn().mockReturnValue(ref) };
 });
+
+
+
 
 afterEach(() => {
   vi.clearAllMocks();

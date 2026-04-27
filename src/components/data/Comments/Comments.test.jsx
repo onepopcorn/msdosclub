@@ -1,4 +1,4 @@
-import { server, rest } from 'test-utils/mocks/server';
+import { server, http, HttpResponse } from 'test-utils/mocks/server';
 import { renderWithQueryClient as render, queryClient, screen, waitForElementToBeRemoved, within } from 'test-utils';
 import Comments from './Comments';
 
@@ -11,9 +11,10 @@ const endpoint = 'https://msdos.club/wp-json/wp/v2/comments';
 test('Comments should render comments for given post ID', async () => {
   // Mock api response
   server.use(
-    rest.get(endpoint, async (_, res, ctx) => {
+    http.get(endpoint, async () => {
       const comments = require('../../../test-utils/__fixtures__/comments_single.json');
-      return res(ctx.json(comments));
+
+      return HttpResponse.json(comments)
     }),
   );
 
@@ -31,9 +32,9 @@ test('Comments should render comments for given post ID', async () => {
 test('Comments should show nested comments in order when needed', async () => {
   // Mock api response
   server.use(
-    rest.get(endpoint, async (_, res, ctx) => {
+    http.get(endpoint, async () => {
       const comments = require('../../../test-utils/__fixtures__/comments_nested.json');
-      return res(ctx.json(comments));
+      return HttpResponse.json(comments)
     }),
   );
 
