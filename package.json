@@ -41,15 +41,15 @@
         "@biomejs/biome": "1.8.3",
         "@testing-library/jest-dom": "^6.4.6",
         "@testing-library/react": "^16.0.0",
-        "@vitejs/plugin-react-swc": "^3.7.0",
+        "@vitejs/plugin-react-swc": "^4.3.0",
         "cross-fetch": "^4.0.0",
         "jsdom": "^24.1.0",
-        "msw": "^0.39.2",
+        "msw": "^2.13.6",
         "serve": "^14.1.2",
         "typescript": "^4.6.2",
-        "vite": "^5.3.1",
-        "vite-plugin-static-copy": "^1.0.6",
-        "vite-plugin-svgr": "^4.2.0",
-        "vitest": "^1.6.0"
+        "vite": "^8.0.10",
+        "vite-plugin-static-copy": "^4.1.0",
+        "vite-plugin-svgr": "^5.2.0",
+        "vitest": "^4.1.5"
     }
 }

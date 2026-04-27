@@ -51,7 +51,7 @@ test('Player should move play head to offset position when provided', () => {
 
 test('Player should show a spinner while audio is not ready', () => {
   const audioMock = new Audio();
-  window.Audio = vi.fn().mockImplementation(() => audioMock);
+  window.Audio = vi.fn(function() {return audioMock});
 
   render(<Player />, null, { state: baseState, dispatch: vi.fn() });
   const spinner = screen.getByTestId('spinner');
@@ -64,10 +64,11 @@ test('Player should be able to play/pause the audio', async () => {
   const audioMock = new Audio();
   audioMock.play = vi.fn();
   audioMock.pause = vi.fn();
-  window.Audio = vi.fn().mockImplementation(() => audioMock);
+
+  window.Audio = vi.fn(function() {return audioMock});
 
   render(<Player />, null, { state: baseState, dispatch: vi.fn() });
-  screen.getByTestId('spinner');
+  await screen.findByTestId('spinner');
   fireEvent.loadedMetadata(audioMock);
 
   const playBtn = await screen.findByTestId('play-btn');
@@ -81,21 +82,21 @@ test('Player should be able to play/pause the audio', async () => {
   expect(audioMock.pause).toBeCalledTimes(1);
 });
 
-test('Player should be able to change audio volume', () => {
+test('Player should be able to change audio volume', async () => {
   const audioMock = new Audio();
-  window.Audio = vi.fn().mockImplementation(() => audioMock);
+  window.Audio = vi.fn(function() { return audioMock});
 
   const volumeMock = vi.fn();
   vi.spyOn(audioMock, 'volume', 'set').mockImplementation(volumeMock);
 
   render(<Player />, null, { state: baseState, dispatch: vi.fn() });
-  userEvent.click(screen.getByLabelText('volume'));
+  userEvent.click(await screen.findByLabelText('volume'));
   expect(volumeMock).toBeCalled();
 });
 
-test('Player should be able to seek to a position with the progress bar', () => {
+test('Player should be able to seek to a position with the progress bar', async () => {
   const audioMock = new Audio();
-  window.Audio = vi.fn().mockImplementation(() => audioMock);
+  window.Audio = vi.fn(function() {return audioMock});
 
   const seekMock = vi.fn();
   vi.spyOn(audioMock, 'currentTime', 'set').mockImplementation(seekMock);
@@ -104,13 +105,13 @@ test('Player should be able to seek to a position with the progress bar', () => 
 
   // Enable seek controls
   fireEvent.loadedMetadata(audioMock);
-  userEvent.click(screen.getByLabelText('seek'));
+  userEvent.click(await screen.findByLabelText('seek'));
   expect(seekMock).toBeCalled();
 });
 
-test('Player should show total time, elapsed time & timeleft', () => {
+test('Player should show total time, elapsed time & timeleft', async () => {
   const audioMock = new Audio();
-  window.Audio = vi.fn().mockImplementation(() => audioMock);
+  window.Audio = vi.fn(function() {return audioMock});
 
   vi.spyOn(audioMock, 'duration', 'get').mockReturnValue(120);
   vi.spyOn(audioMock, 'currentTime', 'get').mockReturnValue(10);
@@ -118,11 +119,11 @@ test('Player should show total time, elapsed time & timeleft', () => {
   render(<Player />, null, { state: baseState, dispatch: vi.fn() });
 
   // total time
-  screen.getByText('00:02:00');
+  await screen.findByText('00:02:00');
 
   // elapsed time
   fireEvent.timeUpdate(audioMock);
-  const elapsed = screen.getByText('00:00:10');
+  const elapsed = await screen.findByText('00:00:10');
 
   // remaining
   userEvent.click(elapsed);

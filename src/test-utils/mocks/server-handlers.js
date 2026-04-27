@@ -1,20 +1,28 @@
-import { rest } from 'msw';
+import { http, HttpResponse } from 'msw';
 
 // Set handlers for common requests that needs to be intercepted here but keep specific
 // handlers close to where they are gonna be used
 const handlers = [
-  rest.get('https://msdos.club/wp-json/wp/v2/posts', (_, res, ctx) => {
-    return res(ctx.json([]));
+  http.get('https://msdos.club/wp-json/wp/v2/posts', () => {
+    return HttpResponse.json([]);
   }),
-  rest.get('https://msdos.club/wp-json/wp/v2/comments', (_, res, ctx) => {
-    return res(ctx.json([]));
+  http.get('https://msdos.club/wp-json/wp/v2/comments', () => {
+    return HttpResponse.json([]);
   }),
-  rest.get('/shoelace/assets/icons/:icon', async (_, res, ctx) => {
-    return res(ctx.set('Content-Type', 'image/svg+xml'), ctx.body('<svg xmlns="http://www.w3.org/2000/svg"></svg>'));
+  http.get('/shoelace/assets/icons/:icon', async (_, res, ctx) => {
+    return new HttpResponse('<svg xmlns="http://www.w3.org/2000/svg"></svg>', {
+      headers: {
+        'Content-Type': 'image/svg+xml',
+      }
+    });
   }),
 
-  rest.get('/assets/icons/:icon', async (_, res, ctx) => {
-    return res(ctx.set('Content-Type', 'image/svg+xml'), ctx.body('<svg xmlns="http://www.w3.org/2000/svg"></svg>'));
+  http.get('/assets/icons/:icon', async (_, res, ctx) => {
+    return new HttpResponse('<svg xmlns="http://www.w3.org/2000/svg"></svg>', {
+      headers: {
+        'Content-Type': 'image/svg+xml',
+      }
+    });
   }),
 ];
 
