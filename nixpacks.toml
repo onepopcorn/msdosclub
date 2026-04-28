@@ -1,12 +1,9 @@
 [build]
-dependsOn = ["node"]
+dependsOn = ["nodejs_23"]
 
 [build.commands]
 install = "npm ci"
 build = "npm run build"
-
-[build.env]
-NODE_VERSION = "23"
 
 [start]
 cmd = "nginx -g 'daemon off;'"
