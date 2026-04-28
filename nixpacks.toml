@@ -1,0 +1,12 @@
+[providers]
+node = "23"
+
+[build]
+dependsOn = ["node"]
+
+[build.commands]
+install = "npm ci"
+build = "npm run build"
+
+[start]
+cmd = "nginx -g 'daemon off;'"
