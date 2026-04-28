@@ -1,5 +1,5 @@
 import { defineConfig } from 'vitest/config';
-import react from '@vitejs/plugin-react-swc';
+import react from '@vitejs/plugin-react';
 import { viteStaticCopy } from 'vite-plugin-static-copy';
 import svgr from 'vite-plugin-svgr';
 
@@ -8,7 +8,7 @@ import path from 'node:path';
 process.env.VITE_SHOELACE_PREFIX =
     process.env.NODE_ENV === 'development'
         ? '/node_modules/@shoelace-style/shoelace/dist'
-        : '/shoelace';
+        : '/shoelace/node_modules/@shoelace-style/shoelace/dist';
 
 export default defineConfig({
     publicDir: 'public',
@@ -21,24 +21,24 @@ export default defineConfig({
         port: 3000,
     },
     plugins: [
-        svgr(),
         react(),
         viteStaticCopy({
             targets: [
                 {
                     src: 'public/manifest.json',
-                    dest: path.join(__dirname, 'build/'),
+                    dest: '.',
                 },
                 {
                     src: 'node_modules/@shoelace-style/shoelace/dist/assets/icons/*.svg',
-                    dest: path.join(__dirname, 'build/shoelace/assets/icons'),
+                    dest: 'shoelace',
                 },
                 {
                     src: 'node_modules/@shoelace-style/shoelace/dist/themes/*.css',
-                    dest: path.join(__dirname, 'build/shoelace/themes'),
+                    dest: 'shoelace',
                 },
             ],
         }),
+        svgr(),
     ],
     resolve: {
         alias: {
