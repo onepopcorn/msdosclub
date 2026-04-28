@@ -1,5 +1,5 @@
 [phase.setup]
-nixpkgsArchive = '6d3e891a016b90f6c6a19ea5cbc9c90c57eef9198670ba93f04fa82af02574ae'
+nixpkgsArchive = 'd0a406bf79d281e5bfbede3a7721b4d6115bcb2c'
 
 [build]
 dependsOn = ["node"]
