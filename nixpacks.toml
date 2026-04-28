@@ -1,6 +1,3 @@
-[phase.setup]
-nixpkgsArchive = 'd0a406bf79d281e5bfbede3a7721b4d6115bcb2c'
-
 [build]
 dependsOn = ["node"]
 
