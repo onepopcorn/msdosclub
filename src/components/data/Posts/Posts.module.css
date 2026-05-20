@@ -22,3 +22,13 @@
     align-items: center;
     padding-top: 1em;
 }
+
+.not-available {
+    border-radius: 3px;
+    background-color: var(--sl-color-neutral-100);
+    width: min-content;
+    white-space: nowrap;
+    margin: auto;
+    padding: .25em 1em;
+    font-size: .85em;
+}

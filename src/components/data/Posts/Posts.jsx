@@ -143,12 +143,12 @@ export default function Posts({ categories }) {
                   isCurrent={playingId === post.id}
                   onClick={ondetailopen}
                 >
-                  {post.audio && (
+                  {post.audio ? (
                     <div className={cx('actions')}>
                       <AudioProgress id={post.id} />
                       <AudioSources file={post.audio} id={post.id} onPlayClick={openPlayer} />
                     </div>
-                  )}
+                  ): <div className={cx('not-available')}>Audio no disponible o contenido exlusivo</div>}
                 </Post>
               ))}
             </Fragment>
